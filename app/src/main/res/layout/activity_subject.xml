@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context="com.atrio.quesapp.SubjectActivity">
+
+
+    <Button
+        android:id="@+id/btn_math"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:text="Maths"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:background="@drawable/ripple_effect"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.069" />
+
+    <Button
+        android:id="@+id/btn_eng"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:text="english"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:background="@drawable/ripple_effect"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.386" />
+
+    <Button
+        android:id="@+id/btn_hindi"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect"
+        android:text="Hindi"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.546" />
+
+    <Button
+        android:id="@+id/btn_sci"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_effect"
+        android:text="Science"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.22" />
+
+</android.support.constraint.ConstraintLayout>
