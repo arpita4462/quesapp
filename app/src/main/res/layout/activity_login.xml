@@ -71,11 +71,7 @@
             android:layout_marginTop="16dp"
             android:text="New User! Register Here"
             android:textStyle="bold"/>
-        <View
-            android:layout_width="170dp"
-            android:layout_height="2dp"
-            android:layout_gravity="center"
-            android:background="@color/colorAccent" />
+
     </LinearLayout>
     <ProgressBar
         android:id="@+id/login_progress"
