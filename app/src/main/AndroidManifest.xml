@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.atrio.quesapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,18 +11,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".LoginActivity"
-            android:label="Login">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SubjectActivity"></activity>
-        <activity android:name=".RegistraionActivity"
-            android:label="Registration"></activity>
+        <activity android:name=".SubjectActivity" />
+        <activity
+            android:name=".RegistraionActivity"
+            android:label="Registration" />
+        <activity android:name=".QuestionActivity"></activity>
     </application>
 
 </manifest>

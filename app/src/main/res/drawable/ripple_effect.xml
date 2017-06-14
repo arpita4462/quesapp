@@ -4,19 +4,27 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <corners android:radius="3dp" />
-            <solid android:color="@color/colorRipple" />
+            <gradient
+                android:angle="315"
+                android:centerX="40%"
+                android:centerColor="@color/centercolor"
+                android:startColor="@color/startcolor"
+                android:endColor="@color/startcolor"
+                android:type="linear"
+                />
         </shape>
     </item>
     <item android:state_focused="true">
         <shape android:shape="rectangle">
             <corners android:radius="3dp" />
-            <solid android:color="@color/colorPrimary" />
+            <solid android:color="@color/centercolor" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="3dp" />
-            <solid android:color="@color/colorPrimary" />
+            <solid android:color="@color/colorPrimaryDark" />
+          <!-- <solid android:color="@color/centercolor" />-->
         </shape>
     </item>
 

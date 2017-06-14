@@ -8,9 +8,13 @@
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."
-    </string>
+    <string name="new_user"><u>New User! Register Here</u></string>
+    <string name="forget_pwd"><u>Forgot Password</u></string>
+    <string name="err_msg_email">Enter Correct EmailId</string>
+    <string name="hint_name">Enter EmailId</string>
+    <string name="lbl_forgot_password">Forgot password?</string>
+    <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
 </resources>
