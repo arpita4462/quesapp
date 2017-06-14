@@ -3,6 +3,7 @@ package com.atrio.quesapp;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -11,8 +12,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.atrio.quesapp.model.QuestionModel;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class QuestionActivity extends AppCompatActivity implements Animation.AnimationListener {
 
@@ -45,6 +51,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         //firebase database
         db_instance = FirebaseDatabase.getInstance();
         db_ref = db_instance.getReference("GK");
+//        randomQuestion();
 
         rg_option.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -61,12 +68,44 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             public void onClick(View v) {
                 tv_ques.startAnimation(animFadein);
                 rg_option.startAnimation(animMove);
+                randomQuestion();
+
+
 
             }
         });
 
     }
 
+    private void randomQuestion(){
+        Query getquestion=db_ref.orderByKey();
+        Log.i("getquery",""+getquestion);
+
+        getquestion.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i("getdata",""+dataSnapshot.toString());
+
+                for (DataSnapshot child: dataSnapshot.getChildren()) {
+                    Log.i("getdata",""+child.toString());
+                    QuestionModel qModel = child.getValue(QuestionModel.class);
+                    Log.i("getmodel",""+qModel.toString());
+
+                    tv_ques.setText(qModel.getQuestion());
+                    rb_opA.setText(qModel.getOpA());
+                    rb_opB.setText(qModel.getOpB());
+                    rb_opC.setText(qModel.getOpC());
+                    rb_opD.setText(qModel.getOpD());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     @Override
     public void onAnimationStart(Animation animation) {
