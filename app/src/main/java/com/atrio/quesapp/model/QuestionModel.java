@@ -5,33 +5,24 @@ package com.atrio.quesapp.model;
  */
 
 public class QuestionModel {
-    public String quesNo;
+
     public String question;
-    public String opA;
-    public String opB;
-    public String opC;
-    public String opD;
-    public String correctOp;
+    public String optionA;
+    public String optionB;
+    public String optionC;
+    public String optionD;
+    public String correct;
 
     public QuestionModel() {
     }
 
-    public QuestionModel(String quesNo, String question, String opA, String opB, String opC, String opD, String correctOp) {
-        this.quesNo = quesNo;
+    public QuestionModel(String question, String optionA, String optionB, String optionC, String optionD, String correct) {
         this.question = question;
-        this.opA = opA;
-        this.opB = opB;
-        this.opC = opC;
-        this.opD = opD;
-        this.correctOp = correctOp;
-    }
-
-    public String getQuesNo() {
-        return quesNo;
-    }
-
-    public void setQuesNo(String quesNo) {
-        this.quesNo = quesNo;
+        this.optionA = optionA;
+        this.optionB = optionB;
+        this.optionC = optionC;
+        this.optionD = optionD;
+        this.correct = correct;
     }
 
     public String getQuestion() {
@@ -42,43 +33,43 @@ public class QuestionModel {
         this.question = question;
     }
 
-    public String getOpA() {
-        return opA;
+    public String getOptionA() {
+        return optionA;
     }
 
-    public void setOpA(String opA) {
-        this.opA = opA;
+    public void setOptionA(String optionA) {
+        this.optionA = optionA;
     }
 
-    public String getOpB() {
-        return opB;
+    public String getOptionB() {
+        return optionB;
     }
 
-    public void setOpB(String opB) {
-        this.opB = opB;
+    public void setOptionB(String optionB) {
+        this.optionB = optionB;
     }
 
-    public String getOpC() {
-        return opC;
+    public String getOptionC() {
+        return optionC;
     }
 
-    public void setOpC(String opC) {
-        this.opC = opC;
+    public void setOptionC(String optionC) {
+        this.optionC = optionC;
     }
 
-    public String getOpD() {
-        return opD;
+    public String getOptionD() {
+        return optionD;
     }
 
-    public void setOpD(String opD) {
-        this.opD = opD;
+    public void setOptionD(String optionD) {
+        this.optionD = optionD;
     }
 
-    public String getCorrectOp() {
-        return correctOp;
+    public String getCorrect() {
+        return correct;
     }
 
-    public void setCorrectOp(String correctOp) {
-        this.correctOp = correctOp;
+    public void setCorrect(String correct) {
+        this.correct = correct;
     }
 }
