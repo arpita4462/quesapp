@@ -41,7 +41,7 @@ public class SubjectActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         recyclerView.setLayoutManager(lLayout);
 
-        final SpotsDialog dialog = new SpotsDialog(SubjectActivity.this);
+        final SpotsDialog dialog = new SpotsDialog(SubjectActivity.this,R.style.Custom);
         dialog.show();
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Subject");
