@@ -31,6 +31,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     public String tittle;
+    int qno=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +58,8 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
         //firebase database
         db_instance = FirebaseDatabase.getInstance();
+        db_ref = db_instance.getReference("GeneralKnowledge");
+        getQuestion(qno);
         db_ref = db_instance.getReference(tittle);
 //        randomQuestion();
 
@@ -65,8 +68,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 btn_sub.setEnabled(true);
                 btn_sub.setBackgroundResource(R.drawable.ripple_effect);
-
-
             }
         });
 
@@ -75,7 +76,11 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             public void onClick(View v) {
                 tv_ques.startAnimation(animFadein);
                 rg_option.startAnimation(animMove);
-                randomQuestion();
+                qno++;
+                getQuestion(qno);
+                rg_option.clearCheck();
+                btn_sub.setEnabled(false);
+                btn_sub.setBackgroundResource(R.color.centercolor);
 
 
 
@@ -84,20 +89,18 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
     }
 
-    private void randomQuestion(){
-        Query getquestion=db_ref.orderByKey();
-        Log.i("getquery",""+getquestion);
+    private void getQuestion(int qno){
+        Query getquestion=db_ref.orderByKey().limitToFirst(qno);
 
+        Log.i("qnocount",""+qno);
         getquestion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i("getdata",""+dataSnapshot.toString());
-
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    Log.i("getdata",""+child.toString());
+                    Log.i("getdata2",""+child.toString());
                     QuestionModel qModel = child.getValue(QuestionModel.class);
-                    Log.i("getmodel",""+qModel.toString());
-
+//                    Log.i("getmodel",""+qModel.getOptionA());
+//                    Log.i("getmodel55",""+qModel.getCorrect());
                     tv_ques.setText(qModel.getQuestion());
                     rb_opA.setText(qModel.getOptionA());
                     rb_opB.setText(qModel.getOptionB());
