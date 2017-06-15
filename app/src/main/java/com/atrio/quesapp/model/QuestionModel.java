@@ -1,4 +1,4 @@
-package com.atrio.quesapp.Model;
+package com.atrio.quesapp.model;
 
 /**
  * Created by Arpita Patel on 14-06-2017.
