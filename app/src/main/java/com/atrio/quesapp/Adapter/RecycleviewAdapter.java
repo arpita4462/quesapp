@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.atrio.quesapp.model.ShowData;
+
+import com.atrio.quesapp.Model.ShowData;
 import com.atrio.quesapp.R;
 import com.atrio.quesapp.SubjectActivity;
 import com.squareup.picasso.Picasso;

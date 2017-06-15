@@ -10,7 +10,7 @@ import android.view.Gravity;
 import android.widget.Button;
 
 import com.atrio.quesapp.Adapter.RecycleviewAdapter;
-import com.atrio.quesapp.model.ShowData;
+import com.atrio.quesapp.Model.ShowData;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
