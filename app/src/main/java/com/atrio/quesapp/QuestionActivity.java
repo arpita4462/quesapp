@@ -98,7 +98,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     rb_opC.setText(qModel.getOptionC());
                     rb_opD.setText(qModel.getOptionD());
                 }
-
             }
 
             @Override
