@@ -50,7 +50,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
         //firebase database
         db_instance = FirebaseDatabase.getInstance();
-        db_ref = db_instance.getReference("GK");
+        db_ref = db_instance.getReference("GeneralKnowledge");
 //        randomQuestion();
 
         rg_option.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -92,10 +92,10 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     Log.i("getmodel",""+qModel.toString());
 
                     tv_ques.setText(qModel.getQuestion());
-                    rb_opA.setText(qModel.getOpA());
-                    rb_opB.setText(qModel.getOpB());
-                    rb_opC.setText(qModel.getOpC());
-                    rb_opD.setText(qModel.getOpD());
+                    rb_opA.setText(qModel.getOptionA());
+                    rb_opB.setText(qModel.getOptionB());
+                    rb_opC.setText(qModel.getOptionC());
+                    rb_opD.setText(qModel.getOptionD());
                 }
 
             }
