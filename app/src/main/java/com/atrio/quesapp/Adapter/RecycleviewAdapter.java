@@ -1,7 +1,9 @@
 package com.atrio.quesapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 
 import com.atrio.quesapp.Model.ShowData;
+import com.atrio.quesapp.QuestionActivity;
 import com.atrio.quesapp.R;
 import com.atrio.quesapp.SubjectActivity;
 import com.squareup.picasso.Picasso;
@@ -48,6 +51,8 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
                 .placeholder(R.drawable.book)
                 .resize(400,400)                        // optional
                 .into(holder.img_sub);
+        holder.tittle = list_data.get(position).getSub();
+
 
     }
 
@@ -60,16 +65,27 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
         return position;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
 
       public TextView tv_text;
         public ImageView img_sub;
+        public String tittle;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             img_sub = (ImageView) itemView.findViewById(R.id.sub_pic);
             tv_text = (TextView) itemView.findViewById(R.id.sub_tittle);
+            itemView.setOnClickListener(this);
 
+
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(view.getContext(), QuestionActivity.class);
+            Log.i("tittle44",""+tittle);
+            intent.putExtra("Sub",tittle);
+            view.getContext().startActivity(intent);
 
         }
     }

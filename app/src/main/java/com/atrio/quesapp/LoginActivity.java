@@ -23,6 +23,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import dmax.dialog.SpotsDialog;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -31,11 +33,11 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mEmailView,mPasswordView;
     private TextView newUser,tv_forgetpwd;
     TextInputLayout input_email,input_pwd;
-    private ProgressBar mProgressView;
     private Button mEmailSignInButton;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private String email,password;
+    private SpotsDialog dialog;
     private CustomRestpwd customRestpwd;
 
 
@@ -49,9 +51,11 @@ public class LoginActivity extends AppCompatActivity {
         tv_forgetpwd=(TextView)findViewById(R.id.tv_forgotpwd);
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mProgressView = (ProgressBar) findViewById(R.id.login_progress);
         input_email = (TextInputLayout)findViewById(R.id.input_email_id);
         input_pwd = (TextInputLayout)findViewById(R.id.input_password);
+
+      dialog = new SpotsDialog(LoginActivity.this,R.style.Custom);
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -120,12 +124,13 @@ public class LoginActivity extends AppCompatActivity {
             input_email.setErrorEnabled(false);
             input_pwd.setError(getString(R.string.error_incorrect_password));
         }else {
-            mProgressView.setVisibility(View.VISIBLE);
+            dialog.show();
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    mProgressView.setVisibility(View.GONE);
+
                     if (task.isSuccessful()) {
+                        dialog.dismiss();
                         Log.i("success111", "" + task.isSuccessful());
 
 //                                    FirebaseUser user = mAuth.getCurrentUser();
@@ -133,6 +138,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.i("failure", "" + task.getException());
+                        dialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
 //                                    updateUI(null);
