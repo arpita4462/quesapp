@@ -90,8 +90,8 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     Log.i("getdata2",""+child.toString());
                     QuestionModel qModel = child.getValue(QuestionModel.class);
-//                    Log.i("getmodel",""+qModel.getOptionA());
-//                    Log.i("getmodel55",""+qModel.getCorrect());
+                    Log.i("getmodel",""+qModel.getOptionA());
+                    Log.i("getmodel55",""+qModel.getCorrect());
                     tv_ques.setText(qModel.getQuestion());
                     rb_opA.setText(qModel.getOptionA());
                     rb_opB.setText(qModel.getOptionB());
