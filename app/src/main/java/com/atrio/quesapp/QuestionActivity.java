@@ -48,6 +48,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         tittle = i.getStringExtra("Sub");
         tv_sub.setText(tittle);
         btn_sub.setEnabled(false);
+
         // set animation listener
         animFadein = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
         animMove = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.move);
