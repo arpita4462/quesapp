@@ -10,7 +10,7 @@ import android.view.Gravity;
 import android.widget.Button;
 
 import com.atrio.quesapp.Adapter.RecycleviewAdapter;
-import com.atrio.quesapp.Model.ShowData;
+import com.atrio.quesapp.model.ShowData;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +19,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import dmax.dialog.SpotsDialog;
 
 public class SubjectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -39,10 +41,8 @@ public class SubjectActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         recyclerView.setLayoutManager(lLayout);
 
-        pdialog =new ProgressDialog(SubjectActivity.this);
-        pdialog.setMessage("Loading..");
-        pdialog.show();
-        pdialog.setCanceledOnTouchOutside(false);
+        final SpotsDialog dialog = new SpotsDialog(SubjectActivity.this);
+        dialog.show();
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Subject");
         Query  query_catlist = rootRef.orderByKey();
@@ -60,7 +60,7 @@ public class SubjectActivity extends AppCompatActivity {
 
                 }
 
-                pdialog.dismiss();
+                dialog.dismiss();
                 RecycleviewAdapter rcAdapter = new RecycleviewAdapter(SubjectActivity.this, arrayList);
                 recyclerView.setAdapter(rcAdapter);
 
