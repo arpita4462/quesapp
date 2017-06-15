@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.Gravity;
-import android.widget.Button;
 
 import com.atrio.quesapp.Adapter.RecycleviewAdapter;
 import com.atrio.quesapp.model.ShowData;
@@ -41,7 +38,7 @@ public class SubjectActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         recyclerView.setLayoutManager(lLayout);
 
-        final SpotsDialog dialog = new SpotsDialog(SubjectActivity.this);
+        final SpotsDialog dialog = new SpotsDialog(SubjectActivity.this,R.style.Custom);
         dialog.show();
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Subject");

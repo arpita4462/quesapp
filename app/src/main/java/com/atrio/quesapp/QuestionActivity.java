@@ -1,5 +1,6 @@
 package com.atrio.quesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     Animation animFadein,animMove;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
+    public String tittle;
     int qno=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,12 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         rb_opD=(RadioButton) findViewById(R.id.rb_opD);
         btn_sub=(Button) findViewById(R.id.btn_submit);
         rg_option=(RadioGroup) findViewById(R.id.rg_option);
+
+        Intent i =  getIntent();
+        tittle = i.getStringExtra("Sub");
+        tv_sub.setText(tittle);
         btn_sub.setEnabled(false);
+
         // set animation listener
         animFadein = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fade_in);
         animMove = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.move);
@@ -53,6 +60,8 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         db_instance = FirebaseDatabase.getInstance();
         db_ref = db_instance.getReference("GeneralKnowledge");
         getQuestion(qno);
+        db_ref = db_instance.getReference(tittle);
+//        randomQuestion();
 
         rg_option.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
