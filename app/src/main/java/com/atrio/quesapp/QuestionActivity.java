@@ -25,7 +25,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
     RadioGroup rg_option;
     RadioButton rb_opA,rb_opB,rb_opC,rb_opD;
-    Button btn_sub;
+    Button btn_sub,bt_done;
     TextView tv_sub,tv_ques;
     Animation animFadein,animMove;
     private DatabaseReference db_ref;
@@ -43,7 +43,9 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         rb_opC=(RadioButton) findViewById(R.id.rb_opC);
         rb_opD=(RadioButton) findViewById(R.id.rb_opD);
         btn_sub=(Button) findViewById(R.id.btn_submit);
+        bt_done=(Button) findViewById(R.id.bt_sub);
         rg_option=(RadioGroup) findViewById(R.id.rg_option);
+        bt_done.setVisibility(View.GONE);
 
         Intent i =  getIntent();
         tittle = i.getStringExtra("Sub");
@@ -58,9 +60,9 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
         //firebase database
         db_instance = FirebaseDatabase.getInstance();
-        db_ref = db_instance.getReference("GeneralKnowledge");
-        getQuestion(qno);
         db_ref = db_instance.getReference(tittle);
+        //db_ref = db_instance.getReference("GeneralKnowledge");
+        getQuestion(qno);
 //        randomQuestion();
 
         rg_option.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -90,22 +92,36 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     }
 
     private void getQuestion(int qno){
-        Query getquestion=db_ref.orderByKey().limitToFirst(qno);
+        Query getquestion=db_ref.orderByKey().equalTo("Q-"+qno);
 
         Log.i("qnocount",""+qno);
         getquestion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    Log.i("getdata2",""+child.toString());
-                    QuestionModel qModel = child.getValue(QuestionModel.class);
-//                    Log.i("getmodel",""+qModel.getOptionA());
-//                    Log.i("getmodel55",""+qModel.getCorrect());
-                    tv_ques.setText(qModel.getQuestion());
-                    rb_opA.setText(qModel.getOptionA());
-                    rb_opB.setText(qModel.getOptionB());
-                    rb_opC.setText(qModel.getOptionC());
-                    rb_opD.setText(qModel.getOptionD());
+                if (dataSnapshot.getChildrenCount()!=0) {
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                        //Log.i("getdata2",""+child.getValue().toString());
+                        QuestionModel qModel = child.getValue(QuestionModel.class);
+                        Log.i("getmodel", "" + qModel.getOptionA());
+                        Log.i("getmodel55", "" + qModel.getCorrect());
+                        tv_ques.setText(qModel.getQuestion());
+                        rb_opA.setText(qModel.getOptionA());
+                        rb_opB.setText(qModel.getOptionB());
+                        rb_opC.setText(qModel.getOptionC());
+                        rb_opD.setText(qModel.getOptionD());
+
+                        Log.i("key55", "" + dataSnapshot.getValue().toString());
+                    }
+                }else{
+                    bt_done.setVisibility(View.VISIBLE);
+                    bt_done.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
+
                 }
 
             }
