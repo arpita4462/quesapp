@@ -10,6 +10,7 @@
     <color name="startcolor">#8168a1</color>
     <color name="centercolor">#b4b8d2</color>
     <color name="endcolor">#adafbf</color>
+    <color name="black">#000000</color>
 
 
 </resources>
