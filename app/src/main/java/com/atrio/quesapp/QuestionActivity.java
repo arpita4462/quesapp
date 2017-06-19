@@ -30,7 +30,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     Animation animFadein,animMove;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
-    public String tittle;
+    public String tittle,correctAns,selectedAns;
     int qno=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +60,42 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
         //firebase database
         db_instance = FirebaseDatabase.getInstance();
-        db_ref = db_instance.getReference(tittle);
-        //db_ref = db_instance.getReference("GeneralKnowledge");
+        db_ref = db_instance.getReference("GeneralKnowledge");
         getQuestion(qno);
-//        randomQuestion();
+        db_ref = db_instance.getReference(tittle);
+        getQuestion(qno);
+
+//        Log.i("correctans",""+correctAns);
 
         rg_option.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 btn_sub.setEnabled(true);
                 btn_sub.setBackgroundResource(R.drawable.ripple_effect);
+                switch (checkedId){
+                    case R.id.rb_opA:
+                        selectedAns = rb_opA.getText().toString();
+                        break;
+                    case R.id.rb_opB:
+                        selectedAns = rb_opB.getText().toString();
+                        break;
+                    case R.id.rb_opC:
+                        selectedAns = rb_opC.getText().toString();
+                        break;
+                    case R.id.rb_opD:
+                        selectedAns = rb_opD.getText().toString();
+                        break;
+                    default:
+                        // Your code
+                        break;
+                }
+
+                Log.i("selectedans",""+selectedAns);
+                Log.i("correctans2",""+correctAns);
+
+                if (selectedAns.equals(correctAns)){
+//                    rg_option.getCheckedRadioButtonId()
+                }
             }
         });
 
@@ -83,9 +109,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 rg_option.clearCheck();
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
-
-
-
             }
         });
 
@@ -94,36 +117,24 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     private void getQuestion(int qno){
         Query getquestion=db_ref.orderByKey().equalTo("Q-"+qno);
 
-        Log.i("qnocount",""+qno);
         getquestion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.getChildrenCount()!=0) {
+                if(dataSnapshot.getChildrenCount() !=0) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-                        //Log.i("getdata2",""+child.getValue().toString());
+                        Log.i("getdata2", "" + dataSnapshot.toString());
                         QuestionModel qModel = child.getValue(QuestionModel.class);
-                        Log.i("getmodel", "" + qModel.getOptionA());
-                        Log.i("getmodel55", "" + qModel.getCorrect());
+
                         tv_ques.setText(qModel.getQuestion());
                         rb_opA.setText(qModel.getOptionA());
                         rb_opB.setText(qModel.getOptionB());
                         rb_opC.setText(qModel.getOptionC());
                         rb_opD.setText(qModel.getOptionD());
-
-                        Log.i("key55", "" + dataSnapshot.getValue().toString());
+                        correctAns=qModel.getCorrect();
                     }
-                }else{
-                    bt_done.setVisibility(View.VISIBLE);
-                    bt_done.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                        }
-                    });
-
+                }else {
+                    btn_sub.setText("Submit");
                 }
-
             }
 
             @Override
