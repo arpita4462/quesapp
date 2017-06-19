@@ -6,4 +6,48 @@
     android:layout_height="match_parent"
     tools:context="com.atrio.quesapp.FinalMarkActivity">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="32dp"
+        android:text="Result"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="3dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/tv_ques"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginRight="2dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:padding="10dp"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="@+id/textView3"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="2dp" />
+
+    <TextView
+        android:id="@+id/tv_correct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:padding="10dp"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ques"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginEnd="2dp" />
 </android.support.constraint.ConstraintLayout>

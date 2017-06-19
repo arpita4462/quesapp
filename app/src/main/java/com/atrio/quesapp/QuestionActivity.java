@@ -36,7 +36,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     private FirebaseDatabase db_instance;
     public String tittle,correctAns,selectedAns;
     int qno=1,correctValue =0,checkedRadioButtonID;
-    double totalques;
+    long total_question;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Value = "correct_value";
@@ -74,7 +74,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         db_instance = FirebaseDatabase.getInstance();
 
         db_ref = db_instance.getReference(tittle);
-        getQuestion(qno);
+          getQuestion(qno);
 
         checkedRadioButtonID = rg_option.getCheckedRadioButtonId();
         Log.i("heckedId22",""+checkedRadioButtonID);
@@ -114,50 +114,50 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
 
 
-                    if (selectedAns.equals(correctAns)){
+                if (selectedAns.equals(correctAns)){
 
-                        rbselect.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
-                        rbcorrect=rbselect;
-                        rb_opA.setClickable(false);
-                        rb_opB.setClickable(false);
-                        rb_opC.setClickable(false);
-                        rb_opD.setClickable(false);
-                        Log.i("selectedans",""+selectedAns);
-                        Log.i("correctans2",""+correctAns);
-                        correctValue++;
+                    rbselect.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
+                    rbcorrect=rbselect;
+                    rb_opA.setClickable(false);
+                    rb_opB.setClickable(false);
+                    rb_opC.setClickable(false);
+                    rb_opD.setClickable(false);
+                    Log.i("selectedans",""+selectedAns);
+                    Log.i("correctans2",""+correctAns);
+                    correctValue++;
 
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
 
-                        editor.putInt(Value, correctValue);
-                        editor.commit();
-                        Toast.makeText(QuestionActivity.this,""+ correctValue,Toast.LENGTH_LONG).show();
+                    editor.putInt(Value, correctValue);
+                    editor.commit();
+                    Toast.makeText(QuestionActivity.this,""+ correctValue,Toast.LENGTH_LONG).show();
 
 //                    rg_option.getCheckedRadioButtonId()
 
-                    }else {
-                        rbselect.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.red));
-                        if(rb_opA.getText().toString().equals(correctAns)){
-                            rb_opA.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
-                            rbcorrect=rb_opA;
-                        }else  if(rb_opB.getText().toString().equals(correctAns)){
-                            rb_opB.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
-                            rbcorrect=rb_opB;
-                        }else if(rb_opC.getText().toString().equals(correctAns)){
-                            rb_opC.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
-                            rbcorrect=rb_opC;
-                        }else if(rb_opD.getText().toString().equals(correctAns)){
-                            rb_opD.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
-                            rbcorrect=rb_opD;
-                        }
-
-                        rb_opA.setClickable(false);
-                        rb_opB.setClickable(false);
-                        rb_opC.setClickable(false);
-                        rb_opD.setClickable(false);
-
-
-
+                }else {
+                    rbselect.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.red));
+                    if(rb_opA.getText().toString().equals(correctAns)){
+                        rb_opA.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
+                        rbcorrect=rb_opA;
+                    }else  if(rb_opB.getText().toString().equals(correctAns)){
+                        rb_opB.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
+                        rbcorrect=rb_opB;
+                    }else if(rb_opC.getText().toString().equals(correctAns)){
+                        rb_opC.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
+                        rbcorrect=rb_opC;
+                    }else if(rb_opD.getText().toString().equals(correctAns)){
+                        rb_opD.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
+                        rbcorrect=rb_opD;
                     }
+
+                    rb_opA.setClickable(false);
+                    rb_opB.setClickable(false);
+                    rb_opC.setClickable(false);
+                    rb_opD.setClickable(false);
+
+
+
+                }
 
 
                 }
@@ -172,31 +172,22 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
                 //rg_option.clearCheck();
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
-                Log.i("display",""+checkedRadioButtonID);
+              // Log.i("display",""+checkedRadioButtonID);
                 qno++;
-                Log.i("qno22",""+qno);
+               // Log.i("qno22",""+qno);
                 getQuestion(qno);
                 correctAns=null;
                 //correctAns = null;
-                Log.i("print23",""+correctAns);
+              //  Log.i("print23",""+correctAns);
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
-
-
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
             }
         });
 
-        bt_done.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(QuestionActivity.this,"Your Score is:"+ correctValue,Toast.LENGTH_LONG).show();
-
-            }
-        });
     }
 
     private void getQuestion(int qno){
@@ -206,8 +197,11 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() !=0) {
-//                    totalques= dataSnapshot.getChildrenCount();
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                        total_question = dataSnapshot.getChildrenCount();
+
+                        Log.i("getdata2", "" + dataSnapshot.getChildrenCount());
                         QuestionModel qModel = child.getValue(QuestionModel.class);
 
                         tv_ques.setText(qModel.getQuestion());
@@ -218,9 +212,24 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                         correctAns=qModel.getCorrect();
                     }
                 }else {
+                   tv_ques.setText("You have  Done your Test.");
+                    rb_opA.setVisibility(View.INVISIBLE);
+                    rb_opB.setVisibility(View.INVISIBLE);
+                    rb_opC.setVisibility(View.INVISIBLE);
+                    rb_opD.setVisibility(View.INVISIBLE);
                     btn_sub.setVisibility(View.GONE);
                     bt_done.setVisibility(View.VISIBLE);
 
+                    bt_done.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(QuestionActivity.this,FinalMarkActivity.class);
+                            intent.putExtra("value",correctValue);
+                            intent.putExtra("Total",total_question);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
                 }
             }
 
