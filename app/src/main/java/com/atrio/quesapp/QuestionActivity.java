@@ -12,10 +12,10 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.atrio.quesapp.model.QuestionModel;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +24,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import dmax.dialog.SpotsDialog;
 
 public class QuestionActivity extends AppCompatActivity implements Animation.AnimationListener {
 
@@ -31,12 +34,13 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     RadioButton rb_opA,rb_opB,rb_opC,rb_opD,rbselect,rbcorrect;
     Button btn_sub,bt_done;
     TextView tv_sub,tv_ques;
+    ImageView img_ques;
     Animation animFadein,animMove;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     public String tittle,correctAns,selectedAns;
-    int qno=1,correctValue =0,checkedRadioButtonID;
-    long total_question;
+    int qno=1,correctValue =0,checkedRadioButtonID,total_question=0;
+    SpotsDialog dialog;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Value = "correct_value";
@@ -54,9 +58,11 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         rb_opD=(RadioButton) findViewById(R.id.rb_opD);
         btn_sub=(Button) findViewById(R.id.btn_submit);
         bt_done=(Button) findViewById(R.id.bt_sub);
+        img_ques=(ImageView)findViewById(R.id.img_ques);
         rg_option=(RadioGroup) findViewById(R.id.rg_option);
         bt_done.setVisibility(View.GONE);
 
+        dialog = new SpotsDialog(QuestionActivity.this, R.style.Custom);
 
         Intent i =  getIntent();
         tittle = i.getStringExtra("Sub");
@@ -74,11 +80,9 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         db_instance = FirebaseDatabase.getInstance();
 
         db_ref = db_instance.getReference(tittle);
-          getQuestion(qno);
+        getQuestion(qno);
 
         checkedRadioButtonID = rg_option.getCheckedRadioButtonId();
-        Log.i("heckedId22",""+checkedRadioButtonID);
-
 
         if (checkedRadioButtonID ==-1){
 
@@ -96,7 +100,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
                     switch (checkedId) {
                         case R.id.rb_opA:
-                            // Log.i("selectedans",""+selectedAns);
                             selectedAns = rb_opA.getText().toString();
                             break;
                         case R.id.rb_opB:
@@ -110,9 +113,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                             break;
 
                     }
-                    Log.i("print22", "" + correctAns);
-
-
 
                 if (selectedAns.equals(correctAns)){
 
@@ -122,17 +122,12 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     rb_opB.setClickable(false);
                     rb_opC.setClickable(false);
                     rb_opD.setClickable(false);
-                    Log.i("selectedans",""+selectedAns);
-                    Log.i("correctans2",""+correctAns);
                     correctValue++;
 
                     SharedPreferences.Editor editor = sharedpreferences.edit();
 
                     editor.putInt(Value, correctValue);
                     editor.commit();
-                    Toast.makeText(QuestionActivity.this,""+ correctValue,Toast.LENGTH_LONG).show();
-
-//                    rg_option.getCheckedRadioButtonId()
 
                 }else {
                     rbselect.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.red));
@@ -155,8 +150,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     rb_opC.setClickable(false);
                     rb_opD.setClickable(false);
 
-
-
                 }
 
 
@@ -169,16 +162,11 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             public void onClick(View v) {
                 tv_ques.startAnimation(animFadein);
                 rg_option.startAnimation(animMove);
-
-                //rg_option.clearCheck();
+                total_question++;
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
-              // Log.i("display",""+checkedRadioButtonID);
                 qno++;
-               // Log.i("qno22",""+qno);
                 getQuestion(qno);
                 correctAns=null;
-                //correctAns = null;
-              //  Log.i("print23",""+correctAns);
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
@@ -191,6 +179,8 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     }
 
     private void getQuestion(int qno){
+        dialog.show();
+
         Query getquestion=db_ref.orderByKey().equalTo("Q-"+qno);
 
         getquestion.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -198,20 +188,33 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() !=0) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
-
-                        total_question = dataSnapshot.getChildrenCount();
-
-                        Log.i("getdata2", "" + dataSnapshot.getChildrenCount());
                         QuestionModel qModel = child.getValue(QuestionModel.class);
 
-                        tv_ques.setText(qModel.getQuestion());
-                        rb_opA.setText(qModel.getOptionA());
-                        rb_opB.setText(qModel.getOptionB());
-                        rb_opC.setText(qModel.getOptionC());
-                        rb_opD.setText(qModel.getOptionD());
-                        correctAns=qModel.getCorrect();
+                        String questype= qModel.getQuestion().substring(0,4);
+                        Log.i("questype",""+questype);
+                        if (questype.equals("http")){
+                            Log.i("ifcondition",""+questype);
+
+                            Picasso.with(QuestionActivity.this).load(qModel.getQuestion()).into(img_ques);
+                            tv_ques.setText("");
+                            rb_opA.setText(qModel.getOptionA());
+                            rb_opB.setText(qModel.getOptionB());
+                            rb_opC.setText(qModel.getOptionC());
+                            rb_opD.setText(qModel.getOptionD());
+                            correctAns=qModel.getCorrect();
+                            dialog.dismiss();
+                        }else {
+                            tv_ques.setText(qModel.getQuestion());
+                            rb_opA.setText(qModel.getOptionA());
+                            rb_opB.setText(qModel.getOptionB());
+                            rb_opC.setText(qModel.getOptionC());
+                            rb_opD.setText(qModel.getOptionD());
+                            correctAns = qModel.getCorrect();
+                            dialog.dismiss();
+                        }
                     }
                 }else {
+                    dialog.dismiss();
                    tv_ques.setText("You have  Done your Test.");
                     rb_opA.setVisibility(View.INVISIBLE);
                     rb_opB.setVisibility(View.INVISIBLE);
@@ -228,6 +231,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                             intent.putExtra("Total",total_question);
                             startActivity(intent);
                             finish();
+
                         }
                     });
                 }
