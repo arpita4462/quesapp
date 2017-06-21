@@ -191,10 +191,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                         QuestionModel qModel = child.getValue(QuestionModel.class);
 
                         String questype= qModel.getQuestion().substring(0,4);
-                        Log.i("questype",""+questype);
                         if (questype.equals("http")){
-                            Log.i("ifcondition",""+questype);
-
                             Picasso.with(QuestionActivity.this).load(qModel.getQuestion()).into(img_ques);
                             tv_ques.setText("");
                             rb_opA.setText(qModel.getOptionA());
