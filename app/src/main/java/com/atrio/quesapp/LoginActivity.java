@@ -6,13 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,9 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
+                    Intent intent =new Intent(LoginActivity.this,TrialActivity.class);
+                    startActivity(intent);
                     finish();
-//                    Log.i("signed_in:","" + user.getUid());
                 } else {
                     // User is signed out
 //                    Log.i("signed_out",""+user);
@@ -105,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+
     }
 
     @Override
@@ -131,23 +130,13 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
                         dialog.dismiss();
-                        Log.i("success111", "" + task.isSuccessful());
-
-//                                    FirebaseUser user = mAuth.getCurrentUser();
-//                                    updateUI(user);
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Log.i("failure", "" + task.getException());
                         dialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-//                                    updateUI(null);
+                        Toast.makeText(getApplicationContext(), "Authentication failed.",Toast.LENGTH_SHORT).show();
                     }
 
                 }
             });
-//            mAuthTask = new UserLoginTask(email, password);
-//            mAuthTask.execute((Void) null);
         }
     }
 

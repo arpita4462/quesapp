@@ -13,15 +13,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import dmax.dialog.SpotsDialog;
 
 public class SubjectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
+    File localFile;
     ArrayList<ShowData> arrayList;
     private GridLayoutManager lLayout;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,7 @@ public class SubjectActivity extends AppCompatActivity {
         dialog.show();
 
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Subject");
-        Query  query_catlist = rootRef.orderByKey();
+        Query query_catlist = rootRef.orderByKey();
         query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

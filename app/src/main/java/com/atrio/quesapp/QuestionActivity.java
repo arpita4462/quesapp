@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import dmax.dialog.SpotsDialog;
@@ -41,6 +42,9 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     public String tittle,correctAns,selectedAns;
     int qno=1,correctValue =0,checkedRadioButtonID,total_question=0;
     SpotsDialog dialog;
+    private FirebaseStorage storage;
+
+    private StorageReference storageRef;
 
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Value = "correct_value";
@@ -76,9 +80,11 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         animFadein.setAnimationListener(this);
         animMove.setAnimationListener(this);
 
+        //firebase storage
+        storage=FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
         //firebase database
         db_instance = FirebaseDatabase.getInstance();
-
         db_ref = db_instance.getReference(tittle);
         getQuestion(qno);
 
@@ -191,10 +197,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                         QuestionModel qModel = child.getValue(QuestionModel.class);
 
                         String questype= qModel.getQuestion().substring(0,4);
-                        Log.i("questype",""+questype);
                         if (questype.equals("http")){
-                            Log.i("ifcondition",""+questype);
-
                             Picasso.with(QuestionActivity.this).load(qModel.getQuestion()).into(img_ques);
                             tv_ques.setText("");
                             rb_opA.setText(qModel.getOptionA());
@@ -216,6 +219,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 }else {
                     dialog.dismiss();
                    tv_ques.setText("You have  Done your Test.");
+                    img_ques.setVisibility(View.INVISIBLE);
                     rb_opA.setVisibility(View.INVISIBLE);
                     rb_opB.setVisibility(View.INVISIBLE);
                     rb_opC.setVisibility(View.INVISIBLE);
