@@ -25,7 +25,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import dmax.dialog.SpotsDialog;
 
@@ -195,18 +194,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 if(dataSnapshot.getChildrenCount() !=0) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         QuestionModel qModel = child.getValue(QuestionModel.class);
-
-                        String questype= qModel.getQuestion().substring(0,4);
-                        if (questype.equals("http")){
-                            Picasso.with(QuestionActivity.this).load(qModel.getQuestion()).into(img_ques);
-                            tv_ques.setText("");
-                            rb_opA.setText(qModel.getOptionA());
-                            rb_opB.setText(qModel.getOptionB());
-                            rb_opC.setText(qModel.getOptionC());
-                            rb_opD.setText(qModel.getOptionD());
-                            correctAns=qModel.getCorrect();
-                            dialog.dismiss();
-                        }else {
                             tv_ques.setText(qModel.getQuestion());
                             rb_opA.setText(qModel.getOptionA());
                             rb_opB.setText(qModel.getOptionB());
@@ -214,12 +201,11 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                             rb_opD.setText(qModel.getOptionD());
                             correctAns = qModel.getCorrect();
                             dialog.dismiss();
-                        }
                     }
                 }else {
                     dialog.dismiss();
                    tv_ques.setText("You have  Done your Test.");
-                    img_ques.setVisibility(View.INVISIBLE);
+//                    img_ques.setVisibility(View.INVISIBLE);
                     rb_opA.setVisibility(View.INVISIBLE);
                     rb_opB.setVisibility(View.INVISIBLE);
                     rb_opC.setVisibility(View.INVISIBLE);

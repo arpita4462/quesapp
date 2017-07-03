@@ -3,6 +3,7 @@
     package="com.atrio.quesapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +25,8 @@
         <activity android:name=".FinalMarkActivity" />
         <activity android:name=".TrialActivity" />
         <activity android:name=".ReasoingActivity" />
-        <activity android:name=".SelectLangActivity"></activity>
+        <activity android:name=".SelectLangActivity" />
+        <activity android:name=".PaymentActivity"></activity>
     </application>
 
 </manifest>

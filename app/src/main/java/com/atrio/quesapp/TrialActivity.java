@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.atrio.quesapp.model.UserDetail;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +34,7 @@ public class TrialActivity extends AppCompatActivity {
     TextView tv_username, tv_daysleft;
     Button btn_skip, btn_upgrade;
     ImageView img_trail;
-    String installDate;
+    String installDate,currentDate;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     private FirebaseAuth mAuth;
@@ -43,6 +42,8 @@ public class TrialActivity extends AppCompatActivity {
     private final long ONE_DAY = 24 * 60 * 60 * 1000;
     long days, diff, days_left;
     Date now, before;
+    Timer timer;
+    MyTimer mt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,8 @@ public class TrialActivity extends AppCompatActivity {
         tv_daysleft = (TextView) findViewById(R.id.tv_daysleft);
         btn_skip = (Button) findViewById(R.id.btn_skip);
         btn_upgrade = (Button) findViewById(R.id.btn_upgrade);
+        btn_skip.setEnabled(false);
+
 
         final SpotsDialog dialog = new SpotsDialog(TrialActivity.this,R.style.Custom);
         dialog.show();
@@ -64,36 +67,83 @@ public class TrialActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         Log.i("userid45", "" + user.getUid());
 
+
+        timer = new Timer();
+        mt = new MyTimer();
+
+
+//        user.updateProfile(disab)
+        /*String timeSettings = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            timeSettings = android.provider.Settings.Global.getString(this.getContentResolver(),android.provider.Settings.Global.AUTO_TIME);
+        }
+
+//        android.provider.Settings.Global.getInt(getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0);
+        Log.i("Date255", ""+timeSettings);
+
+
+        if (timeSettings.equals("0")) {
+            android.provider.Settings.System.putInt(this.getContentResolver(),android.provider.Settings.System.AUTO_TIME,1);
+            Log.i("Date256", ""+timeSettings);
+
+        }else{
+            Log.i("Date254", ""+timeSettings);
+
+        }
+        Date enow = new Date(System.currentTimeMillis());
+        Log.i("Date25", ""+enow.toString());
+        */
+        DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+        offsetRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                long offset = snapshot.getValue(Long.class);
+                double estimatedServerTimeMs = System.currentTimeMillis() + offset;
+                currentDate=formatter.format(estimatedServerTimeMs);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
+
         Query userdetailquery = db_ref.orderByKey().equalTo(user.getUid());
 
         userdetailquery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                dialog.dismiss();
 
                 if (dataSnapshot.getChildrenCount() != 0) {
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        dialog.dismiss();
                         UserDetail userDetail = child.getValue(UserDetail.class);
                         tv_username.setText("Welcome : " + userDetail.getUserName());
                         installDate = userDetail.getCreatedDated();
 
                         try {
                             before = formatter.parse(installDate);
-                            now = new Date();
+                            now=formatter.parse(currentDate);
                             diff = now.getTime() - before.getTime();
                             days = diff / ONE_DAY;
                             days_left = 30 - days;
-                            Timer timer = new Timer();
-                            MyTimer mt = new MyTimer();
-                            timer.schedule(mt, 1000, 1000);
+
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-//                        Log.i("datescreated1", "" + days);
                         if (days > 30) {
-                            Toast.makeText(getBaseContext(), "Trial Expired", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getBaseContext(), "Trial Expired", Toast.LENGTH_SHORT).show();
+                            btn_skip.setEnabled(false);
+                            btn_skip.setVisibility(View.INVISIBLE);
+                            timer.schedule(mt, 1000, 1000);
+                            tv_daysleft.setText("Days Left: 0");
+
                         } else {
-                            Toast.makeText(getBaseContext(), "Trial Version", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getBaseContext(), "Trial Version", Toast.LENGTH_SHORT).show();
+                            btn_skip.setEnabled(true);
+                            timer.schedule(mt, 1000, 1000);
+                            tv_daysleft.setText("Days Left:"+days_left);
+
                         }
 
                     }
@@ -111,12 +161,24 @@ public class TrialActivity extends AppCompatActivity {
         btn_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TrialActivity.this, SubjectActivity.class);
+                Intent intent = new Intent(TrialActivity.this, SelectLangActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
+
+
+        btn_upgrade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TrialActivity.this, PaymentActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
+
 
 
     class MyTimer extends TimerTask {
@@ -126,7 +188,6 @@ public class TrialActivity extends AppCompatActivity {
 
                 public void run() {
                     Random rand = new Random();
-                    tv_daysleft.setText("Days Left:"+days_left);
                     tv_daysleft.setTextSize(20);
                     tv_daysleft.setTextColor(Color.WHITE);
                     tv_daysleft.setBackgroundColor(Color.rgb(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));

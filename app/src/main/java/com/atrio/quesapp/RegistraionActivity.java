@@ -98,6 +98,7 @@ public class RegistraionActivity extends AppCompatActivity {
                             Toast.makeText(RegistraionActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
                             Intent intent =new Intent(RegistraionActivity.this,LoginActivity.class);
                             startActivity(intent);
+                            finish();
                             mEmailView.setText("");
                             mPasswordView.setText("");}
                         else{

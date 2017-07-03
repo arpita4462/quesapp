@@ -21,8 +21,6 @@ public class SelectLangActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
-
-                finish();
             }
         });
         btn_malya.setOnClickListener(new View.OnClickListener() {
@@ -31,7 +29,6 @@ public class SelectLangActivity extends AppCompatActivity {
 
 //                startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
 
-//                finish();
             }
         });
     }
