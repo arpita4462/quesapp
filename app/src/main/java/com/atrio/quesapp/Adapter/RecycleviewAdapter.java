@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import com.atrio.quesapp.model.ShowData;
 import com.atrio.quesapp.QuestionActivity;
 import com.atrio.quesapp.R;
+import com.atrio.quesapp.model.ShowData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,16 +26,15 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
     ArrayList<ShowData> list_data;
 
     public RecycleviewAdapter(Context context, ArrayList<ShowData> arrayList) {
-          this.c = context;
-          this.list_data = arrayList;
+        this.c = context;
+        this.list_data = arrayList;
 
     }
 
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.custom_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_view, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -65,7 +63,7 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
 
-      public TextView tv_text;
+        public TextView tv_text;
         public ImageView img_sub;
         public String tittle;
 

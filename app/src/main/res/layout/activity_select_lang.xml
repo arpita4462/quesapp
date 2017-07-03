@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:gravity="center"
+    android:background="@drawable/bg"
+    tools:context="com.atrio.quesapp.SelectLangActivity"
+    android:weightSum="1">
+
+    <!-- Login progress -->
+    <LinearLayout
+        android:id="@+id/registraion_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/darker_gray"
+        android:alpha="0.7">
+
+
+        <Button
+            android:id="@+id/btn_eng"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="English"
+            android:textColor="@color/white"
+            android:background="@drawable/ripple_effect"/>
+
+        <Button
+            android:id="@+id/btn_malya"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="മലയാളം"
+            android:textColor="@color/white"
+            android:background="@drawable/ripple_effect"/>
+    </LinearLayout>
+</LinearLayout>
