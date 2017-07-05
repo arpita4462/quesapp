@@ -66,33 +66,11 @@ public class TrialActivity extends AppCompatActivity {
 
         FirebaseUser user = mAuth.getCurrentUser();
         Log.i("userid45", "" + user.getUid());
-
-
         timer = new Timer();
         mt = new MyTimer();
 
-
-//        user.updateProfile(disab)
-        /*String timeSettings = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            timeSettings = android.provider.Settings.Global.getString(this.getContentResolver(),android.provider.Settings.Global.AUTO_TIME);
-        }
-
-//        android.provider.Settings.Global.getInt(getContentResolver(), android.provider.Settings.Global.AUTO_TIME, 0);
-        Log.i("Date255", ""+timeSettings);
-
-
-        if (timeSettings.equals("0")) {
-            android.provider.Settings.System.putInt(this.getContentResolver(),android.provider.Settings.System.AUTO_TIME,1);
-            Log.i("Date256", ""+timeSettings);
-
-        }else{
-            Log.i("Date254", ""+timeSettings);
-
-        }
         Date enow = new Date(System.currentTimeMillis());
-        Log.i("Date25", ""+enow.toString());
-        */
+//        Log.i("Date25", ""+enow.toString());
         DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
         offsetRef.addValueEventListener(new ValueEventListener() {
             @Override
