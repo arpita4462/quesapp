@@ -1,6 +1,5 @@
 package com.atrio.quesapp;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,7 +22,6 @@ public class SubjectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<ShowData> arrayList;
     private GridLayoutManager lLayout;
-    ProgressDialog pdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +47,6 @@ public class SubjectActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
 
                     ShowData data =  dataSnapshot1.getValue(ShowData.class);
-                   /* Log.i("Sub22",data.getSub());
-                    Log.i("Img33",data.getImg());*/
                     data.setImg(data.getImg());
                     data.setSub(data.getSub());
                     arrayList.add(data);
