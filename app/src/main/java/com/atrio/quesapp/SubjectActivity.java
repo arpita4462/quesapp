@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.atrio.quesapp.Adapter.RecycleviewAdapter;
 import com.atrio.quesapp.model.ShowData;
@@ -14,7 +15,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import dmax.dialog.SpotsDialog;
 
@@ -50,13 +54,10 @@ public class SubjectActivity extends AppCompatActivity {
                     data.setImg(data.getImg());
                     data.setSub(data.getSub());
                     arrayList.add(data);
-
                 }
-
                 dialog.dismiss();
                 RecycleviewAdapter rcAdapter = new RecycleviewAdapter(SubjectActivity.this, arrayList);
                 recyclerView.setAdapter(rcAdapter);
-
             }
 
             @Override

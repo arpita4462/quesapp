@@ -23,6 +23,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import dmax.dialog.SpotsDialog;
 
 /**
@@ -63,7 +66,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 if (user != null) {
+
+                   // textView.setText(currentDateTimeString);
                     // User is signed in
                     startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
                     finish();
@@ -137,9 +143,9 @@ public class LoginActivity extends AppCompatActivity {
 //                                    updateUI(user);
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.i("failure", "" + task.getException());
+                        Log.i("failure111", "" + task.getException());
                         dialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Authentication failed.",
+                        Toast.makeText(getApplicationContext(),""+ task.getException()+"Authentication failed.",
                                 Toast.LENGTH_SHORT).show();
 //                                    updateUI(null);
                     }
