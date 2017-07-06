@@ -28,7 +28,6 @@
         <activity android:name=".ReasoingActivity" />
         <activity android:name=".SelectLangActivity" />
         <activity android:name=".PaymentActivity" />
-        <activity android:name=".ccAvenues.Payment_WebView"></activity>
     </application>
 
 </manifest>
