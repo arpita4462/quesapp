@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.atrio.quesapp.QuestionActivity;
 import com.atrio.quesapp.R;
+import com.atrio.quesapp.SeriesActivity;
 import com.atrio.quesapp.model.ShowData;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -32,6 +32,7 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
     }
 
 
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_view, parent, false);
@@ -42,11 +43,7 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         holder.tv_text.setText(list_data.get(position).getSub());
-        Picasso.with(c)
-                .load(list_data.get(position).getImg())
-                .placeholder(R.drawable.book)
-                .resize(400,400)                        // optional
-                .into(holder.img_sub);
+        Glide.with(c).load(list_data.get(position).getImg()).placeholder(R.drawable.book).into(holder.img_sub);
         holder.tittle = list_data.get(position).getSub();
 
 
@@ -78,7 +75,7 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(view.getContext(), QuestionActivity.class);
+            Intent intent = new Intent(view.getContext(), SeriesActivity.class);
             Log.i("tittle44",""+tittle);
             intent.putExtra("Sub",tittle);
             view.getContext().startActivity(intent);

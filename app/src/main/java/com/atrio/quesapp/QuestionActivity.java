@@ -68,7 +68,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         dialog = new SpotsDialog(QuestionActivity.this, R.style.Custom);
 
         Intent i =  getIntent();
-        tittle = i.getStringExtra("Sub");
+        tittle = i.getStringExtra("SeriesNo");
         tv_sub.setText(tittle);
         btn_sub.setEnabled(false);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
