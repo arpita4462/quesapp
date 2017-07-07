@@ -65,8 +65,6 @@ public class SeriesActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
                     String subSeries= dataSnapshot1.getKey();
                     arrayseries.add(subSeries);
-                    Log.i("listdata4",""+arrayseries);
-
                     ArrayAdapter adapter = new ArrayAdapter<String>(SeriesActivity.this,R.layout.custom_series,R.id.tv_series,arrayseries);
                     lv_series.setAdapter(adapter);
 
@@ -88,8 +86,8 @@ public class SeriesActivity extends AppCompatActivity {
                 tv_seriesNo=(TextView)view.findViewById(R.id.tv_series);
                 seriesNo=tv_seriesNo.getText().toString();
                 Intent intent = new Intent(view.getContext(), QuestionActivity.class);
-                Log.i("tittle44",""+seriesNo);
                 intent.putExtra("SeriesNo",seriesNo);
+                intent.putExtra("tittle",tittle);
                 view.getContext().startActivity(intent);
 
             }

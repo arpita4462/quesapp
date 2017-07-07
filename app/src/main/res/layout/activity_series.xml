@@ -28,6 +28,7 @@
         android:id="@+id/listview"
         android:layout_width="0dp"
         android:layout_height="458dp"
+        android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
