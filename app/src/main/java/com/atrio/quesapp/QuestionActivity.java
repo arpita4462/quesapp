@@ -38,7 +38,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     Animation animFadein,animMove;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
-    public String tittle,correctAns,selectedAns;
+    public String tittle,correctAns,selectedAns,seriesNo;
     int qno=1,correctValue =0,checkedRadioButtonID,total_question=0;
     SpotsDialog dialog;
     private FirebaseStorage storage;
@@ -68,7 +68,8 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         dialog = new SpotsDialog(QuestionActivity.this, R.style.Custom);
 
         Intent i =  getIntent();
-        tittle = i.getStringExtra("Sub");
+        tittle = i.getStringExtra("tittle");
+        seriesNo = i.getStringExtra("SeriesNo");
         tv_sub.setText(tittle);
         btn_sub.setEnabled(false);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -186,7 +187,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     private void getQuestion(int qno){
         dialog.show();
 
-        Query getquestion=db_ref.orderByKey().equalTo("Q-"+qno);
+        Query getquestion=db_ref.child(seriesNo).orderByKey().equalTo("Q-"+qno);
 
         getquestion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

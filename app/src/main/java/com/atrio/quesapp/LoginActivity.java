@@ -2,6 +2,7 @@ package com.atrio.quesapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import dmax.dialog.SpotsDialog;
 
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -34,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mEmailSignInButton;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private String email,password;
+    private String email,password,timeSettings;
     private SpotsDialog dialog;
     private CustomRestpwd customRestpwd;
 
@@ -51,59 +53,69 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         input_email = (TextInputLayout)findViewById(R.id.input_email_id);
         input_pwd = (TextInputLayout)findViewById(R.id.input_password);
-
-      dialog = new SpotsDialog(LoginActivity.this,R.style.Custom);
-
-
+        dialog = new SpotsDialog(LoginActivity.this,R.style.Custom);
         mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Intent intent =new Intent(LoginActivity.this,TrialActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    // User is signed out
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    if (user != null) {
+                        Intent intent =new Intent(LoginActivity.this,TrialActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
 //                    Log.i("signed_out",""+user);
-                }
+                    }
 
-            }
-        };
+                }
+            };
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                attemptLogin();
-            }
-        });
+                @Override
+                public void onClick(View view) {
+                    attemptLogin();
+                }
+            });
 
 
         newUser.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(LoginActivity.this,RegistraionActivity.class);
-                startActivity(intent);
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    Intent intent =new Intent(LoginActivity.this,RegistraionActivity.class);
+                    startActivity(intent);
+                }
+            });
 
         tv_forgetpwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                customRestpwd = new CustomRestpwd(LoginActivity.this);
-                customRestpwd.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                customRestpwd.show();
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    customRestpwd = new CustomRestpwd(LoginActivity.this);
+                    customRestpwd.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    customRestpwd.show();
+                }
+            });
+
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        try {
+            int autoTime = android.provider.Settings.System.getInt(getContentResolver(),android.provider.Settings.System.AUTO_TIME);
+            if (autoTime!=1){
+//                android.provider.Settings.System.putInt(getContentResolver(),android.provider.Settings.System.AUTO_TIME,1);
+                Toast.makeText(getBaseContext(), "Turn on Automatic Date and Time", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                finish();
 
+            }else
+            {
+                mAuth.addAuthStateListener(mAuthListener);
+            }
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
