@@ -12,18 +12,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.atrio.quesapp.model.UserDetail;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 public class RegistraionActivity extends AppCompatActivity {
@@ -86,14 +83,14 @@ public class RegistraionActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
 
-                            FirebaseUser user = mAuth.getCurrentUser();
+                           /* FirebaseUser user = mAuth.getCurrentUser();
 
                             Date dt = new Date();
                             userName = user.getEmail().substring(0,user.getEmail().indexOf("@"));
                             userId=user.getUid();
                             emailId=user.getEmail();
-                            createdDated=formatter.format(dt);
-                            createUserDetail(userName,createdDated,emailId,userId);
+                            createdDated=formatter.format(dt);*/
+//                            createUserDetail(userName,createdDated,emailId,userId);
                             FirebaseAuth.getInstance().signOut();
                             Toast.makeText(RegistraionActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
                             Intent intent =new Intent(RegistraionActivity.this,LoginActivity.class);
@@ -116,6 +113,7 @@ public class RegistraionActivity extends AppCompatActivity {
         }
     }
 
+/*
     private void createUserDetail(String userName, String createdDated, String emailId, String userId){
 
         UserDetail userDetail=new UserDetail();
@@ -128,6 +126,7 @@ public class RegistraionActivity extends AppCompatActivity {
 
         db_ref.child(userId).setValue(userDetail);
     }
+*/
 
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();

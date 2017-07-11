@@ -48,17 +48,6 @@ public class SeriesActivity extends AppCompatActivity {
         dialog.show();
 
         Query query_listview = m_db.child(tittle).orderByKey();
-        Log.i("query67",""+query_listview);
-/*        mAdapter = new FirebaseListAdapter<Object>(SeriesActivity.this,Object.class,android.R.layout.simple_list_item_1,query_listview) {
-            @Override
-            protected void populateView(View view, Object model, int position) {
-                TextView text = (TextView) view.findViewById(android.R.id.text1);
-                text.setText(model.toString());
-                Log.i("listdata4",""+model.toString());
-            }
-        };
-        lv_series.setAdapter(mAdapter);*/
-
         query_listview.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

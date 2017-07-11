@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     if (user != null) {
-                        Intent intent =new Intent(LoginActivity.this,TrialActivity.class);
+                        Intent intent =new Intent(LoginActivity.this,SubjectActivity.class);
                         startActivity(intent);
                         finish();
                     } else {
@@ -104,7 +104,6 @@ public class LoginActivity extends AppCompatActivity {
         try {
             int autoTime = android.provider.Settings.System.getInt(getContentResolver(),android.provider.Settings.System.AUTO_TIME);
             if (autoTime!=1){
-//                android.provider.Settings.System.putInt(getContentResolver(),android.provider.Settings.System.AUTO_TIME,1);
                 Toast.makeText(getBaseContext(), "Turn on Automatic Date and Time", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
                 finish();

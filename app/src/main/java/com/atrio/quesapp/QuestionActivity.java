@@ -70,7 +70,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         Intent i =  getIntent();
         tittle = i.getStringExtra("tittle");
         seriesNo = i.getStringExtra("SeriesNo");
-        tv_sub.setText(tittle);
+        tv_sub.setText(seriesNo);
         btn_sub.setEnabled(false);
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
@@ -85,7 +85,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         storageRef = storage.getReference();
         //firebase database
         db_instance = FirebaseDatabase.getInstance();
-        db_ref = db_instance.getReference(tittle);
+        db_ref = db_instance.getReference();
         getQuestion(qno);
 
         checkedRadioButtonID = rg_option.getCheckedRadioButtonId();
@@ -187,7 +187,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     private void getQuestion(int qno){
         dialog.show();
 
-        Query getquestion=db_ref.child(seriesNo).orderByKey().equalTo("Q-"+qno);
+        Query getquestion=db_ref.child(tittle).child(seriesNo).orderByKey().equalTo("Q-"+qno);
 
         getquestion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
