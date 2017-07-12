@@ -7,22 +7,30 @@ import android.support.v7.widget.RecyclerView;
 
 import com.atrio.quesapp.Adapter.RecycleviewAdapter;
 import com.atrio.quesapp.model.ShowData;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import dmax.dialog.SpotsDialog;
 
 public class SubjectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
+    File localFile;
+    String geturl;
     ArrayList<ShowData> arrayList;
     private GridLayoutManager lLayout;
-
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,35 +47,42 @@ public class SubjectActivity extends AppCompatActivity {
         final SpotsDialog dialog = new SpotsDialog(SubjectActivity.this,R.style.Custom);
         dialog.show();
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Subject");
-        Query  query_catlist = rootRef.orderByKey();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        storage=FirebaseStorage.getInstance();
+        storageRef = storage.getReference("Subject");
+        Query query_catlist = rootRef.orderByKey();
         query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-
-                    ShowData data =  dataSnapshot1.getValue(ShowData.class);
-                    data.setImg(data.getImg());
-                    data.setSub(data.getSub());
-                    arrayList.add(data);
-
+                    String subkey= dataSnapshot1.getKey();
+                    showimg(subkey);
                 }
-
                 dialog.dismiss();
-                RecycleviewAdapter rcAdapter = new RecycleviewAdapter(SubjectActivity.this, arrayList);
-                recyclerView.setAdapter(rcAdapter);
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
+
         });
+    }
 
+    private void showimg(final String sub) {
+        storageRef.child(sub+".jpg").getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+            @Override
+            public void onSuccess(StorageMetadata storageMetadata) {
+                ShowData data =  new ShowData();
+                geturl=storageMetadata.getDownloadUrl().toString();
+                data.setSub(sub);
+                data.setImg(geturl);
+                arrayList.add(data);
 
+                RecycleviewAdapter rcAdapter = new RecycleviewAdapter(SubjectActivity.this, arrayList);
+                recyclerView.setAdapter(rcAdapter);
 
-
-
+            }
+        });
     }
 }

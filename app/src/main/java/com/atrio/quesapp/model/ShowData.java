@@ -21,5 +21,4 @@ public class ShowData {
 
     public void setImg(String img) {
         this.img = img;
-    }
-}
+    }}

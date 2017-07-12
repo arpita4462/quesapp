@@ -16,6 +16,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class RegistraionActivity extends AppCompatActivity {
 
@@ -23,8 +29,13 @@ public class RegistraionActivity extends AppCompatActivity {
     private ProgressBar mProgressView;
     private Button registraionButton;
     private FirebaseAuth mAuth;
-    private String email,password;
+    private DatabaseReference db_ref;
+    private FirebaseDatabase db_instance;
+    SimpleDateFormat formatter;
+
+    private String email,password,userName,createdDated,emailId,userId;
     TextInputLayout input_email,input_pwd;
+
 
 
 
@@ -40,6 +51,9 @@ public class RegistraionActivity extends AppCompatActivity {
         input_pwd = (TextInputLayout)findViewById(R.id.input_password);
 
         mAuth = FirebaseAuth.getInstance();
+        db_instance = FirebaseDatabase.getInstance();
+        db_ref = db_instance.getReference("UserDetail");
+        formatter = new SimpleDateFormat("yyyy-MM-dd" , Locale.ENGLISH);
         registraionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,15 +82,29 @@ public class RegistraionActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(RegistraionActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
-                            FirebaseAuth.getInstance().signOut();
 
+                           /* FirebaseUser user = mAuth.getCurrentUser();
+
+                            Date dt = new Date();
+                            userName = user.getEmail().substring(0,user.getEmail().indexOf("@"));
+                            userId=user.getUid();
+                            emailId=user.getEmail();
+                            createdDated=formatter.format(dt);*/
+//                            createUserDetail(userName,createdDated,emailId,userId);
+                            FirebaseAuth.getInstance().signOut();
+                            Toast.makeText(RegistraionActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
                             Intent intent =new Intent(RegistraionActivity.this,LoginActivity.class);
                             startActivity(intent);
+                            finish();
                             mEmailView.setText("");
-                            mPasswordView.setText("");
-                        }else{
-                            Toast.makeText(RegistraionActivity.this,"Registration Error",Toast.LENGTH_LONG).show();
+                            mPasswordView.setText("");}
+                        else{
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+
+                            Toast.makeText(RegistraionActivity.this, "User with this email already exist.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(RegistraionActivity.this, "Registration Error", Toast.LENGTH_LONG).show();
+                        }
                         }
                         mProgressView.setVisibility(View.GONE);
                     }
@@ -84,6 +112,22 @@ public class RegistraionActivity extends AppCompatActivity {
 
         }
     }
+
+/*
+    private void createUserDetail(String userName, String createdDated, String emailId, String userId){
+
+        UserDetail userDetail=new UserDetail();
+
+
+        userDetail.setUserName(userName);
+        userDetail.setCreatedDated(createdDated);
+        userDetail.setEmailId(emailId);
+        userDetail.setUserId(userId);
+
+        db_ref.child(userId).setValue(userDetail);
+    }
+*/
+
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
