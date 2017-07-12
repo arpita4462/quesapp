@@ -3,7 +3,6 @@ package com.atrio.quesapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -74,17 +73,17 @@ public class SeriesActivity extends AppCompatActivity {
 
                 tv_seriesNo=(TextView)view.findViewById(R.id.tv_series);
                 seriesNo=tv_seriesNo.getText().toString();
-                if (tittle.equals("TestofResoning")){
+              /*  if (tittle.equals("TestofResoning")){
                     Intent intent = new Intent(view.getContext(), ReasoingActivity.class);
                     intent.putExtra("SeriesNo",seriesNo);
                     intent.putExtra("tittle",tittle);
                     view.getContext().startActivity(intent);
-                }else {
+                }else {*/
                     Intent intent = new Intent(view.getContext(), QuestionActivity.class);
                     intent.putExtra("SeriesNo", seriesNo);
                     intent.putExtra("tittle", tittle);
                     view.getContext().startActivity(intent);
-                }
+//                }
             }
         });
     }
