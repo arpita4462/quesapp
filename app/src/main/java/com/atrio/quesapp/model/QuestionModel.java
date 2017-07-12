@@ -13,16 +13,20 @@ public class QuestionModel {
     public String optionD;
     public String correct;
 
+
+    public String explanation;
+
     public QuestionModel() {
     }
 
-    public QuestionModel(String question, String optionA, String optionB, String optionC, String optionD, String correct) {
+    public QuestionModel(String question, String optionA, String optionB, String optionC, String optionD, String correct,String explanation) {
         this.question = question;
         this.optionA = optionA;
         this.optionB = optionB;
         this.optionC = optionC;
         this.optionD = optionD;
         this.correct = correct;
+        this.explanation=explanation;
     }
 
     public String getQuestion() {
@@ -72,4 +76,12 @@ public class QuestionModel {
     public void setCorrect(String correct) {
         this.correct = correct;
     }
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+
 }
