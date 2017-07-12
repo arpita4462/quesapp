@@ -1,9 +1,12 @@
 package com.atrio.quesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.atrio.quesapp.Adapter.RecycleviewAdapter;
@@ -26,6 +29,7 @@ public class SubjectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<ShowData> arrayList;
     private GridLayoutManager lLayout;
+    Button bt_question;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class SubjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_subject);
         arrayList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recycleview);
+        bt_question = (Button)findViewById(R.id.bt_question);
         lLayout = new GridLayoutManager(SubjectActivity.this, 2);
 
         recyclerView.setHasFixedSize(true);
@@ -62,6 +67,16 @@ public class SubjectActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        bt_question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent isend = new Intent(SubjectActivity.this,SendQuestionActivity.class);
+                startActivity(isend);
+                finish();
 
             }
         });

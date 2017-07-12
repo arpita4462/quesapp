@@ -20,9 +20,10 @@
         </activity>
         <activity android:name=".SubjectActivity" />
         <activity android:name=".RegistraionActivity" />
-        <activity android:name=".QuestionActivity" />
+        <activity android:name=".QuestionActivity"></activity>
         <activity android:name=".FinalMarkActivity" />
-        <activity android:name=".ReasoingActivity"></activity>
+        <activity android:name=".ReasoingActivity" />
+        <activity android:name=".SendQuestionActivity"></activity>
     </application>
 
 </manifest>

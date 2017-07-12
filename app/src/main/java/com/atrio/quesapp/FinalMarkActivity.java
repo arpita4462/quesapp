@@ -1,14 +1,15 @@
 package com.atrio.quesapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.atrio.quesapp.model.ListData;
-import com.atrio.quesapp.storeData.CorrectList;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,6 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FinalMarkActivity extends AppCompatActivity {
@@ -39,10 +43,21 @@ public class FinalMarkActivity extends AppCompatActivity {
         img=(ImageView) findViewById(R.id.img_emoji);
         tv_quote=(TextView)findViewById(R.id.tv_quote);
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(FinalMarkActivity.this);
+       /* Gson gson = new Gson();
+        String json = sharedPrefs.getString("Data", null);
+        Type type = new TypeToken<ArrayList<ListData>>() {}.getType();
+        ArrayList<ListData> arrayList = gson.fromJson(json, type);
+*/
+
+        //Log.i("PrintData77",""+arrayList);
+
 
 
         Intent intent = getIntent();
         tittle = intent.getStringExtra("tittle");
+
+
 
         db_instance = FirebaseDatabase.getInstance();
         db_ref = db_instance.getReference(tittle);
@@ -64,17 +79,6 @@ public class FinalMarkActivity extends AppCompatActivity {
 
             }
         });
-
-        CorrectList list = new CorrectList();
-        List<ListData> favorites = list.getFavorites(FinalMarkActivity.this);
-
-        value = favorites.size();
-        if (favorites != null) {
-            for (ListData data : favorites) {
-                Log.i("printData",""+data.getCorrect_data());
-
-            }
-        }
 
 
         tv_correct.setText("Total No of Correct Answer: "+value);
@@ -98,7 +102,5 @@ public class FinalMarkActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        CorrectList list = new CorrectList();
-        list.removeFavorite(FinalMarkActivity.this);
     }
 }
