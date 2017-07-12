@@ -74,11 +74,17 @@ public class SeriesActivity extends AppCompatActivity {
 
                 tv_seriesNo=(TextView)view.findViewById(R.id.tv_series);
                 seriesNo=tv_seriesNo.getText().toString();
-                Intent intent = new Intent(view.getContext(), QuestionActivity.class);
-                intent.putExtra("SeriesNo",seriesNo);
-                intent.putExtra("tittle",tittle);
-                view.getContext().startActivity(intent);
-
+                if (tittle.equals("TestofResoning")){
+                    Intent intent = new Intent(view.getContext(), ReasoingActivity.class);
+                    intent.putExtra("SeriesNo",seriesNo);
+                    intent.putExtra("tittle",tittle);
+                    view.getContext().startActivity(intent);
+                }else {
+                    Intent intent = new Intent(view.getContext(), QuestionActivity.class);
+                    intent.putExtra("SeriesNo", seriesNo);
+                    intent.putExtra("tittle", tittle);
+                    view.getContext().startActivity(intent);
+                }
             }
         });
     }
