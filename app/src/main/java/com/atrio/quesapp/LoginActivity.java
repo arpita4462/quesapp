@@ -53,49 +53,52 @@ public class LoginActivity extends AppCompatActivity {
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         input_email = (TextInputLayout)findViewById(R.id.input_email_id);
         input_pwd = (TextInputLayout)findViewById(R.id.input_password);
-        dialog = new SpotsDialog(LoginActivity.this,R.style.Custom);
+
+      dialog = new SpotsDialog(LoginActivity.this,R.style.Custom);
+
+
         mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if (user != null) {
-                        Intent intent =new Intent(LoginActivity.this,SubjectActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
+                    finish();
+//                    Log.i("signed_in:","" + user.getUid());
+                } else {
+                    // User is signed out
 //                    Log.i("signed_out",""+user);
-                    }
+                }
 
-                }
-            };
+            }
+        };
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    attemptLogin();
-                }
-            });
+            @Override
+            public void onClick(View view) {
+                attemptLogin();
+            }
+        });
 
 
         newUser.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent =new Intent(LoginActivity.this,RegistraionActivity.class);
-                    startActivity(intent);
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(LoginActivity.this,RegistraionActivity.class);
+                startActivity(intent);
+            }
+        });
 
         tv_forgetpwd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    customRestpwd = new CustomRestpwd(LoginActivity.this);
-                    customRestpwd.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    customRestpwd.show();
-                }
-            });
-
-
+            @Override
+            public void onClick(View v) {
+                customRestpwd = new CustomRestpwd(LoginActivity.this);
+                customRestpwd.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                customRestpwd.show();
+            }
+        });
     }
 
     @Override
@@ -141,13 +144,23 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
                         dialog.dismiss();
+                        Log.i("success111", "" + task.isSuccessful());
+
+//                                    FirebaseUser user = mAuth.getCurrentUser();
+//                                    updateUI(user);
                     } else {
+                        // If sign in fails, display a message to the user.
+                        Log.i("failure", "" + task.getException());
                         dialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Authentication failed.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+//                                    updateUI(null);
                     }
 
                 }
             });
+//            mAuthTask = new UserLoginTask(email, password);
+//            mAuthTask.execute((Void) null);
         }
     }
 

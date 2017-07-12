@@ -55,19 +55,20 @@
                     android:textStyle="bold"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="8dp"
+                    android:background="@drawable/round_text"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <TextView
-                    android:id="@+id/tv_ques"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:layout_weight="1"
+                android:id="@+id/tv_ques"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_weight="1"
                     android:textSize="17sp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="8dp" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp" />
             </LinearLayout>
 
             <RadioGroup
@@ -111,17 +112,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1" />
             </RadioGroup>
-            <TextView
-                android:id="@+id/tv_explain"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_weight="1"
-                android:textSize="17sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:layout_marginRight="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp" />
             <Button
                 android:id="@+id/btn_submit"
                 android:layout_width="wrap_content"
@@ -155,7 +145,7 @@
                 android:visibility="gone"/>
 
         </LinearLayout>
-    </ScrollView>
+</ScrollView>
 
     <View
         android:layout_width="0dp"
