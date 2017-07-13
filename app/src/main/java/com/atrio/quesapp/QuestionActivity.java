@@ -30,7 +30,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     RadioGroup rg_option;
     RadioButton rb_opA,rb_opB,rb_opC,rb_opD,rbselect,rbcorrect;
     Button btn_sub,bt_done,bt_pos1,bt_pos2,bt_pos3,bt_pos4,bt_pos5,bt_pos6,bt_pos7,bt_pos8,bt_pos9,bt_pos10;
-    TextView tv_sub,tv_ques,tv_quesno,tv_explain;
+    TextView tv_sub,tv_ques,tv_quesno,tv_explain,tv_back;
     Animation animFadein,animMove;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
@@ -46,6 +46,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         tv_sub=(TextView)findViewById(R.id.tv_sub);
+        tv_back = (TextView)findViewById(R.id.tv_back);
         tv_ques=(TextView)findViewById(R.id.tv_ques);
         tv_explain=(TextView)findViewById(R.id.tv_explain);
         tv_quesno =(TextView)findViewById(R.id.tv_no);
@@ -510,7 +511,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 rg_option.startAnimation(animMove);
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 value = Integer.parseInt(bt_pos7.getText().toString());
-                subvalue = String.format("%03d",value); subvalue = "0"+value;
+                subvalue = String.format("%03d",value);
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;

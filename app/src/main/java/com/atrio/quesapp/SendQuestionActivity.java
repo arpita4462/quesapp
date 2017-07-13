@@ -6,6 +6,8 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.atrio.quesapp.Adapter.CustomAdapter;
+import com.atrio.quesapp.model.CustomSpinner;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,7 +21,8 @@ public class SendQuestionActivity extends AppCompatActivity {
 
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
-    ArrayList<String> data;
+    ArrayList<CustomSpinner> data;
+    CustomSpinner spin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,27 +33,25 @@ public class SendQuestionActivity extends AppCompatActivity {
 
         data = new ArrayList<>();
 
+
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
         getsub.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     String sub = child.getKey();
-
+                    spin = new CustomSpinner();
                     if (!sub.equals("UserDetail")){
-                        data.add(child.getKey());
-
+                        spin.setSub(child.getKey());
+                        Log.i("data77",""+sub);
+                        data.add(spin);
                     }
 
 
                 }
-
-                ArrayAdapter<String> adapter =
-                        new ArrayAdapter<String>(getApplicationContext(), R.layout.simple_spinner_dropdown_item, data);
-                adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-// Specify the layout to use when the list of choices appears
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(adapter);
+                Log.i("data77",""+data.size());
+                CustomAdapter customAdapter=new CustomAdapter(SendQuestionActivity.this,data);
+                spinner.setAdapter(customAdapter);
 
             }
 

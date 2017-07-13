@@ -27,6 +27,7 @@
         <activity android:name=".ReasoingActivity" />
         <activity android:name=".SelectLangActivity" />
         <activity android:name=".PaymentActivity" />
+        <activity android:name=".SendQuestionActivity"></activity>
         <activity android:name=".SeriesActivity"></activity>
     </application>
 

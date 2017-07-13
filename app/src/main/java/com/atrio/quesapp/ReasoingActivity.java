@@ -551,7 +551,8 @@ public class ReasoingActivity extends AppCompatActivity implements Animation.Ani
                 rg_option.startAnimation(animMove);
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 value = Integer.parseInt(bt_pos7.getText().toString());
-                subvalue = String.format("%03d",value); subvalue = "0"+value;
+                subvalue = String.format("%03d",value);
+                subvalue = "0"+value;
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
