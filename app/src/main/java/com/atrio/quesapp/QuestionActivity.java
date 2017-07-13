@@ -113,9 +113,10 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tv_explain.setVisibility(View.GONE);
+//                tv_explain.setText("");
                 tv_ques.startAnimation(animFadein);
                 rg_option.startAnimation(animMove);
+
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 int value1 = Integer.parseInt(tv_quesno.getText().toString());
                 value1++;
@@ -129,6 +130,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 int last_btn = Integer.parseInt(bt_pos10.getText().toString());
                 String last_btn1 = String.format("%03d",last_btn);
 
@@ -168,21 +170,20 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         String data = null,data_btn;
         int sub_data;
         // Log.i("arraydata33", "" + arrayList);
-        bt_pos1.setVisibility(View.GONE);
-        bt_pos2.setVisibility(View.GONE);
-        bt_pos3.setVisibility(View.GONE);
-        bt_pos4.setVisibility(View.GONE);
-        bt_pos5.setVisibility(View.GONE);
-        bt_pos6.setVisibility(View.GONE);
-        bt_pos7.setVisibility(View.GONE);
-        bt_pos8.setVisibility(View.GONE);
-        bt_pos9.setVisibility(View.GONE);
-        bt_pos10.setVisibility(View.GONE);
+        bt_pos1.setVisibility(View.INVISIBLE);
+        bt_pos2.setVisibility(View.INVISIBLE);
+        bt_pos3.setVisibility(View.INVISIBLE);
+        bt_pos4.setVisibility(View.INVISIBLE);
+        bt_pos5.setVisibility(View.INVISIBLE);
+        bt_pos6.setVisibility(View.INVISIBLE);
+        bt_pos7.setVisibility(View.INVISIBLE);
+        bt_pos8.setVisibility(View.INVISIBLE);
+        bt_pos9.setVisibility(View.INVISIBLE);
+        bt_pos10.setVisibility(View.INVISIBLE);
 
         for (int y = 0; y < arrayList.size(); y++) {
             switch (y) {
                 case 0:
-                    tv_explain.setVisibility(View.GONE);
                     bt_pos1.setVisibility(View.VISIBLE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
@@ -190,7 +191,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     bt_pos1.setText(data_btn);
                     break;
                 case 1:
-                    tv_explain.setVisibility(View.GONE);
                     bt_pos2.setVisibility(View.VISIBLE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
@@ -198,7 +198,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     bt_pos2.setText(data_btn);
                     break;
                 case 2:
-                    tv_explain.setVisibility(View.GONE);
                     bt_pos3.setVisibility(View.VISIBLE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
@@ -206,7 +205,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     bt_pos3.setText(data_btn);
                     break;
                 case 3:
-                    tv_explain.setVisibility(View.GONE);
                     bt_pos4.setVisibility(View.VISIBLE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
@@ -214,7 +212,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     bt_pos4.setText(data_btn);
                     break;
                 case 4:
-                    tv_explain.setVisibility(View.GONE);
                     bt_pos5.setVisibility(View.VISIBLE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
@@ -222,7 +219,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     bt_pos5.setText(data_btn);
                     break;
                 case 5:
-                    tv_explain.setVisibility(View.GONE);
                     bt_pos6.setVisibility(View.VISIBLE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
@@ -230,7 +226,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     bt_pos6.setText(data_btn);
                     break;
                 case 6:
-                    tv_explain.setVisibility(View.GONE);
                     bt_pos7.setVisibility(View.VISIBLE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
@@ -238,7 +233,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     bt_pos7.setText(data_btn);
                     break;
                 case 7:
-                    tv_explain.setVisibility(View.GONE);
                     bt_pos8.setVisibility(View.VISIBLE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
@@ -247,14 +241,12 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     break;
                 case 8:
                     bt_pos9.setVisibility(View.VISIBLE);
-                    tv_explain.setVisibility(View.GONE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
                     data_btn = String.format("%01d",sub_data);
                     bt_pos9.setText(data_btn);
                     break;
                 case 9:
-                    tv_explain.setVisibility(View.GONE);
                     bt_pos10.setVisibility(View.VISIBLE);
                     data = arrayList.get(y);
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
@@ -327,6 +319,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                         rb_opD.setText(qModel.getOptionD());
                         correctAns = qModel.getCorrect();
                         explanation=qModel.getExplanation();
+
                         dialog.dismiss();
 //                        attemptedques(sub_quesno);
                     }
@@ -342,6 +335,17 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     btn_sub.setVisibility(View.GONE);
                     tv_explain.setVisibility(View.GONE);
                     bt_done.setVisibility(View.VISIBLE);
+                    bt_pos1.setVisibility(View.INVISIBLE);
+                    bt_pos2.setVisibility(View.INVISIBLE);
+                    bt_pos3.setVisibility(View.INVISIBLE);
+                    bt_pos4.setVisibility(View.INVISIBLE);
+                    bt_pos5.setVisibility(View.INVISIBLE);
+                    bt_pos6.setVisibility(View.INVISIBLE);
+                    bt_pos7.setVisibility(View.INVISIBLE);
+                    bt_pos8.setVisibility(View.INVISIBLE);
+                    bt_pos9.setVisibility(View.INVISIBLE);
+                    bt_pos10.setVisibility(View.INVISIBLE);
+
 
                     bt_done.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -351,17 +355,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                             startActivity(intent);
                             finish();
 */
-                            tv_quesno.setVisibility(View.GONE);
-                            bt_pos1.setVisibility(View.GONE);
-                            bt_pos2.setVisibility(View.GONE);
-                            bt_pos3.setVisibility(View.GONE);
-                            bt_pos4.setVisibility(View.GONE);
-                            bt_pos5.setVisibility(View.GONE);
-                            bt_pos6.setVisibility(View.GONE);
-                            bt_pos7.setVisibility(View.GONE);
-                            bt_pos8.setVisibility(View.GONE);
-                            bt_pos9.setVisibility(View.GONE);
-                            bt_pos10.setVisibility(View.GONE);
 
                             Toast.makeText(getApplicationContext(),"You Have Done Quiz",Toast.LENGTH_LONG).show();
                         }
@@ -414,35 +407,38 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             case R.id.bt_pos1:
                 tv_ques.startAnimation(animFadein);
                 rg_option.startAnimation(animMove);
-
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 value = Integer.parseInt(bt_pos1.getText().toString());
                 subvalue = String.format("%03d",value);
                 getQuestion(subvalue);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
+
                 break;
             case R.id.bt_pos2:
                 tv_ques.startAnimation(animFadein);
                 rg_option.startAnimation(animMove);
-
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 value = Integer.parseInt(bt_pos2.getText().toString());
                 subvalue = String.format("%03d",value);
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 break;
             case R.id.bt_pos3:
                 tv_ques.startAnimation(animFadein);
@@ -453,12 +449,14 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 break;
             case R.id.bt_pos4:
                 tv_ques.startAnimation(animFadein);
@@ -469,12 +467,14 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 break;
             case R.id.bt_pos5:
                 tv_ques.startAnimation(animFadein);
@@ -485,12 +485,14 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 break;
             case R.id.bt_pos6:
                 tv_ques.startAnimation(animFadein);
@@ -501,28 +503,32 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 break;
             case R.id.bt_pos7:
                 tv_ques.startAnimation(animFadein);
                 rg_option.startAnimation(animMove);
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 value = Integer.parseInt(bt_pos7.getText().toString());
-                subvalue = String.format("%03d",value); subvalue = "0"+value;
+                subvalue = String.format("%03d",value);
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 break;
             case R.id.bt_pos8:
                 tv_ques.startAnimation(animFadein);
@@ -533,12 +539,14 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 break;
             case R.id.bt_pos9:
                 tv_ques.startAnimation(animFadein);
@@ -549,12 +557,14 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 break;
             case R.id.bt_pos10:
                 tv_ques.startAnimation(animFadein);
@@ -566,12 +576,14 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 getButton(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;
+                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
                 rb_opD.setChecked(false);
                 btn_sub.setEnabled(false);
                 btn_sub.setBackgroundResource(R.color.centercolor);
+                tv_explain.setVisibility(View.GONE);
                 break;
         }
 
@@ -613,7 +625,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             rb_opB.setClickable(false);
             rb_opC.setClickable(false);
             rb_opD.setClickable(false);
-            tv_explain.setText(explanation);
+            tv_explain.setText("Explanation : "+explanation);
 
 //            db_ref.child("myquiz").child(tv_quesno.getText().toString()).setValue(rbselect.getText());
 
@@ -634,14 +646,11 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 rb_opD.setTextColor(ContextCompat.getColor(QuestionActivity.this, R.color.green));
                 rbcorrect=rb_opD;
             }
-
             rb_opA.setClickable(false);
             rb_opB.setClickable(false);
             rb_opC.setClickable(false);
             rb_opD.setClickable(false);
-            tv_explain.setText(explanation);
-
-//            db_ref.child("myquiz").child(tv_quesno.getText().toString()).setValue(rbselect.getText());
+            tv_explain.setText("Explanation : "+explanation);
 
         }
 
