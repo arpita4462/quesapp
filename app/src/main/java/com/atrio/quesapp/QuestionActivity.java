@@ -13,7 +13,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.atrio.quesapp.model.QuestionModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,7 +30,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     RadioGroup rg_option;
     RadioButton rb_opA,rb_opB,rb_opC,rb_opD,rbselect,rbcorrect;
     Button btn_sub,bt_done,bt_pos1,bt_pos2,bt_pos3,bt_pos4,bt_pos5,bt_pos6,bt_pos7,bt_pos8,bt_pos9,bt_pos10;
-    TextView tv_sub,tv_ques,tv_quesno,tv_explain;
+    TextView tv_sub,tv_ques,tv_quesno,tv_explain,tv_back;
     Animation animFadein,animMove;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
@@ -39,6 +38,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     int qno=001,correctValue =0,checkedRadioButtonID,total_question=0;
     SpotsDialog dialog;
     ArrayList<String> arrayList;
+    ArrayList<ListData>  list_data;
     int value ;
 
     @Override
@@ -46,6 +46,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
         tv_sub=(TextView)findViewById(R.id.tv_sub);
+        tv_back = (TextView)findViewById(R.id.tv_back);
         tv_ques=(TextView)findViewById(R.id.tv_ques);
         tv_explain=(TextView)findViewById(R.id.tv_explain);
         tv_quesno =(TextView)findViewById(R.id.tv_no);
@@ -66,6 +67,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         bt_pos9 = (Button) findViewById(R.id.bt_pos9);
         bt_pos10 = (Button) findViewById(R.id.bt_pos10);
         arrayList = new ArrayList<>();
+        list_data = new ArrayList<>();
 
 
         rg_option=(RadioGroup) findViewById(R.id.rg_option);
@@ -110,10 +112,9 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         btn_sub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                tv_explain.setText("");
+                tv_explain.setVisibility(View.GONE);
                 tv_ques.startAnimation(animFadein);
                 rg_option.startAnimation(animMove);
-
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 int value1 = Integer.parseInt(tv_quesno.getText().toString());
                 value1++;

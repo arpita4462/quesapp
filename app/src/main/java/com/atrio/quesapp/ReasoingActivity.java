@@ -18,8 +18,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.atrio.quesapp.model.ListData;
 import com.atrio.quesapp.model.QuestionModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,7 +54,6 @@ public class ReasoingActivity extends AppCompatActivity implements Animation.Ani
     private StorageReference storageRef;
     File localFile;
     ArrayList<String> arrayList;
-    ArrayList<ListData>  list_data;
     int value ;
 
     @Override
@@ -84,7 +81,6 @@ public class ReasoingActivity extends AppCompatActivity implements Animation.Ani
         bt_pos9 = (Button) findViewById(R.id.bt_pos9);
         bt_pos10 = (Button) findViewById(R.id.bt_pos10);
         arrayList = new ArrayList<>();
-        list_data = new ArrayList<>();
 
 
         rg_option=(RadioGroup) findViewById(R.id.rg_option);
@@ -398,9 +394,7 @@ public class ReasoingActivity extends AppCompatActivity implements Animation.Ani
         });
 */
         try {
-
             localFile = File.createTempFile("images", "png");
-
             storageRef.child(getimg).getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -557,7 +551,8 @@ public class ReasoingActivity extends AppCompatActivity implements Animation.Ani
                 rg_option.startAnimation(animMove);
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 value = Integer.parseInt(bt_pos7.getText().toString());
-                subvalue = String.format("%03d",value); subvalue = "0"+value;
+                subvalue = String.format("%03d",value);
+                subvalue = "0"+value;
                 getQuestion(subvalue);
                 //getQuestion(qno_list);
                 correctAns=null;

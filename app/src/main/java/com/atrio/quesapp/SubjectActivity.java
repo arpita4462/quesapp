@@ -1,9 +1,12 @@
 package com.atrio.quesapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Button;
 
 import com.atrio.quesapp.Adapter.RecycleviewAdapter;
 import com.atrio.quesapp.model.ShowData;
@@ -31,12 +34,14 @@ public class SubjectActivity extends AppCompatActivity {
     private GridLayoutManager lLayout;
     private FirebaseStorage storage;
     private StorageReference storageRef;
+    Button bt_ques;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject);
         arrayList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recycleview);
+        bt_ques = (Button) findViewById(R.id.bt_question);
         lLayout = new GridLayoutManager(SubjectActivity.this, 2);
 
         recyclerView.setHasFixedSize(true);
@@ -47,6 +52,13 @@ public class SubjectActivity extends AppCompatActivity {
         final SpotsDialog dialog = new SpotsDialog(SubjectActivity.this,R.style.Custom);
         dialog.show();
 
+        bt_ques.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent move = new Intent(SubjectActivity.this,SendQuestionActivity.class);
+                startActivity(move);
+            }
+        });
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         storage=FirebaseStorage.getInstance();
         storageRef = storage.getReference("Subject");
