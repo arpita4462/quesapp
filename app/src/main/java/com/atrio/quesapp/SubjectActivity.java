@@ -2,15 +2,16 @@ package com.atrio.quesapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.atrio.quesapp.Adapter.RecycleviewAdapter;
 import com.atrio.quesapp.model.ShowData;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +33,7 @@ public class SubjectActivity extends AppCompatActivity {
     File localFile;
     String geturl;
     ArrayList<ShowData> arrayList;
+    ArrayList<String> arr;
     private GridLayoutManager lLayout;
     private FirebaseStorage storage;
     private StorageReference storageRef;
@@ -53,23 +55,20 @@ public class SubjectActivity extends AppCompatActivity {
         final SpotsDialog dialog = new SpotsDialog(SubjectActivity.this,R.style.Custom);
         dialog.show();
 
-        bt_ques.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent move = new Intent(SubjectActivity.this,SendQuestionActivity.class);
-                startActivity(move);
-            }
-        });
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         storage=FirebaseStorage.getInstance();
         storageRef = storage.getReference("Subject");
         Query query_catlist = rootRef.orderByKey();
         query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                arr = new ArrayList<String>();
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
                     String subkey= dataSnapshot1.getKey();
                     showimg(subkey);
+                    arr.add(subkey);
+//                    Log.i("array7712555",""+subkey);
                 }
                 dialog.dismiss();
             }
@@ -80,6 +79,15 @@ public class SubjectActivity extends AppCompatActivity {
             }
 
         });
+        bt_ques.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent move = new Intent(SubjectActivity.this,SendQuestionActivity.class);
+                move.putExtra("array_list", arr);
+                startActivity(move);
+            }
+        });
+
     }
 
     private void showimg(final String sub) {
@@ -91,12 +99,21 @@ public class SubjectActivity extends AppCompatActivity {
                 data.setSub(sub);
                 data.setImg(geturl);
                 arrayList.add(data);
-                Log.i("data7712",""+data);
-
 
                 RecycleviewAdapter rcAdapter = new RecycleviewAdapter(SubjectActivity.this, arrayList);
                 recyclerView.setAdapter(rcAdapter);
 
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                ShowData data =  new ShowData();
+                data.setSub(sub);
+                data.setImg("https://firebasestorage.googleapis.com/v0/b/quesapp-8d043.appspot.com/o/Subject%2Fdefaultbook.jpg?alt=media&token=c4404b07-2948-426d-8b94-dbe30cb85d2a");
+                arrayList.add(data);
+
+                RecycleviewAdapter rcAdapter = new RecycleviewAdapter(SubjectActivity.this, arrayList);
+                recyclerView.setAdapter(rcAdapter);
             }
         });
     }
