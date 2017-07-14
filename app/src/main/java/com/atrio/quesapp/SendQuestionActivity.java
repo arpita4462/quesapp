@@ -4,6 +4,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,7 +37,6 @@ public class SendQuestionActivity extends AppCompatActivity {
         btn_send=(Button) findViewById(R.id.btn_send);
         spinner= (Spinner) findViewById(R.id.spinner);
 
-
         ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
@@ -51,7 +51,7 @@ public class SendQuestionActivity extends AppCompatActivity {
             if(b!=null){
                 ArrayList<String> arr = (ArrayList<String>)b.getStringArrayList("array_list");
 //                Log.i("array77156425",""+arr);
-                ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, arr);
+                ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arr);
                 spinner.setAdapter(adapter);
 
             }
@@ -71,12 +71,19 @@ public class SendQuestionActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    sender_email=user.getEmail();
-                    String email ="info@atrio.co.in";
-                    String mail_subject = "Question";
-                    String message = "Question-"+et_ques.getText()+"\n\nAnswer-"+et_ans.getText()+"\n\ncategory-"+subject +"\n\nSend By-"+sender_email;
-                    SendMail sm = new SendMail(v.getContext(), email, mail_subject, message);
-                    sm.execute();
+                    if (!TextUtils.isEmpty(et_ques.getText()) && !TextUtils.isEmpty(et_ans.getText())){
+                        sender_email=user.getEmail();
+                        String email ="info@atrio.co.in";
+                        String mail_subject = "Question";
+                        String message = "Question-"+et_ques.getText()+"\n\nAnswer-"+et_ans.getText()+"\n\ncategory-"+subject +"\n\nSend By-"+sender_email;
+                        SendMail sm = new SendMail(v.getContext(), email, mail_subject, message);
+                        sm.execute();
+                    }else {
+                        Toast.makeText(getApplicationContext(), "Write Question and Answer", Toast.LENGTH_LONG).show();
+
+                    }
+
+
                 }
             });
 
