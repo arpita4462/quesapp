@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.atrio.quesapp.R;
@@ -80,7 +79,7 @@ public class CustomAdapter extends BaseAdapter {
         }else{
             holder = (ViewHolder) vi.getTag();
 
-            Log.i("data77",arrayList.get(i).getSub());
+            Log.i("data775",arrayList.get(i).getSub());
             holder.tv_tittle.setText(arrayList.get(i).getSub());
 
         }

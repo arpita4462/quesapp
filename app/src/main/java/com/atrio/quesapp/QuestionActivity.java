@@ -38,7 +38,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     int qno=001,correctValue =0,checkedRadioButtonID,total_question=0;
     SpotsDialog dialog;
     ArrayList<String> arrayList;
-    ArrayList<ListData>  list_data;
     int value ;
 
     @Override
@@ -67,7 +66,6 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         bt_pos9 = (Button) findViewById(R.id.bt_pos9);
         bt_pos10 = (Button) findViewById(R.id.bt_pos10);
         arrayList = new ArrayList<>();
-        list_data = new ArrayList<>();
 
 
         rg_option=(RadioGroup) findViewById(R.id.rg_option);

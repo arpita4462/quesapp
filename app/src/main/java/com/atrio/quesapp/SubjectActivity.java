@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -90,6 +91,8 @@ public class SubjectActivity extends AppCompatActivity {
                 data.setSub(sub);
                 data.setImg(geturl);
                 arrayList.add(data);
+                Log.i("data7712",""+data);
+
 
                 RecycleviewAdapter rcAdapter = new RecycleviewAdapter(SubjectActivity.this, arrayList);
                 recyclerView.setAdapter(rcAdapter);
