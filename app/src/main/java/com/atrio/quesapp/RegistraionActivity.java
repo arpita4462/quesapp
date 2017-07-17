@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,7 +69,7 @@ public class RegistraionActivity extends AppCompatActivity {
         password = mPasswordView.getText().toString();
         if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
             input_email.setError(getString(R.string.err_msg_email));
-        }else  if (TextUtils.isEmpty(password)) {
+        }else  if (TextUtils.isEmpty(password) || password.length()>6) {
             input_email.setErrorEnabled(false);
             input_pwd.setError(getString(R.string.error_incorrect_password));
         }else {

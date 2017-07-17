@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -35,7 +36,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     String tittle,correctAns,selectedAns,seriesNo,ques_noList,qno_list,explanation;
-    int qno=001,correctValue =0,checkedRadioButtonID,total_question=0;
+    int qno=001,correctValue =0,checkedRadioButtonID,total_question=0,quesno_ref;
     SpotsDialog dialog;
     ArrayList<String> arrayList;
     int value ;
@@ -94,6 +95,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         bt_pos8.setOnClickListener(this);
         bt_pos9.setOnClickListener(this);
         bt_pos10.setOnClickListener(this);
+        tv_back.setVisibility(View.INVISIBLE);
 
 
         //firebase database
@@ -113,6 +115,16 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 tv_explain.setVisibility(View.GONE);
                 tv_ques.startAnimation(animFadein);
                 rg_option.startAnimation(animMove);
+                quesno_ref = Integer.parseInt(tv_quesno.getText().toString());
+                if (quesno_ref <10){
+                    tv_back.setVisibility(View.INVISIBLE);
+                }else{
+                    tv_back.setVisibility(View.VISIBLE);
+                }
+                int value = Integer.parseInt(bt_pos1.getText().toString());
+                if (value ==1){
+                    tv_back.setVisibility(View.INVISIBLE);
+                }
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 int value1 = Integer.parseInt(tv_quesno.getText().toString());
                 value1++;
@@ -131,8 +143,62 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 String last_btn1 = String.format("%03d",last_btn);
 
                 if (ques_noList.equals(last_btn1)){
-                    getButton(last_btn1);
+                    String next_btn = String.format("%03d",last_btn+1);
+                    getButton(next_btn);
                 }
+            }
+        });
+        tv_back.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+
+                int btn_value = Integer.parseInt(bt_pos1.getText().toString())-1;
+
+                String subvalue1 = String.format("%03d",btn_value);
+                dialog.show();
+
+                Query query_back = db_ref.child(tittle).child(seriesNo).orderByKey().endAt("Q-"+subvalue1).limitToLast(10);
+
+                query_back.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        arrayList.clear();
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            arrayList.add(data.getKey());
+                        }
+                        for (int i =0;i<1;i++){
+                            String questype= arrayList.get(i);
+                            int ques = Integer.parseInt(questype.substring(questype.indexOf("-")+1,questype.length()));
+                            String sub_quesno = String.format("%03d",ques);
+                            getQuestion(sub_quesno);
+                            tv_explain.setVisibility(View.GONE);
+                            tv_ques.startAnimation(animFadein);
+                            rg_option.startAnimation(animMove);
+                            rb_opA.setChecked(false);
+                            rb_opB.setChecked(false);
+                            rb_opC.setChecked(false);
+                            rb_opD.setChecked(false);
+                            btn_sub.setEnabled(false);
+                            btn_sub.setBackgroundResource(R.color.centercolor);
+
+                        }
+
+                        sendData(arrayList);
+                        dialog.dismiss();
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
             }
         });
     }
@@ -177,6 +243,15 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         bt_pos9.setVisibility(View.INVISIBLE);
         bt_pos10.setVisibility(View.INVISIBLE);
 
+  try{
+        quesno_ref = Integer.parseInt(tv_quesno.getText().toString());
+        if (quesno_ref <10){
+            tv_back.setVisibility(View.INVISIBLE);
+        }else{
+            tv_back.setVisibility(View.VISIBLE);
+        }}catch (Exception e){
+
+    }
         for (int y = 0; y < arrayList.size(); y++) {
             switch (y) {
                 case 0:
@@ -185,6 +260,10 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     sub_data = Integer.parseInt(data.substring(data.indexOf("-")+1,data.length()));
                     data_btn = String.format("%01d",sub_data);
                     bt_pos1.setText(data_btn);
+                    int value = Integer.parseInt(bt_pos1.getText().toString());
+                    if (value ==1){
+                        tv_back.setVisibility(View.INVISIBLE);
+                    }
                     break;
                 case 1:
                     bt_pos2.setVisibility(View.VISIBLE);
@@ -316,6 +395,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                         correctAns = qModel.getCorrect();
                         explanation=qModel.getExplanation();
 
+                        Log.i("explain45",""+explanation);
                         dialog.dismiss();
 //                        attemptedques(sub_quesno);
                     }
@@ -341,6 +421,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                     bt_pos8.setVisibility(View.INVISIBLE);
                     bt_pos9.setVisibility(View.INVISIBLE);
                     bt_pos10.setVisibility(View.INVISIBLE);
+                    tv_back.setVisibility(View.INVISIBLE);
 
 
                     bt_done.setOnClickListener(new View.OnClickListener() {
@@ -567,12 +648,14 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 rg_option.startAnimation(animMove);
                 checkedRadioButtonID =rg_option.getCheckedRadioButtonId();
                 value = Integer.parseInt(bt_pos10.getText().toString());
+                int nextbtn = value+1;
+                String nextbtn_sub = String.format("%03d",nextbtn);
                 subvalue = String.format("%03d",value);
                 getQuestion(subvalue);
-                getButton(subvalue);
+
+                getButton(nextbtn_sub);
                 //getQuestion(qno_list);
                 correctAns=null;
-                explanation=null;
                 rb_opA.setChecked(false);
                 rb_opB.setChecked(false);
                 rb_opC.setChecked(false);
@@ -621,7 +704,14 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             rb_opB.setClickable(false);
             rb_opC.setClickable(false);
             rb_opD.setClickable(false);
-            tv_explain.setText("Explanation : "+explanation);
+            if (explanation.equals("undefined")){
+                tv_explain.setText("");
+
+            }else{
+                tv_explain.setText(explanation);
+
+            }
+
 
 //            db_ref.child("myquiz").child(tv_quesno.getText().toString()).setValue(rbselect.getText());
 
@@ -646,7 +736,13 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             rb_opB.setClickable(false);
             rb_opC.setClickable(false);
             rb_opD.setClickable(false);
-            tv_explain.setText("Explanation : "+explanation);
+            if (explanation.equals("undefined")){
+                tv_explain.setText("");
+
+            }else{
+                tv_explain.setText(explanation);
+
+            }
 
         }
 

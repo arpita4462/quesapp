@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mEmailSignInButton;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseUser user;
     private String email,password,timeSettings;
     private SpotsDialog dialog;
     private CustomRestpwd customRestpwd;
@@ -63,8 +64,11 @@ public class LoginActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+           user = firebaseAuth.getCurrentUser();
+//                if (user = )
                 if (user != null) {
+
                     // User is signed in
                     startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
                     finish();
@@ -144,6 +148,9 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+//                        user.getProviderId()
+
                         dialog.dismiss();
                         Log.i("success111", "" + task.isSuccessful());
 
