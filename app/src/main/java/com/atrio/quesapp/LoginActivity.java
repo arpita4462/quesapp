@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
            user = firebaseAuth.getCurrentUser();
-                Log.i("signed_in:","" + user.getEmail());
+//                Log.i("signed_in:","" + user.getEmail());
 
 //                if (user = )
                 if (user != null) {
