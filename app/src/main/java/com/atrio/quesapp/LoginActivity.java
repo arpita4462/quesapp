@@ -75,42 +75,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
            user = firebaseAuth.getCurrentUser();
-                Log.i("signed_in:","" + user);
+                Log.i("signed_in:","" + user.getEmail());
 
 //                if (user = )
                 if (user != null) {
-
-                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-
-                    Query userquery= rootRef.child("UserDetail").orderByChild("emailId").equalTo(email);
-
-                    userquery.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                                UserDetail user=dataSnapshot1.getValue(UserDetail.class);
-                                deviceid=user.getDeviceId();
-                                Log.i("currentdevice25",""+deviceid);
-
-                                if (!deviceid.equals(currentdeviceid)) {
-
-                                    Toast.makeText(getApplicationContext(), "You are already logged in.",Toast.LENGTH_SHORT).show();
-                                }else {
-                                    startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
-                                    finish();
-                                }
-
-
-
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                    checkIfEmailVerified();
                     // User is signed in
 
                 } else {
@@ -124,6 +93,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 attemptLogin();
+
+
             }
         });
 
@@ -188,10 +159,21 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        user.isEmailVerified();
                         dialog.dismiss();
                         Log.i("success111", "" + task.isSuccessful());
+
+//                        checkIfEmailVerified();
+                      /*  user = mAuth.getCurrentUser();
+
+                        if (user.isEmailVerified()){
+
+                        }else
+                        {
+                            FirebaseAuth.getInstance().signOut();
+                            customVerifyEmail = new CustomVerifyEmail(LoginActivity.this);
+                            customVerifyEmail.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            customVerifyEmail.show();
+                        }*/
 
 //                                    FirebaseUser user = mAuth.getCurrentUser();
 //                                    updateUI(user);
@@ -211,6 +193,75 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void checkIfEmailVerified() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user.isEmailVerified())
+        {
+
+            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+
+            Query userquery= rootRef.child("UserDetail").orderByChild("emailId").equalTo(email);
+            userquery.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        UserDetail user=dataSnapshot1.getValue(UserDetail.class);
+                        deviceid=user.getDeviceId();
+                        Log.i("currentdevice25",""+deviceid);
+
+                        if (!deviceid.equals(currentdeviceid)) {
+
+                            Toast.makeText(getApplicationContext(), "You are already logged in.",Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
+            finish();
+            // user is verified, so you can finish this activity or send user to activity which you want.
+//            finish();
+//            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            // email is not verified, so just prompt the message to the user and restart this activity.
+            // NOTE: don't forget to log out the user.
+            sendEmailVerify();
+            FirebaseAuth.getInstance().signOut();
+            Toast.makeText(LoginActivity.this, "Verify your Email.", Toast.LENGTH_SHORT).show();
+
+
+
+            //restart this activity
+            /*Intent i=new Intent(LoginActivity.this,LoginActivity.class);
+            startActivity(i);
+            finish();*/
+
+        }
+    }
+
+    private void sendEmailVerify() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+
+//                            Log.d(TAG, "Email sent.");
+                        }
+                    }
+                });
+    }
 
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
