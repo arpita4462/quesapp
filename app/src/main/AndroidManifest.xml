@@ -27,8 +27,9 @@
         <activity android:name=".ReasoingActivity" />
         <activity android:name=".SelectLangActivity" />
         <activity android:name=".PaymentActivity" />
-        <activity android:name=".SendQuestionActivity"></activity>
-        <activity android:name=".SeriesActivity"></activity>
+        <activity android:name=".SendQuestionActivity" />
+        <activity android:name=".SeriesActivity" />
+        <activity android:name=".custom.CustomVerifyEmail"></activity>
     </application>
 
 </manifest>
