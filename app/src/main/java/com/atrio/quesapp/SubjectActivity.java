@@ -58,7 +58,7 @@ public class SubjectActivity extends AppCompatActivity {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         storage=FirebaseStorage.getInstance();
         storageRef = storage.getReference("Subject");
-        Query query_catlist = rootRef.orderByKey();
+        Query query_catlist = rootRef.child("subjectList").orderByKey();
         query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
