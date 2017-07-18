@@ -9,15 +9,27 @@ public class UserDetail {
     String createdDated;
     String emailId;
     String userId;
+    String deviceId;
+
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
 
     public UserDetail() {
     }
 
-    public UserDetail(String userName, String createdDated, String emailId, String userId) {
+    public UserDetail(String userName, String createdDated, String emailId, String userId, String deviceId) {
         this.userName = userName;
         this.createdDated = createdDated;
         this.emailId = emailId;
         this.userId = userId;
+        this.deviceId=deviceId;
     }
 
     public String getUserName() {

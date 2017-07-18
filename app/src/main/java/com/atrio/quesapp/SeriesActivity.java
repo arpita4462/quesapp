@@ -46,7 +46,7 @@ public class SeriesActivity extends AppCompatActivity {
         final SpotsDialog dialog = new SpotsDialog(SeriesActivity.this,R.style.Custom);
         dialog.show();
 
-        Query query_listview = m_db.child(tittle).orderByKey();
+        Query query_listview = m_db.child("subjectList").child(tittle).orderByKey();
         query_listview.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -159,7 +159,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
                 String subvalue1 = String.format("%03d",btn_value);
                 dialog.show();
 
-                Query query_back = db_ref.child(tittle).child(seriesNo).orderByKey().endAt("Q-"+subvalue1).limitToLast(10);
+                Query query_back = db_ref.child("subjectList").child(tittle).child(seriesNo).orderByKey().endAt("Q-"+subvalue1).limitToLast(10);
 
                 query_back.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -206,7 +206,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     private void getButton(String qno_list) {
 
 
-        Query query_btn = db_ref.child(tittle).child(seriesNo).orderByKey().startAt("Q-"+qno_list).limitToFirst(10);
+        Query query_btn = db_ref.child("subjectList").child(tittle).child(seriesNo).orderByKey().startAt("Q-"+qno_list).limitToFirst(10);
         query_btn.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -373,7 +373,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     private void getQuestion(String qno){
         dialog.show();
 
-        Query getquestion=db_ref.child(tittle).child(seriesNo).orderByKey().equalTo("Q-"+qno);
+        Query getquestion=db_ref.child("subjectList").child(tittle).child(seriesNo).orderByKey().equalTo("Q-"+qno);
 
         getquestion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

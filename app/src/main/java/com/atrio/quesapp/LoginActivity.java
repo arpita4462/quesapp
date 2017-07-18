@@ -17,11 +17,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atrio.quesapp.custom.CustomRestpwd;
+import com.atrio.quesapp.model.UserDetail;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import dmax.dialog.SpotsDialog;
 
@@ -38,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
-    private String email,password,timeSettings;
+    private String email,password,timeSettings,deviceid,currentdeviceid;
     private SpotsDialog dialog;
     private CustomRestpwd customRestpwd;
 
@@ -58,6 +65,8 @@ public class LoginActivity extends AppCompatActivity {
 
       dialog = new SpotsDialog(LoginActivity.this,R.style.Custom);
 
+        currentdeviceid= Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        Log.i("currentdevice",""+currentdeviceid);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -66,13 +75,44 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
            user = firebaseAuth.getCurrentUser();
+                Log.i("signed_in:","" + user);
+
 //                if (user = )
                 if (user != null) {
 
+                    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+
+                    Query userquery= rootRef.child("UserDetail").orderByChild("emailId").equalTo(email);
+
+                    userquery.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                UserDetail user=dataSnapshot1.getValue(UserDetail.class);
+                                deviceid=user.getDeviceId();
+                                Log.i("currentdevice25",""+deviceid);
+
+                                if (!deviceid.equals(currentdeviceid)) {
+
+                                    Toast.makeText(getApplicationContext(), "You are already logged in.",Toast.LENGTH_SHORT).show();
+                                }else {
+                                    startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
+                                    finish();
+                                }
+
+
+
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     // User is signed in
-                    startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
-                    finish();
-//                    Log.i("signed_in:","" + user.getUid());
+
                 } else {
                     // User is signed out
 //                    Log.i("signed_out",""+user);
@@ -149,8 +189,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-//                        user.getProviderId()
-
+                        user.isEmailVerified();
                         dialog.dismiss();
                         Log.i("success111", "" + task.isSuccessful());
 
