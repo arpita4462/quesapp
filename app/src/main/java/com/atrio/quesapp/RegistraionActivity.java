@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,10 +95,13 @@ public class RegistraionActivity extends AppCompatActivity {
                             emailId=user.getEmail();
                             createdDated=formatter.format(dt);
                             deviceId= Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-                            Log.i("devicename",""+deviceId);
+//                            Log.i("devicename",""+deviceId);
+
                             createUserDetail(userName,createdDated,emailId,userId,deviceId);
+                            sendEmailVerify();
                             FirebaseAuth.getInstance().signOut();
                             Toast.makeText(RegistraionActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegistraionActivity.this, "Verify Your Email-ID.", Toast.LENGTH_SHORT).show();
                             Intent intent =new Intent(RegistraionActivity.this,LoginActivity.class);
                             startActivity(intent);
                             finish();
@@ -118,6 +120,21 @@ public class RegistraionActivity extends AppCompatActivity {
                 });
 
         }
+    }
+
+    private void sendEmailVerify() {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+
+//                            Log.d(TAG, "Email sent.");
+                        }
+                    }
+                });
     }
 
     private void createUserDetail(String userName, String createdDated, String emailId, String userId, String deviceId){
