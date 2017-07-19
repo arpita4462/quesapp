@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,9 +61,6 @@ public class CustomUserVerification extends Dialog {
         db_instance = FirebaseDatabase.getInstance();
         db_ref = db_instance.getReference();
         currentdeviceid= Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-//        Log.i("detail45",""+user.getUid());
-        Log.i("detail455",""+currentdeviceid);
-        Log.i("detail452",""+db_ref);
         bt_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +75,6 @@ public class CustomUserVerification extends Dialog {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getChildrenCount()==0){
-
                                 Intent i= new Intent(mycontext, RegistraionActivity.class);
                                 mycontext.startActivity(i);
                             }else {

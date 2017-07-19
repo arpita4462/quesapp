@@ -6,13 +6,17 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.atrio.quesapp.Adapter.RecycleviewAdapter;
 import com.atrio.quesapp.model.ShowData;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,12 +40,24 @@ public class SubjectActivity extends AppCompatActivity {
     ArrayList<String> arr;
     private GridLayoutManager lLayout;
     private FirebaseStorage storage;
+    private FirebaseAuth mAuth;
     private StorageReference storageRef;
     Button bt_ques;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject);
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        Log.i("userstatus",""+user);
+        if (user==null){
+            Toast.makeText(getBaseContext(), "You are logged out from this device", Toast.LENGTH_SHORT).show();
+            Intent move = new Intent(SubjectActivity.this,LoginActivity.class);
+            startActivity(move);
+            finish();
+        }
+
         arrayList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recycleview);
         bt_ques = (Button) findViewById(R.id.bt_question);

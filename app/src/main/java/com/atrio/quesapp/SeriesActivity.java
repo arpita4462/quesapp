@@ -3,13 +3,17 @@ package com.atrio.quesapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +31,7 @@ public class SeriesActivity extends AppCompatActivity {
     ListView lv_series;
     String tittle,seriesNo;
     DatabaseReference m_db;
+    private FirebaseAuth mAuth;
     FirebaseListAdapter<Object> mAdapter;
     ArrayList<String> arrayseries;
     @Override
@@ -34,6 +39,16 @@ public class SeriesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_series);
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        Log.i("userstatus",""+user);
+
+        if (user==null){
+            Toast.makeText(getBaseContext(), "You are logged out from this device", Toast.LENGTH_SHORT).show();
+            Intent move = new Intent(SeriesActivity.this,LoginActivity.class);
+            startActivity(move);
+            finish();
+        }
         tv_subject=(TextView)findViewById(R.id.tv_subject);
         lv_series=(ListView) findViewById(R.id.listview);
 

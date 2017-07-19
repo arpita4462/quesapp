@@ -1,10 +1,12 @@
 package com.atrio.quesapp;
 
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +34,15 @@ public class SendQuestionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_question);
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        Log.i("userstatus",""+user);
+        if (user==null){
+            Toast.makeText(getBaseContext(), "You are logged out from this device", Toast.LENGTH_SHORT).show();
+            Intent move = new Intent(SendQuestionActivity.this,LoginActivity.class);
+            startActivity(move);
+            finish();
+        }
         et_ques=(EditText)findViewById(R.id.et_ques);
         et_ans=(EditText)findViewById(R.id.et_ans);
         btn_send=(Button) findViewById(R.id.btn_send);
