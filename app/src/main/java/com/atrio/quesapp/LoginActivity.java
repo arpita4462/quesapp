@@ -162,11 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                         dialog.dismiss();
                         Log.i("success111", "" + task.isSuccessful());
 
-
-//                                    FirebaseUser user = mAuth.getCurrentUser();
-//                                    updateUI(user);
                     } else {
-                        // If sign in fails, display a message to the user.
                         Log.i("failure", "" + task.getException());
                         dialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Authentication failed.",
@@ -176,8 +172,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             });
-//            mAuthTask = new UserLoginTask(email, password);
-//            mAuthTask.execute((Void) null);
         }
     }
 
@@ -200,14 +194,12 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (!deviceid.equals(currentdeviceid)) {
                             FirebaseAuth.getInstance().signOut();
-
-                           // Toast.makeText(getApplicationContext(), "You are already logged in.",Toast.LENGTH_SHORT).show();
                             CustomUserVerification customUserVerification = new CustomUserVerification(LoginActivity.this);
                             customUserVerification.requestWindowFeature(Window.FEATURE_NO_TITLE);
                             customUserVerification.show();
 
                         }else {
-                            //Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                            checkdeviceID();
                             startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
                             finish();
                         }
@@ -219,15 +211,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             });
-
-            // user is verified, so you can finish this activity or send user to activity which you want.
-//            finish();
-//            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            // email is not verified, so just prompt the message to the user and restart this activity.
-            // NOTE: don't forget to log out the user.
             sendEmailVerify();
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(LoginActivity.this, "Verify your Email.", Toast.LENGTH_SHORT).show();
@@ -251,8 +237,9 @@ public class LoginActivity extends AppCompatActivity {
 
                         FirebaseAuth.getInstance().signOut();
                         Toast.makeText(getApplicationContext(), "You are logged out from this device.",Toast.LENGTH_SHORT).show();
-                       /*startActivity(new Intent(LoginActivity.this,LoginActivity.class));
-                        finish();*/
+startActivity(new Intent(LoginActivity.this,LoginActivity.class));
+                        finish();
+
                     }else {
                        //                            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this,SubjectActivity.class));

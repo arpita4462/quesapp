@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
 import com.atrio.quesapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,7 +44,6 @@ public class CustomRestpwd extends Dialog {
         inputLayoutName = (TextInputLayout)findViewById(R.id.input_layout_frg_id);
 
         auth = FirebaseAuth.getInstance();
-
         bt_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
