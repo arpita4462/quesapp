@@ -194,27 +194,29 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkIfEmailVerified() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user.isEmailVerified())
         {
 
-            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+            final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
-            Query userquery= rootRef.child("UserDetail").orderByChild("emailId").equalTo(email);
+            Query userquery= rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
             userquery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                        UserDetail user=dataSnapshot1.getValue(UserDetail.class);
-                        deviceid=user.getDeviceId();
+                        UserDetail userDetail=dataSnapshot1.getValue(UserDetail.class);
+                        deviceid=userDetail.getDeviceId();
                         Log.i("currentdevice25",""+deviceid);
 
                         if (!deviceid.equals(currentdeviceid)) {
-
-                            Toast.makeText(getApplicationContext(), "You are already logged in.",Toast.LENGTH_SHORT).show();
+                          Toast.makeText(getApplicationContext(), "You are already logged in.",Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+
+                            checkdeviceID();
+                            startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
+                            finish();
                         }
                     }
                 }
@@ -224,28 +226,51 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             });
-            startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
-            finish();
-            // user is verified, so you can finish this activity or send user to activity which you want.
-//            finish();
-//            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+
         }
         else
         {
-            // email is not verified, so just prompt the message to the user and restart this activity.
-            // NOTE: don't forget to log out the user.
             sendEmailVerify();
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(LoginActivity.this, "Verify your Email.", Toast.LENGTH_SHORT).show();
 
-
-
-            //restart this activity
-            /*Intent i=new Intent(LoginActivity.this,LoginActivity.class);
-            startActivity(i);
-            finish();*/
-
         }
+    }
+
+    private void checkdeviceID() {
+        final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+
+        Query checkdeviceidquery= rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
+        checkdeviceidquery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    UserDetail userDetail=dataSnapshot1.getValue(UserDetail.class);
+                    deviceid=userDetail.getDeviceId();
+                    Log.i("currentdevice25",""+deviceid);
+
+                    if (!deviceid.equals(currentdeviceid)) {
+
+                        FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(getApplicationContext(), "You are logged out from this device.",Toast.LENGTH_SHORT).show();
+                       /*startActivity(new Intent(LoginActivity.this,LoginActivity.class));
+                        finish();*/
+                    }else {
+                       //                            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
+                        finish();
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private void sendEmailVerify() {
