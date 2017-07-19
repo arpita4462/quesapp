@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atrio.quesapp.custom.CustomRestpwd;
+import com.atrio.quesapp.custom.CustomUserVerification;
 import com.atrio.quesapp.model.UserDetail;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -75,9 +76,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
            user = firebaseAuth.getCurrentUser();
-                Log.i("signed_in:","" + user.getEmail());
 
-//                if (user = )
+               // Log.i("signed_in:","" + user.getEmail());
                 if (user != null) {
                     checkIfEmailVerified();
                     // User is signed in
@@ -162,18 +162,6 @@ public class LoginActivity extends AppCompatActivity {
                         dialog.dismiss();
                         Log.i("success111", "" + task.isSuccessful());
 
-//                        checkIfEmailVerified();
-                      /*  user = mAuth.getCurrentUser();
-
-                        if (user.isEmailVerified()){
-
-                        }else
-                        {
-                            FirebaseAuth.getInstance().signOut();
-                            customVerifyEmail = new CustomVerifyEmail(LoginActivity.this);
-                            customVerifyEmail.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            customVerifyEmail.show();
-                        }*/
 
 //                                    FirebaseUser user = mAuth.getCurrentUser();
 //                                    updateUI(user);
@@ -201,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
 
             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
 
-            Query userquery= rootRef.child("UserDetail").orderByChild("emailId").equalTo(email);
+            Query userquery= rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
             userquery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -211,10 +199,17 @@ public class LoginActivity extends AppCompatActivity {
                         Log.i("currentdevice25",""+deviceid);
 
                         if (!deviceid.equals(currentdeviceid)) {
+                            FirebaseAuth.getInstance().signOut();
 
-                            Toast.makeText(getApplicationContext(), "You are already logged in.",Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getApplicationContext(), "You are already logged in.",Toast.LENGTH_SHORT).show();
+                            CustomUserVerification customUserVerification = new CustomUserVerification(LoginActivity.this);
+                            customUserVerification.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            customUserVerification.show();
+
                         }else {
-                            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
+                            finish();
                         }
                     }
                 }
@@ -224,8 +219,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             });
-            startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
-            finish();
+
             // user is verified, so you can finish this activity or send user to activity which you want.
 //            finish();
 //            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
