@@ -95,12 +95,10 @@ public class RegistraionActivity extends AppCompatActivity {
                             emailId=user.getEmail();
                             createdDated=formatter.format(dt);
                             deviceId= Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-//                            Log.i("devicename",""+deviceId);
-
                             createUserDetail(userName,createdDated,emailId,userId,deviceId);
                             sendEmailVerify();
                             FirebaseAuth.getInstance().signOut();
-                            //Toast.makeText(RegistraionActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
+//                            Toast.makeText(RegistraionActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
                             Toast.makeText(RegistraionActivity.this, "Verify Your Email-ID.", Toast.LENGTH_SHORT).show();
                             Intent intent =new Intent(RegistraionActivity.this,LoginActivity.class);
                             startActivity(intent);
