@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 public class CustomUserVerification extends Dialog {
 
     Context mycontext;
-    Button bt_send;
+    Button bt_send,btn_cancel;
     EditText et_email;
     TextInputLayout inputLayoutName;
     private FirebaseAuth auth;
@@ -56,6 +56,7 @@ public class CustomUserVerification extends Dialog {
         bt_send = (Button) findViewById(R.id.btn_send_mail);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         inputLayoutName = (TextInputLayout) findViewById(R.id.visible);
+        btn_cancel = (Button)findViewById(R.id.btn_cancel);
 
         auth = FirebaseAuth.getInstance();
 //        user = auth.getCurrentUser();
@@ -65,6 +66,12 @@ public class CustomUserVerification extends Dialog {
 //        Log.i("detail45",""+user.getUid());
         Log.i("detail455",""+currentdeviceid);
         Log.i("detail452",""+db_ref);
+       btn_cancel.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               dismiss();
+           }
+       });
         bt_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

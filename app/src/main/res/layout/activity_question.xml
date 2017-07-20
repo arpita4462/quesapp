@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.atrio.quesapp.QuestionActivity"
-    tools:layout_editor_absoluteY="25dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:context="com.atrio.quesapp.QuestionActivity">
 
 
     <ScrollView
@@ -21,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="center"
             android:gravity="center_vertical"
             tools:layout_editor_absoluteY="0dp"
             tools:layout_editor_absoluteX="8dp">
@@ -31,11 +28,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp" />
             <LinearLayout
@@ -49,7 +41,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:layout_gravity="center"
                     android:textSize="13sp"
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold"
@@ -68,7 +59,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:layout_marginRight="2dp"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="8dp" />
+                     />
             </LinearLayout>
 
             <RadioGroup
