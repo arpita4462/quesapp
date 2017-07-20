@@ -14,7 +14,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.atrio.quesapp.model.QuestionModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +38,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     Animation animFadein,animMove;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
+    private FirebaseAuth mAuth;
     String tittle,correctAns,selectedAns,seriesNo,ques_noList,qno_list,explanation;
     int qno=001,correctValue =0,checkedRadioButtonID,total_question=0,quesno_ref;
     SpotsDialog dialog;
@@ -45,6 +49,18 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        Log.i("userstatus",""+user);
+
+        if (user==null){
+            Toast.makeText(getBaseContext(), "You are logged out from this device", Toast.LENGTH_SHORT).show();
+            Intent move = new Intent(QuestionActivity.this,LoginActivity.class);
+            startActivity(move);
+            finish();
+        }
+
         tv_sub=(TextView)findViewById(R.id.tv_sub);
         tv_back = (TextView)findViewById(R.id.tv_back);
         tv_ques=(TextView)findViewById(R.id.tv_ques);

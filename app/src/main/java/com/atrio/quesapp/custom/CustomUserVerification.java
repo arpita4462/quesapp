@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -86,7 +85,6 @@ public class CustomUserVerification extends Dialog {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.getChildrenCount()==0){
-
                                 Intent i= new Intent(mycontext, RegistraionActivity.class);
                                 mycontext.startActivity(i);
                             }else {

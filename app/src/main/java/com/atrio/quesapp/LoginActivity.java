@@ -67,8 +67,8 @@ public class LoginActivity extends AppCompatActivity {
       dialog = new SpotsDialog(LoginActivity.this,R.style.Custom);
 
         currentdeviceid= Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        Log.i("currentdevice",""+currentdeviceid);
-
+//        Log.i("currentdevice",""+currentdeviceid);
+//        checkdeviceID();
         mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -76,13 +76,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
            user = firebaseAuth.getCurrentUser();
-
-               // Log.i("signed_in:","" + user.getEmail());
                 if (user != null) {
                     checkIfEmailVerified();
                     // User is signed in
-
                 } else {
+                    FirebaseAuth.getInstance().signOut();
                     // User is signed out
 //                    Log.i("signed_out",""+user);
                 }
@@ -165,8 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         Log.i("failure", "" + task.getException());
                         dialog.dismiss();
-                        Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Authentication failed.",Toast.LENGTH_SHORT).show();
 //                                    updateUI(null);
                     }
 
@@ -190,8 +187,6 @@ public class LoginActivity extends AppCompatActivity {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         UserDetail userDetail=dataSnapshot1.getValue(UserDetail.class);
                         deviceid=userDetail.getDeviceId();
-                        Log.i("currentdevice25",""+deviceid);
-
                         if (!deviceid.equals(currentdeviceid)) {
                             FirebaseAuth.getInstance().signOut();
                             CustomUserVerification customUserVerification = new CustomUserVerification(LoginActivity.this);
@@ -200,7 +195,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         }else {
-                            checkdeviceID();
                             startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
                             finish();
                         }
@@ -220,49 +214,6 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Verify your Email.", Toast.LENGTH_SHORT).show();
 
         }
-    }
-
-    private void checkdeviceID() {
-        final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-try {
-
-
-    Query checkdeviceidquery = rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
-    checkdeviceidquery.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
-                deviceid = userDetail.getDeviceId();
-                Log.i("currentdevice25", "" + deviceid);
-
-                if (!deviceid.equals(currentdeviceid)) {
-
-                    FirebaseAuth.getInstance().signOut();
-                    Toast.makeText(getApplicationContext(), "You are logged out from this device.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
-                    finish();
-
-                } else {
-                    //                            Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, SubjectActivity.class));
-                    finish();
-
-                }
-            }
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    });
-}catch (Exception e){
-    e.printStackTrace();
-}
-
-
     }
 
     private void sendEmailVerify() {
