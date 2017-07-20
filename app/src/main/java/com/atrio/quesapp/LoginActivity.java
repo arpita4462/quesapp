@@ -175,37 +175,41 @@ public class LoginActivity extends AppCompatActivity {
     private void checkIfEmailVerified() {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if (user.isEmailVerified())
-        {
-
-            final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-
-            Query userquery= rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
-            userquery.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                        UserDetail userDetail=dataSnapshot1.getValue(UserDetail.class);
-                        deviceid=userDetail.getDeviceId();
-                        if (!deviceid.equals(currentdeviceid)) {
-                            FirebaseAuth.getInstance().signOut();
-                            CustomUserVerification customUserVerification = new CustomUserVerification(LoginActivity.this);
-                            customUserVerification.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            customUserVerification.show();
+        if (user.isEmailVerified()) {
+            try {
 
 
-                        }else {
-                            startActivity(new Intent(LoginActivity.this,SubjectActivity.class));
-                            finish();
+                final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+
+                Query userquery = rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
+                userquery.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
+                            deviceid = userDetail.getDeviceId();
+                            if (!deviceid.equals(currentdeviceid)) {
+                                FirebaseAuth.getInstance().signOut();
+                                CustomUserVerification customUserVerification = new CustomUserVerification(LoginActivity.this);
+                                customUserVerification.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                customUserVerification.show();
+
+
+                            } else {
+                                startActivity(new Intent(LoginActivity.this, SubjectActivity.class));
+                                finish();
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         else
         {
