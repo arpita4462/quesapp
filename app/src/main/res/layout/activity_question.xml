@@ -59,7 +59,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:layout_marginRight="2dp"
                     android:layout_marginLeft="5dp"
-                     />
+                    />
             </LinearLayout>
 
             <RadioGroup
