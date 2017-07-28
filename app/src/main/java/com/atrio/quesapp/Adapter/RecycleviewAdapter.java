@@ -78,6 +78,7 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
             Intent intent = new Intent(view.getContext(), SeriesActivity.class);
             Log.i("tittle44",""+tittle);
             intent.putExtra("Sub",tittle);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             view.getContext().startActivity(intent);
 
         }

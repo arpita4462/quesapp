@@ -29,7 +29,8 @@
         <activity android:name=".PaymentActivity" />
         <activity android:name=".SendQuestionActivity" />
         <activity android:name=".SeriesActivity" />
-        <activity android:name=".custom.CustomVerifyEmail"></activity>
+        <activity android:name=".custom.CustomVerifyEmail" />
+        <activity android:name=".NewDeviceUser"></activity>
     </application>
 
 </manifest>

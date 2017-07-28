@@ -7,6 +7,10 @@ package com.atrio.quesapp.model;
 public class ShowData {
     String sub,img;
 
+    public ShowData() {
+        super();
+    }
+
     public String getSub() {
         return sub;
     }

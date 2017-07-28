@@ -2,6 +2,7 @@ package com.atrio.quesapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atrio.quesapp.model.QuestionModel;
+import com.atrio.quesapp.model.UserDetail;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,27 +42,18 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     private FirebaseAuth mAuth;
-    String tittle,correctAns,selectedAns,seriesNo,ques_noList,qno_list,explanation;
+    String tittle,correctAns,selectedAns,seriesNo,ques_noList,qno_list,explanation,currentdeviceid;
     int qno=001,correctValue =0,checkedRadioButtonID,total_question=0,quesno_ref;
     SpotsDialog dialog;
     ArrayList<String> arrayList;
     int value ;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        Log.i("userstatus",""+user);
-
-        if (user==null){
-            Toast.makeText(getBaseContext(), "You are logged out from this device", Toast.LENGTH_SHORT).show();
-            Intent move = new Intent(QuestionActivity.this,LoginActivity.class);
-            startActivity(move);
-            finish();
-        }
 
         tv_sub=(TextView)findViewById(R.id.tv_sub);
         tv_back = (TextView)findViewById(R.id.tv_back);
@@ -113,10 +107,87 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
         bt_pos10.setOnClickListener(this);
         tv_back.setVisibility(View.INVISIBLE);
 
+        /*
 
-        //firebase database
+        check log in through another device
+         */
         db_instance = FirebaseDatabase.getInstance();
         db_ref = db_instance.getReference();
+
+        currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        user=FirebaseAuth.getInstance().getCurrentUser();
+
+
+        Query query_realtimecheck = db_ref.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
+        Log.i("Querry66", "" + query_realtimecheck);
+        query_realtimecheck.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
+                String deviceid = userDetail.getDeviceId();
+                Toast.makeText(QuestionActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuestionActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                if (deviceid.equals(currentdeviceid)) {
+                    Toast.makeText(QuestionActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+
+                } else {
+                    FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(QuestionActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+
+
+
+                }
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                //Toast.makeText(SubjectActivity.this,""+dataSnapshot.getValue(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuestionActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
+                String deviceid = userDetail.getDeviceId();
+                Toast.makeText(QuestionActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
+
+                if (deviceid.equals(currentdeviceid)) {
+                    Toast.makeText(QuestionActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                } else {
+                    FirebaseAuth.getInstance().signOut();
+                    Toast.makeText(QuestionActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
+                    Intent isend = new Intent(QuestionActivity.this,LoginActivity.class);
+                    startActivity(isend);
+                    finish();
+
+
+                }
+
+
+                //Toast.makeText(SubjectActivity.this,"change"+dataSnapshot.getChildrenCount(),Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(QuestionActivity.this, "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        /*
+
+         */
+
 
         qno_list = String.format("%03d",qno);
         getButton(qno_list);
