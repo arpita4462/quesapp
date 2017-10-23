@@ -147,6 +147,8 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                 qno++;
                 qno_list = String.format("%03d", qno);
                 getQuestion(qno_list);
+                tv_quess.startAnimation(animFadein);
+                tv_ans.startAnimation(animMove);
             }
         });
 
@@ -220,6 +222,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
     @Override
     public void onAnimationStart(Animation animation) {
+
 
     }
 

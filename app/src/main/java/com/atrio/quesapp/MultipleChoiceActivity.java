@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -23,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class MultipleChoiceActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+public class MultipleChoiceActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, Animation.AnimationListener {
 
     String tittle,lang,qno_list,correct_ans,selectedAns;
     int qno = 001 ,checkedRadioButtonID;
@@ -34,6 +36,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
     private FirebaseAuth mAuth;
     RadioGroup rd_grp;
     RadioButton rb_opA,rb_opB,rb_opC,rb_opD,rbselect,rbcorrect;
+    Animation animFadein,animMove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +62,26 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         user = FirebaseAuth.getInstance().getCurrentUser();
         m_db = FirebaseDatabase.getInstance().getReference();
 
+        animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        animMove = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
+        animFadein.setAnimationListener(this);
+        animMove.setAnimationListener(this);
+
         tv_tittle.setText(tittle);
         qno_list = String.format("%03d", qno);
         getQuestion(qno_list);
+        bt_next.setBackgroundResource(R.color.centercolor);
+        bt_next.setEnabled(false);
 
         bt_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 rd_grp.clearCheck();
+                tv_quess.startAnimation(animFadein);
+                rd_grp.startAnimation(animMove);
+                bt_next.setBackgroundResource(R.color.centercolor);
+                bt_next.setEnabled(false);
                // checkedRadioButtonID = rd_grp.getCheckedRadioButtonId();
                 rd_grp.setOnCheckedChangeListener(MultipleChoiceActivity.this);
                 qno++;
@@ -156,6 +171,8 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
 
+        bt_next.setEnabled(true);
+        bt_next.setBackgroundResource(R.color.colorAccent);
         rbselect = (RadioButton)radioGroup.findViewById(i);
         rbcorrect= (RadioButton)radioGroup.findViewById(i);
 
@@ -209,6 +226,21 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 
             }
         }
+
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
 
     }
 }
