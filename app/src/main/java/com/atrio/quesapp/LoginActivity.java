@@ -185,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("print55","stop");
 
        clicked = false;
-       LoginActivity.this.finish();
+      // LoginActivity.this.finish();
 
     }
 

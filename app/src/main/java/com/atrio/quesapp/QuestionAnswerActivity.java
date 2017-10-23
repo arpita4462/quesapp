@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class QuestionAnswerActivity extends AppCompatActivity {
+public class QuestionAnswerActivity extends AppCompatActivity implements Animation.AnimationListener{
 
     String currentdeviceid, tittle, lang, qno_list;
     FirebaseUser user;
@@ -32,13 +34,14 @@ public class QuestionAnswerActivity extends AppCompatActivity {
     public TextView tv_tittle, tv_score, tv_quess, tv_ans;
     int qno = 001;
     Button bt_next;
+    Animation animFadein,animMove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_answer);
         tv_tittle = (TextView) findViewById(R.id.tv_tittle);
-       /* tv_score = (TextView) findViewById(R.id.tv_score);
+        tv_score = (TextView) findViewById(R.id.tv_score);
         tv_quess = (TextView) findViewById(R.id.tv_quesstion);
         tv_ans = (TextView) findViewById(R.id.tv_answer);
         bt_next = (Button) findViewById(R.id.bt_next);
@@ -49,17 +52,24 @@ public class QuestionAnswerActivity extends AppCompatActivity {
         tittle = i.getStringExtra("Sub");
         lang = i.getStringExtra("lang");
 
+        animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        animMove = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
+        animFadein.setAnimationListener(this);
+        animMove.setAnimationListener(this);
+
         tv_tittle.setText(tittle);
         qno_list = String.format("%03d", qno);
         getQuestion(qno_list);
 
-       *//* Log.i("qno_list11",""+qno_list);
-        Log.i("tittle11",""+tittle);
-        Log.i("lang11",""+lang);*//*
 
-        *//**
+
+       /* Log.i("qno_list11",""+qno_list);
+        Log.i("tittle11",""+tittle);
+        Log.i("lang11",""+lang);*/
+
+        /**
          * Querry for login with another device with same email Id
-         *//*
+         */
         Query query_realtimecheck = m_db.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
         // Log.i("Querry66", "" + query_realtimecheck);
         query_realtimecheck.addChildEventListener(new ChildEventListener() {
@@ -68,8 +78,8 @@ public class QuestionAnswerActivity extends AppCompatActivity {
 
                 UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                 String deviceid = userDetail.getDeviceId();
-               *//* Toast.makeText(QuestionAnswerActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
-                Toast.makeText(QuestionAnswerActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();*//*
+               /* Toast.makeText(QuestionAnswerActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                Toast.makeText(QuestionAnswerActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();*/
                 if (deviceid.equals(currentdeviceid)) {
                     //Toast.makeText(QuestionAnswerActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
 
@@ -123,14 +133,14 @@ public class QuestionAnswerActivity extends AppCompatActivity {
 
             }
         });
-        *//*
+        /*
 
         End
-         *//*
+         */
 
-         *//*
+         /*
    Querry for  next question
-   *//*
+   */
 
         bt_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,13 +153,13 @@ public class QuestionAnswerActivity extends AppCompatActivity {
 
 
 
-  *//* end*//*
+  /* end*/
 
 
     }
- *//*
+ /*
         Queery for  total question qnd attempted question
-         *//*
+         */
 
 
     private void getQuestion(final String qno_list) {
@@ -201,11 +211,26 @@ public class QuestionAnswerActivity extends AppCompatActivity {
             }
         });
 
-  *//*
+  /*
 
      End
-         *//*
+         */
 
 
-   */ }
+    }
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationEnd(Animation animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
 }
