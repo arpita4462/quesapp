@@ -8,7 +8,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-
     tools:context="com.atrio.quesapp.LoginActivity">
 
     <LinearLayout
@@ -16,8 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center_vertical"
-        android:alpha="0.7">
+        android:layout_gravity="center_vertical">
 
 
         <android.support.design.widget.TextInputLayout

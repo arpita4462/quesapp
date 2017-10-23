@@ -31,8 +31,6 @@
         <activity android:name=".PaymentActivity" />
         <activity android:name=".SendQuestionActivity" />
         <activity android:name=".SeriesActivity" />
-        <activity android:name=".NewDeviceUser" />
-        <activity android:name=".MalayalamActivity" />
         <activity android:name=".QuestionAnswerActivity" />
         <activity android:name=".MultipleChoiceActivity"></activity>
     </application>

@@ -1,6 +1,5 @@
 package com.atrio.quesapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,6 +33,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import dmax.dialog.SpotsDialog;
 
 
@@ -49,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
-    private String email, password, timeSettings, deviceid, currentdeviceid;
+    private String email, password, timeSettings, deviceid, currentdeviceid,installDate, currentDate;
     private SpotsDialog dialog;
     private CustomRestpwd customRestpwd;
     public static final String MyPREFERENCES = "MyPrefs";
@@ -57,7 +61,10 @@ public class LoginActivity extends AppCompatActivity {
     String info_data = "arpita";
     Context context = LoginActivity.this;
     boolean clicked=false;
-
+    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+    private final long ONE_DAY = 24 * 60 * 60 * 1000;
+    long days, diff, days_left;
+    Date now, before;
     SharedPreferences sharedpreferences;
 
 
@@ -85,12 +92,69 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("print55","create");
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+
+        DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
+        offsetRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                long offset = snapshot.getValue(Long.class);
+                double estimatedServerTimeMs = System.currentTimeMillis() + offset;
+                currentDate = formatter.format(estimatedServerTimeMs);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
         if (user!= null){
-            Intent intent = new Intent(LoginActivity.this, SelectLangActivity.class);
+            dialog.show();
+            final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
+            Query userquery = rootRef2.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
+            userquery.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
+                        installDate = userDetail.getCreatedDated();
+
+                        try {
+                            before = formatter.parse(installDate);
+                            now = formatter.parse(currentDate);
+                            diff = now.getTime() - before.getTime();
+                            days = diff / ONE_DAY;
+                            days_left = 30 - days;
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (days_left == 30 || days_left == 2 || days_left == 1) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            dialog.dismiss();
+                            Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
+                            startActivity(intenttrail);
+                            finish();
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+         /*   Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
             startActivity(intent);
-            finish();
+            finish();*/
 
         }else{
+            dialog.dismiss();
          mAuth.signOut();
         }
 
@@ -286,6 +350,18 @@ public class LoginActivity extends AppCompatActivity {
                         for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                             UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
                             deviceid = userDetail.getDeviceId();
+                            installDate = userDetail.getCreatedDated();
+
+                            try {
+                                before = formatter.parse(installDate);
+                                now = formatter.parse(currentDate);
+                                diff = now.getTime() - before.getTime();
+                                days = diff / ONE_DAY;
+                                days_left = 30 - days;
+
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                             if (!deviceid.equals(currentdeviceid)) {
                                 Log.i("Status99", "" + user.isEmailVerified());
                                  //FirebaseAuth.getInstance().signOut();
@@ -298,11 +374,18 @@ public class LoginActivity extends AppCompatActivity {
                                   customUserVerification.show();
                               }
                             } else {
+                                if (days_left == 30 || days_left == 2 || days_left == 1) {
+                                    dialog.dismiss();
+                                    Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    dialog.dismiss();
+                                    Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
+                                    startActivity(intenttrail);
+                                    finish();
+                                }
 
-                                dialog.dismiss();
-                                Intent intent = new Intent(LoginActivity.this, SelectLangActivity.class);
-                                startActivity(intent);
-                                finish();
                             }
                         }
                     }

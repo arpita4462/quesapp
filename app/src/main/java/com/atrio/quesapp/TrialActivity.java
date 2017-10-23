@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atrio.quesapp.model.UserDetail;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +35,7 @@ public class TrialActivity extends AppCompatActivity {
     TextView tv_username, tv_daysleft;
     Button btn_skip, btn_upgrade;
     ImageView img_trail;
-    String installDate,currentDate;
+    String installDate, currentDate;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     private FirebaseAuth mAuth;
@@ -57,7 +58,7 @@ public class TrialActivity extends AppCompatActivity {
         btn_skip.setEnabled(false);
 
 
-        final SpotsDialog dialog = new SpotsDialog(TrialActivity.this,R.style.Custom);
+        final SpotsDialog dialog = new SpotsDialog(TrialActivity.this, R.style.Custom);
         dialog.show();
 
         mAuth = FirebaseAuth.getInstance();
@@ -77,7 +78,7 @@ public class TrialActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot snapshot) {
                 long offset = snapshot.getValue(Long.class);
                 double estimatedServerTimeMs = System.currentTimeMillis() + offset;
-                currentDate=formatter.format(estimatedServerTimeMs);
+                currentDate = formatter.format(estimatedServerTimeMs);
             }
 
             @Override
@@ -101,7 +102,7 @@ public class TrialActivity extends AppCompatActivity {
 
                         try {
                             before = formatter.parse(installDate);
-                            now=formatter.parse(currentDate);
+                            now = formatter.parse(currentDate);
                             diff = now.getTime() - before.getTime();
                             days = diff / ONE_DAY;
                             days_left = 30 - days;
@@ -110,17 +111,28 @@ public class TrialActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         if (days > 30) {
-//                            Toast.makeText(getBaseContext(), "Trial Expired", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Trial Expired", Toast.LENGTH_SHORT).show();
                             btn_skip.setEnabled(false);
                             btn_skip.setVisibility(View.INVISIBLE);
                             timer.schedule(mt, 1000, 1000);
                             tv_daysleft.setText("Days Left: 0");
 
                         } else {
-//                            Toast.makeText(getBaseContext(), "Trial Version", Toast.LENGTH_SHORT).show();
-                            btn_skip.setEnabled(true);
-                            timer.schedule(mt, 1000, 1000);
-                            tv_daysleft.setText("Days Left:"+days_left);
+                           /* if (days_left == 30 || days_left == 2 || days_left == 1) {
+                                Toast.makeText(getBaseContext(), "Trial Version", Toast.LENGTH_SHORT).show();
+                                btn_skip.setEnabled(true);
+                                timer.schedule(mt, 1000, 1000);
+                                tv_daysleft.setText("Days Left:" + days_left);
+                            } else {
+
+                                Intent intenttrail = new Intent(TrialActivity.this, SelectLangActivity.class);
+                                startActivity(intenttrail);
+                                finish();
+                            }*/
+                                Toast.makeText(getBaseContext(), "Trial Version", Toast.LENGTH_SHORT).show();
+                                 btn_skip.setEnabled(true);
+                                timer.schedule(mt, 1000, 1000);
+                                tv_daysleft.setText("Days Left:" + days_left);
 
                         }
 
@@ -156,7 +168,6 @@ public class TrialActivity extends AppCompatActivity {
         });
 
     }
-
 
 
     class MyTimer extends TimerTask {

@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -34,6 +33,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import dmax.dialog.SpotsDialog;
 
@@ -131,7 +132,16 @@ if (sub.equals("English")) {
                 String subkey = dataSnapshot1.getKey();
                 showimg(subkey,sub);
                 arr.add(subkey);
-//                    Log.i("array7712555",""+subkey);
+            /*    Log.i("array771255558",""+subkey);
+
+                Collections.sort(arr, new Comparator<String>() {
+                    @Override
+                    public int compare(String s1, String s2) {
+                        return s1.compareToIgnoreCase(s2);
+                    }
+                });
+
+                Log.i("array7712555",""+subkey);*/
             }
             if (!SubjectActivity.this.isFinishing()) {
                 dialog.dismiss();
@@ -157,7 +167,16 @@ if (sub.equals("English")) {
                 String subkey = dataSnapshot1.getKey();
                 showimg(subkey, sub);
                 arr.add(subkey);
-//                    Log.i("array7712555",""+subkey);
+               /* Log.i("array771255558",""+subkey);
+
+                Collections.sort(arr, new Comparator<String>() {
+                    @Override
+                    public int compare(String s1, String s2) {
+                        return s1.compareToIgnoreCase(s2);
+                    }
+                });
+
+                    Log.i("array7712555",""+subkey);*/
             }
             if (!SubjectActivity.this.isFinishing()) {
                 dialog.dismiss();
@@ -298,11 +317,25 @@ if (sub.equals("English")) {
             public void onSuccess(StorageMetadata storageMetadata) {
                 ShowData data =  new ShowData();
                 geturl=storageMetadata.getDownloadUrl().toString();
+                Log.i("sortalphabet44",""+sub);
+
                 data.setSub(sub);
                 data.setImg(geturl);
                 data.setLang(s);
                 arrayList.add(data);
+//                arrayList.sort(String::compareToIgnoreCase);
 
+                Collections.sort(arrayList, new Comparator<ShowData>() {
+                    @Override
+                    public int compare(ShowData o1, ShowData o2) {
+                        String s1 = o1.getSub();
+                        String s2 = o2.getSub();
+                        return s1.compareToIgnoreCase(s2);
+                    }
+
+                });
+               Log.i("sortalphabet",""+data);
+                Log.i("sortalphabet33",""+arrayList.get(0));
                 RecycleviewAdapter rcAdapter = new RecycleviewAdapter(SubjectActivity.this, arrayList);
                 recyclerView.setAdapter(rcAdapter);
 
@@ -314,7 +347,15 @@ if (sub.equals("English")) {
                 data.setSub(sub);
                 data.setImg("https://firebasestorage.googleapis.com/v0/b/quesapp-8d043.appspot.com/o/Subject%2Fdefaultbook.jpg?alt=media&token=c4404b07-2948-426d-8b94-dbe30cb85d2a");
                 arrayList.add(data);
+                Collections.sort(arrayList, new Comparator<ShowData>() {
+                    @Override
+                    public int compare(ShowData o1, ShowData o2) {
+                        String s1 = o1.getSub();
+                        String s2 = o2.getSub();
+                        return s1.compareToIgnoreCase(s2);
+                    }
 
+                });
                 RecycleviewAdapter rcAdapter = new RecycleviewAdapter(SubjectActivity.this, arrayList);
                 recyclerView.setAdapter(rcAdapter);
             }
