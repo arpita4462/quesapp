@@ -21,4 +21,6 @@
     <string name="select_category">Select Category</string>
     <string name="send_a_message">Send Question</string>
     <string name="back"><![CDATA[<< Back]]></string>
+    <string name="veryfy">You are not a Verifed User. </string>
+    <string name="very_email"><u>Very Email</u></string>
 </resources>

@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.atrio.quesapp.MultipleChoiceActivity;
+import com.atrio.quesapp.QuestionAnswerActivity;
 import com.atrio.quesapp.R;
 import com.atrio.quesapp.SeriesActivity;
 import com.atrio.quesapp.model.ShowData;
@@ -45,6 +47,7 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
         holder.tv_text.setText(list_data.get(position).getSub());
         Glide.with(c).load(list_data.get(position).getImg()).placeholder(R.drawable.book).into(holder.img_sub);
         holder.tittle = list_data.get(position).getSub();
+        holder.lang = list_data.get(position).getLang();
 
 
     }
@@ -62,7 +65,7 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
 
         public TextView tv_text;
         public ImageView img_sub;
-        public String tittle;
+        public String tittle,lang;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -75,11 +78,19 @@ public class RecycleviewAdapter extends RecyclerView.Adapter<RecycleviewAdapter.
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(view.getContext(), SeriesActivity.class);
-            Log.i("tittle44",""+tittle);
-            intent.putExtra("Sub",tittle);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            view.getContext().startActivity(intent);
+            if (tittle.equals("MultipleChoiceQuestion") || tittle.equals("മൾട്ടിപ്പിൾ ചോയ്സ് ചോദ്യോത്തരങ്ങൾ")){
+                Intent intent = new Intent(view.getContext(), MultipleChoiceActivity.class);
+                // Log.i("tittle44",""+tittle);
+                intent.putExtra("Sub",tittle);
+                intent.putExtra("lang",lang);
+                view.getContext().startActivity(intent);
+            }else{
+                Intent intent = new Intent(view.getContext(), QuestionAnswerActivity.class);
+                // Log.i("tittle44",""+tittle);
+                intent.putExtra("Sub",tittle);
+                intent.putExtra("lang",lang);
+                view.getContext().startActivity(intent);
+            }
 
         }
     }

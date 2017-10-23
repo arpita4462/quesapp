@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/registerpic"
-        android:layout_marginBottom="50dp"></ImageView>
+        android:layout_marginBottom="50dp">/</ImageView>
     <LinearLayout
         android:id="@+id/registraion_form"
         android:layout_width="match_parent"

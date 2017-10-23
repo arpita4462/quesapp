@@ -29,7 +29,7 @@
         android:layout_marginStart="8dp" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleview"
+        android:id="@+id/recycleview_Malayalam"
         android:layout_width="0dp"
         android:layout_height="458dp"
         android:layout_marginLeft="16dp"

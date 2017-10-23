@@ -43,7 +43,7 @@ import dmax.dialog.SpotsDialog;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mEmailView, mPasswordView;
-    private TextView newUser, tv_forgetpwd;
+    private TextView newUser, tv_forgetpwd,tv_verify,bt_verify;
     TextInputLayout input_email, input_pwd;
     private Button mEmailSignInButton;
     private FirebaseAuth mAuth;
@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     public static final String userinfo = "UserKey";
     String info_data = "arpita";
     Context context = LoginActivity.this;
+    boolean clicked=false;
 
     SharedPreferences sharedpreferences;
 
@@ -68,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
         mEmailView = (EditText) findViewById(R.id.email);
         newUser = (TextView) findViewById(R.id.tv_newuser);
         tv_forgetpwd = (TextView) findViewById(R.id.tv_forgotpwd);
+        tv_verify = (TextView) findViewById(R.id.tv_very);
+        bt_verify = (TextView) findViewById(R.id.bt_verify);
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         input_email = (TextInputLayout) findViewById(R.id.input_email_id);
@@ -79,11 +82,11 @@ public class LoginActivity extends AppCompatActivity {
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 //        Log.i("currentdevice",""+currentdeviceid);
 //        checkdeviceID();
-
+        Log.i("print55","create");
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         if (user!= null){
-            Intent intent = new Intent(LoginActivity.this, SubjectActivity.class);
+            Intent intent = new Intent(LoginActivity.this, SelectLangActivity.class);
             startActivity(intent);
             finish();
 
@@ -112,6 +115,15 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         };*/
+
+                bt_verify.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        clicked = true;
+                        sendEmailVerify();
+
+                    }
+                });
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,6 +156,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
+        Log.i("print55","start");
         try {
             int autoTime = android.provider.Settings.System.getInt(getContentResolver(), android.provider.Settings.System.AUTO_TIME);
             if (autoTime != 1) {
@@ -165,8 +179,42 @@ public class LoginActivity extends AppCompatActivity {
        /* Log.i("print", "" + mAuthListener);
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
+
         }*/
+
+        Log.i("print55","stop");
+
+       clicked = false;
        LoginActivity.this.finish();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("print55","Resume");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (user != null){
+            if (user.isEmailVerified()) {
+
+            }else{
+                FirebaseAuth.getInstance().signOut();
+            }
+        }
+
+
+        Log.i("print55","Pause");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("print55","Restart");
     }
 
     private void attemptLogin() {
@@ -239,8 +287,8 @@ public class LoginActivity extends AppCompatActivity {
                             UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
                             deviceid = userDetail.getDeviceId();
                             if (!deviceid.equals(currentdeviceid)) {
-                                //Log.i("Status99", "" + user.isEmailVerified());
-                                // FirebaseAuth.getInstance().signOut();
+                                Log.i("Status99", "" + user.isEmailVerified());
+                                 //FirebaseAuth.getInstance().signOut();
                                 dialog.dismiss();
 
                                   CustomUserVerification customUserVerification = new CustomUserVerification(LoginActivity.this, password);
@@ -252,7 +300,7 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
 
                                 dialog.dismiss();
-                                Intent intent = new Intent(LoginActivity.this, SubjectActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, SelectLangActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -268,32 +316,49 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
+            dialog.dismiss();
             Log.i("Status98", "" + user);
-            sendEmailVerify();
-            FirebaseAuth.getInstance().signOut();
+            if (clicked){
+                Log.i("Status98", "if" + user);
+                //FirebaseAuth.getInstance().signOut();
+            }else{
+                Log.i("Status98", "else" + user);
+
+
+            }
+            //sendEmailVerify();
+            tv_verify.setVisibility(View.VISIBLE);
+            bt_verify.setVisibility(View.VISIBLE);
             Toast.makeText(LoginActivity.this, "Verify your Email.", Toast.LENGTH_SHORT).show();
 
         }
     }
 
     private void sendEmailVerify() {
-        FirebaseUser user = mAuth.getCurrentUser();
+       // final FirebaseUser user = mAuth.getCurrentUser().reload();
+        if (user != null) {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
-        user.sendEmailVerification()
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
+                            if (task.isSuccessful()) {
+                               // FirebaseAuth.getInstance().signOut();
+                                Toast.makeText(LoginActivity.this, "Sent verification link to your Email", Toast.LENGTH_SHORT).show();
 
-//                            Log.d(TAG, "Email sent.");
+//                  Log.d(TAG, "Email sent.");
+                            }else{
+                                //FirebaseAuth.getInstance().signOut();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
 }
 
 

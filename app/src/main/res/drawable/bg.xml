@@ -5,9 +5,9 @@
         android:angle="315"
         android:centerX="40%"
         android:centerY="40%"
-        android:centerColor="@color/centercolor"
-        android:startColor="@color/startcolor"
-        android:endColor="@color/endcolor"
+        android:centerColor="@color/colorPrimary"
+        android:startColor="@color/colorPrimaryDark"
+        android:endColor="@color/colorAccent"
         android:type="linear"
         />
 

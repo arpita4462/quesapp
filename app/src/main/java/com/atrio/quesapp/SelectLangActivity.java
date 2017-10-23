@@ -9,6 +9,8 @@ import android.widget.Button;
 public class SelectLangActivity extends AppCompatActivity {
     Button btn_eng,btn_malya;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,15 +21,22 @@ public class SelectLangActivity extends AppCompatActivity {
         btn_eng.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(SelectLangActivity.this,SubjectActivity.class);
+                intent.putExtra("sub","English");
+                startActivity(intent);
 
-                startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
+                //startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
             }
         });
         btn_malya.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
+                Intent intent = new Intent(SelectLangActivity.this,SubjectActivity.class);
+                intent.putExtra("sub","Malayalam");
+                startActivity(intent);
+
+             // startActivity(new Intent(SelectLangActivity.this,MalayalamActivity.class));
 
             }
         });

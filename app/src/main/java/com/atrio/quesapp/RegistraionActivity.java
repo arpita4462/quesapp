@@ -83,7 +83,6 @@ public class RegistraionActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-
                                 FirebaseUser user = mAuth.getCurrentUser();
 
                                 Date dt = new Date();
@@ -135,8 +134,6 @@ public class RegistraionActivity extends AppCompatActivity {
     private void createUserDetail(String userName, String createdDated, String emailId, String userId, String deviceId) {
 
         UserDetail userDetail = new UserDetail();
-
-
         userDetail.setUserName(userName);
         userDetail.setCreatedDated(createdDated);
         userDetail.setEmailId(emailId);

@@ -5,8 +5,16 @@ package com.atrio.quesapp.model;
  */
 
 public class ShowData {
-    String sub,img;
+    String sub;
+    String img;
+    String Lang;
+    public String getLang() {
+        return Lang;
+    }
 
+    public void setLang(String lang) {
+        Lang = lang;
+    }
     public ShowData() {
         super();
     }
