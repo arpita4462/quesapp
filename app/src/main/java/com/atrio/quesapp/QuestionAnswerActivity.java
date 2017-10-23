@@ -62,7 +62,6 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         getQuestion(qno_list);
 
 
-
        /* Log.i("qno_list11",""+qno_list);
         Log.i("tittle11",""+tittle);
         Log.i("lang11",""+lang);*/
