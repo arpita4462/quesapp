@@ -69,7 +69,7 @@ public class TrialActivity extends AppCompatActivity {
         db_ref = db_instance.getReference("UserDetail");
 
         user = mAuth.getCurrentUser();
-        Log.i("userid45", "" + user.getUid());
+//        Log.i("userid45", "" + user.getUid());
         timer = new Timer();
         mt = new MyTimer();
 

@@ -125,7 +125,7 @@ public class SelectLangActivity extends AppCompatActivity {
                             Toast.makeText(SelectLangActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
                             Toast.makeText(SelectLangActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
                             Intent isend = new Intent(SelectLangActivity.this, LoginActivity.class);
-                            isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
                             finish();
 

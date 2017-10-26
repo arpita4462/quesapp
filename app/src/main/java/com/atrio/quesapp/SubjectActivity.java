@@ -126,7 +126,7 @@ public class SubjectActivity extends AppCompatActivity {
             Log.i("Exception33", e.getMessage());
         }
 
-if (sub.equals("English")) {
+    if (sub != null && sub.equals("English")) {
     storageRef = storage.getReference("Subject");
     Query query_catlist = rootRef.child("English").child("subjectList").orderByKey();
     query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
