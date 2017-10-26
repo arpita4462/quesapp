@@ -48,6 +48,7 @@ public class SendQuestionActivity extends AppCompatActivity {
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         user=FirebaseAuth.getInstance().getCurrentUser();
 
+
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         Query query_realtimecheck = rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
         Log.i("Querry66", "" + query_realtimecheck);
@@ -57,14 +58,15 @@ public class SendQuestionActivity extends AppCompatActivity {
 
                 UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                 String deviceid = userDetail.getDeviceId();
-               // Toast.makeText(SendQuestionActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
-               // Toast.makeText(SendQuestionActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SendQuestionActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SendQuestionActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
                 if (deviceid.equals(currentdeviceid)) {
-                    //Toast.makeText(SendQuestionActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(SendQuestionActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
 
                 } else {
                     FirebaseAuth.getInstance().signOut();
-                    //Toast.makeText(SendQuestionActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(SendQuestionActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SendQuestionActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
 
 
 
@@ -77,16 +79,17 @@ public class SendQuestionActivity extends AppCompatActivity {
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
                 //Toast.makeText(SubjectActivity.this,""+dataSnapshot.getValue(),Toast.LENGTH_SHORT).show();
-               // Toast.makeText(SendQuestionActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SendQuestionActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                 UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                 String deviceid = userDetail.getDeviceId();
-               // Toast.makeText(SendQuestionActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SendQuestionActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
 
                 if (deviceid.equals(currentdeviceid)) {
-                   // Toast.makeText(SendQuestionActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(SendQuestionActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                 } else {
                     FirebaseAuth.getInstance().signOut();
-                   // Toast.makeText(SendQuestionActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(SendQuestionActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SendQuestionActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
                     Intent isend = new Intent(SendQuestionActivity.this,LoginActivity.class);
                     startActivity(isend);
                     finish();

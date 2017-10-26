@@ -22,7 +22,6 @@
         <activity android:name=".SubjectActivity" />
         <activity android:name=".RegistraionActivity" />
         <activity android:name=".QuestionActivity" />
-        <activity android:name=".FinalMarkActivity" />
         <activity android:name=".TrialActivity" >
 
             </activity>
@@ -30,7 +29,6 @@
         <activity android:name=".SelectLangActivity" />
         <activity android:name=".PaymentActivity" />
         <activity android:name=".SendQuestionActivity" />
-        <activity android:name=".SeriesActivity" />
         <activity android:name=".QuestionAnswerActivity" />
         <activity android:name=".MultipleChoiceActivity"></activity>
     </application>

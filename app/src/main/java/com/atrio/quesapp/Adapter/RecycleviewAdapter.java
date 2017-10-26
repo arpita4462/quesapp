@@ -3,7 +3,6 @@ package com.atrio.quesapp.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import com.atrio.quesapp.MultipleChoiceActivity;
 import com.atrio.quesapp.QuestionAnswerActivity;
 import com.atrio.quesapp.R;
-import com.atrio.quesapp.SeriesActivity;
 import com.atrio.quesapp.model.ShowData;
 import com.bumptech.glide.Glide;
 

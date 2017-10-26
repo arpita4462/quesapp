@@ -92,6 +92,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.i("print55","create");
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        Log.i("currentdeviceuser234",""+user);
+
 
         DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
         offsetRef.addValueEventListener(new ValueEventListener() {
@@ -265,8 +267,20 @@ public class LoginActivity extends AppCompatActivity {
 
                             checkIfEmailVerified(password);
 
+                            Log.i("User90", "" + user.getUid());
+                         /*   SharedPreferences.Editor editor = sharedpreferences.edit();
 
-
+                            editor.putString(userinfo, "" +user );
+                            editor.apply();*/
+//                            final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
+//                            Query userquery = rootRef2.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
+/*
+                            userquery.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                                        UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
+                                        installDate = userDetail.getCreatedDated();
 
 
                             //Log.i("currentdevice","fire");
@@ -377,9 +391,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void checktrail() {
+    private  void checktrail(){
+
         final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
         Query userquery = rootRef2.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
+
         userquery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -392,10 +408,7 @@ public class LoginActivity extends AppCompatActivity {
                         now = formatter.parse(currentDate);
                         diff = now.getTime() - before.getTime();
                         days = diff / ONE_DAY;
-                        //Log.i("print76",""+diff);
                         days_left = 7 - days;
-                        Log.i("print78",""+days);
-                        Log.i("print77",""+days_left);
 
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -420,6 +433,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void sendEmailVerify() {

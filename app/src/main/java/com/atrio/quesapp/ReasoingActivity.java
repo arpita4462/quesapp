@@ -353,7 +353,7 @@ public class ReasoingActivity extends AppCompatActivity implements Animation.Ani
                     bt_done.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                          /*  Intent intent = new Intent(QuestionActivity.this,FinalMarkActivity.class);
+                          /*  Intent intent = new Intent(QuestionActivity.this,final.class);
                             intent.putExtra("tittle",tittle);
                             startActivity(intent);
                             finish();
