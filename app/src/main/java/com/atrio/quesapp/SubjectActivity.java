@@ -10,6 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -61,6 +65,7 @@ public class SubjectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject);
+        bt_ques = (Button)findViewById(R.id.bt_ques);
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mAuth = FirebaseAuth.getInstance();
@@ -192,17 +197,31 @@ if (sub.equals("English")) {
     });
 
 }
-/*
         bt_ques.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent move = new Intent(SubjectActivity.this,SendQuestionActivity.class);
                 move.putExtra("array_list", arr);
                 startActivity(move);
-                finish();
             }
-        });*/
+        });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+       // return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.option, menu);
+        return true;
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+        //getMenuInflater().inflate(R.menu.option,item);
+        //return true;
     }
 
     private void checkuser() throws NullPointerException{
@@ -258,6 +277,8 @@ if (sub.equals("English")) {
 
 
                         }
+                    }else{
+
                     }
 
 

@@ -45,7 +45,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         tv_tittle = (TextView)findViewById(R.id.tv_tittle);
         tv_score = (TextView) findViewById(R.id.tv_quessno);
         tv_quess = (TextView) findViewById(R.id.tv_quess);
-        tv_correct = (TextView) findViewById(R.id.tv_correct);
+        //tv_correct = (TextView) findViewById(R.id.tv_correct);
         bt_next = (Button) findViewById(R.id.bt_nextquess);
         rb_opA=(RadioButton) findViewById(R.id.rd_option1);
         rb_opB=(RadioButton) findViewById(R.id.rd_option2);

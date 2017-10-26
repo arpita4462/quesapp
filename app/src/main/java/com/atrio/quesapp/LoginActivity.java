@@ -109,45 +109,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (user!= null){
             dialog.show();
-            final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
-            Query userquery = rootRef2.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
-            userquery.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                        UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
-                        installDate = userDetail.getCreatedDated();
-
-                        try {
-                            before = formatter.parse(installDate);
-                            now = formatter.parse(currentDate);
-                            diff = now.getTime() - before.getTime();
-                            days = diff / ONE_DAY;
-                            days_left = 30 - days;
-
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        if (days_left == 30 || days_left == 2 || days_left == 1) {
-                            dialog.dismiss();
-                            Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            dialog.dismiss();
-                            Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
-                            startActivity(intenttrail);
-                            finish();
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+           checktrail();
 
          /*   Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
             startActivity(intent);
@@ -303,11 +265,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             checkIfEmailVerified(password);
 
-                            //Log.i("User90", "" + user.getUid());
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
 
-                            editor.putString(userinfo, "" +user );
-                            editor.apply();
+
 
 
                             //Log.i("currentdevice","fire");
@@ -357,7 +316,7 @@ public class LoginActivity extends AppCompatActivity {
                                 now = formatter.parse(currentDate);
                                 diff = now.getTime() - before.getTime();
                                 days = diff / ONE_DAY;
-                                days_left = 30 - days;
+                                days_left = 7 - days;
 
                             } catch (ParseException e) {
                                 e.printStackTrace();
@@ -374,7 +333,7 @@ public class LoginActivity extends AppCompatActivity {
                                   customUserVerification.show();
                               }
                             } else {
-                                if (days_left == 30 || days_left == 2 || days_left == 1) {
+                                if (days >= 7 || days_left == 2 || days_left == 1) {
                                     dialog.dismiss();
                                     Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
                                     startActivity(intent);
@@ -400,6 +359,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         } else {
             dialog.dismiss();
+            checktrail();
             Log.i("Status98", "" + user);
             if (clicked){
                 Log.i("Status98", "if" + user);
@@ -415,6 +375,51 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Verify your Email.", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    private void checktrail() {
+        final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
+        Query userquery = rootRef2.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
+        userquery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
+                    installDate = userDetail.getCreatedDated();
+
+                    try {
+                        before = formatter.parse(installDate);
+                        now = formatter.parse(currentDate);
+                        diff = now.getTime() - before.getTime();
+                        days = diff / ONE_DAY;
+                        //Log.i("print76",""+diff);
+                        days_left = 7 - days;
+                        Log.i("print78",""+days);
+                        Log.i("print77",""+days_left);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if (days >= 7 || days_left == 2 || days_left == 1) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        dialog.dismiss();
+                        Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
+                        startActivity(intenttrail);
+                        finish();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void sendEmailVerify() {

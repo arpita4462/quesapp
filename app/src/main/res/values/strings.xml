@@ -23,4 +23,7 @@
     <string name="back"><![CDATA[<< Back]]></string>
     <string name="veryfy">You are not a Verifed User. </string>
     <string name="very_email"><u>Very Email</u></string>
+    <string name="bookmark">Send Question</string>
+    <string name="new_game">send question</string>
+    <string name="sendquestion">sendQuestion</string>
 </resources>

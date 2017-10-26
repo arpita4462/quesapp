@@ -105,12 +105,12 @@ public class TrialActivity extends AppCompatActivity {
                             now = formatter.parse(currentDate);
                             diff = now.getTime() - before.getTime();
                             days = diff / ONE_DAY;
-                            days_left = 30 - days;
+                            days_left = 7 - days;
 
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        if (days > 30) {
+                        if (days >= 7) {
                             Toast.makeText(getBaseContext(), "Trial Expired", Toast.LENGTH_SHORT).show();
                             btn_skip.setEnabled(false);
                             btn_skip.setVisibility(View.INVISIBLE);
