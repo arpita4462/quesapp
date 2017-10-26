@@ -95,7 +95,7 @@ public class RegistraionActivity extends AppCompatActivity {
                                 sendEmailVerify();
                                 FirebaseAuth.getInstance().signOut();
 //                            Toast.makeText(RegistraionActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
-                                Toast.makeText(RegistraionActivity.this, "Verify Your Email-ID.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegistraionActivity.this, " Sent Verification to email for UserVerification.", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(RegistraionActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();

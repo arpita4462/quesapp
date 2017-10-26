@@ -47,20 +47,20 @@ import dmax.dialog.SpotsDialog;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText mEmailView, mPasswordView;
-    private TextView newUser, tv_forgetpwd,tv_verify,bt_verify;
+    private TextView newUser, tv_forgetpwd, tv_verify, bt_verify;
     TextInputLayout input_email, input_pwd;
     private Button mEmailSignInButton;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
-    private String email, password, timeSettings, deviceid, currentdeviceid,installDate, currentDate;
+    private String email, password, timeSettings, deviceid, currentdeviceid, installDate, currentDate;
     private SpotsDialog dialog;
     private CustomRestpwd customRestpwd;
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String userinfo = "UserKey";
     String info_data = "arpita";
     Context context = LoginActivity.this;
-    boolean clicked=false;
+    boolean clicked = false;
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private final long ONE_DAY = 24 * 60 * 60 * 1000;
     long days, diff, days_left;
@@ -89,10 +89,10 @@ public class LoginActivity extends AppCompatActivity {
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 //        Log.i("currentdevice",""+currentdeviceid);
 //        checkdeviceID();
-        Log.i("print55","create");
+        Log.i("print55", "create");
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        Log.i("currentdeviceuser234",""+user);
+        Log.i("currentdeviceuser234", "" + user);
 
 
         DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
@@ -109,17 +109,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        if (user!= null){
+        if (user != null) {
             dialog.show();
-           checktrail();
+            Log.i("print58", "user not null");
+            checktrail();
 
-         /*   Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
-            startActivity(intent);
-            finish();*/
 
-        }else{
+        } else {
             dialog.dismiss();
-         mAuth.signOut();
+            Log.i("print58", "user null");
+            mAuth.signOut();
         }
 
        /* mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -144,14 +143,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         };*/
 
-                bt_verify.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        clicked = true;
-                        sendEmailVerify();
+        bt_verify.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clicked = true;
+                sendEmailVerify();
 
-                    }
-                });
+            }
+        });
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        Log.i("print55","start");
+        Log.i("print55", "start");
         try {
             int autoTime = android.provider.Settings.System.getInt(getContentResolver(), android.provider.Settings.System.AUTO_TIME);
             if (autoTime != 1) {
@@ -204,45 +203,37 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-       /* Log.i("print", "" + mAuthListener);
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
 
-        }*/
-
-        Log.i("print55","stop");
-
-       clicked = false;
-      // LoginActivity.this.finish();
+        Log.i("print55", "stop");
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("print55","Resume");
+        Log.i("print55", "Resume");
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (user != null){
+        if (user != null) {
             if (user.isEmailVerified()) {
 
-            }else{
+            } else {
                 FirebaseAuth.getInstance().signOut();
             }
         }
 
 
-        Log.i("print55","Pause");
+        Log.i("print55", "Pause");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i("print55","Restart");
+        Log.i("print55", "Restart");
     }
 
     private void attemptLogin() {
@@ -254,7 +245,7 @@ public class LoginActivity extends AppCompatActivity {
             input_email.setErrorEnabled(false);
             input_pwd.setError(getString(R.string.error_incorrect_password));
         } else {
-            dialog.show();
+           // dialog.show();
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -268,24 +259,6 @@ public class LoginActivity extends AppCompatActivity {
                             checkIfEmailVerified(password);
 
                             Log.i("User90", "" + user.getUid());
-                         /*   SharedPreferences.Editor editor = sharedpreferences.edit();
-
-                            editor.putString(userinfo, "" +user );
-                            editor.apply();*/
-//                            final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
-//                            Query userquery = rootRef2.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
-/*
-                            userquery.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                                        UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
-                                        installDate = userDetail.getCreatedDated();
-
-
-                            //Log.i("currentdevice","fire");
-
-                            // User is signed in
                         } else {
                             //Log.i("currentdevice1","fire");
 
@@ -299,13 +272,14 @@ public class LoginActivity extends AppCompatActivity {
                         Log.i("failure", "" + task.getException());
                         dialog.dismiss();
                         Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                                    updateUI(null);
+//
                     }
 
                 }
             });
         }
     }
+
 
     private void checkIfEmailVerified(final String password) {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -337,15 +311,15 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             if (!deviceid.equals(currentdeviceid)) {
                                 Log.i("Status99", "" + user.isEmailVerified());
-                                 //FirebaseAuth.getInstance().signOut();
-                                dialog.dismiss();
+                                //FirebaseAuth.getInstance().signOut();
+                                //dialog.dismiss();
 
-                                  CustomUserVerification customUserVerification = new CustomUserVerification(LoginActivity.this, password);
-                                  customUserVerification.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                  customUserVerification.setCanceledOnTouchOutside(false);
-                                if(!LoginActivity.this.isFinishing()) {
-                                  customUserVerification.show();
-                              }
+                                CustomUserVerification customUserVerification = new CustomUserVerification(LoginActivity.this, password);
+                                customUserVerification.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                customUserVerification.setCanceledOnTouchOutside(false);
+                                if (!LoginActivity.this.isFinishing()) {
+                                    customUserVerification.show();
+                                }
                             } else {
                                 if (days >= 7 || days_left == 2 || days_left == 1) {
                                     dialog.dismiss();
@@ -375,14 +349,14 @@ public class LoginActivity extends AppCompatActivity {
             dialog.dismiss();
             checktrail();
             Log.i("Status98", "" + user);
-            if (clicked){
+   /*         if (clicked){
                 Log.i("Status98", "if" + user);
                 //FirebaseAuth.getInstance().signOut();
             }else{
                 Log.i("Status98", "else" + user);
 
 
-            }
+            }*/
             //sendEmailVerify();
             tv_verify.setVisibility(View.VISIBLE);
             bt_verify.setVisibility(View.VISIBLE);
@@ -391,7 +365,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private  void checktrail(){
+    private void checktrail() {
 
         final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
         Query userquery = rootRef2.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
@@ -437,7 +411,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void sendEmailVerify() {
-       // final FirebaseUser user = mAuth.getCurrentUser().reload();
+        // final FirebaseUser user = mAuth.getCurrentUser().reload();
         if (user != null) {
             user.sendEmailVerification()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -445,11 +419,11 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
 
                             if (task.isSuccessful()) {
-                               // FirebaseAuth.getInstance().signOut();
+                                // FirebaseAuth.getInstance().signOut();
                                 Toast.makeText(LoginActivity.this, "Sent verification link to your Email", Toast.LENGTH_SHORT).show();
 
 //                  Log.d(TAG, "Email sent.");
-                            }else{
+                            } else {
                                 //FirebaseAuth.getInstance().signOut();
                             }
                         }
@@ -462,5 +436,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 }
+
 
 
