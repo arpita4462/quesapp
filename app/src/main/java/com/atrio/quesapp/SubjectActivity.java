@@ -31,7 +31,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,7 +39,7 @@ import dmax.dialog.SpotsDialog;
 
 public class SubjectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    File localFile;
+//    File localFile;
     String geturl,currentdeviceid;
     ArrayList<ShowData> arrayList;
     ArrayList<String> arr;
@@ -112,7 +111,9 @@ public class SubjectActivity extends AppCompatActivity {
 
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
           user = mAuth.getCurrentUser();
-            dialog.show();
+        Log.i("currentdeviceuser",""+user);
+
+        dialog.show();
         try{
             checkuser();
         }catch (NullPointerException e){
@@ -226,8 +227,9 @@ if (sub.equals("English")) {
                         Toast.makeText(SubjectActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
 
                     } else {
-                        FirebaseAuth.getInstance().signOut();
+                      mAuth.signOut();
                         Toast.makeText(SubjectActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SubjectActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
 
 
                     }
@@ -250,7 +252,7 @@ if (sub.equals("English")) {
                             Toast.makeText(SubjectActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
-                            Toast.makeText(SubjectActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SubjectActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
                             Intent isend = new Intent(SubjectActivity.this, LoginActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
