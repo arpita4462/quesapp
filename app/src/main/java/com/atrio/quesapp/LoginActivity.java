@@ -332,7 +332,6 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(intenttrail);
                                     finish();
                                 }
-
                             }
                         }
                     }
