@@ -94,42 +94,39 @@ public class TrialActivity extends AppCompatActivity {
         dialog.show();
         try{
             checkuser();
-        }catch (NullPointerException e){
 
-            Log.i("Exception33", e.getMessage());
-        }
 
-        Query userdetailquery = db_ref.orderByKey().equalTo(user.getUid());
+            Query userdetailquery = db_ref.orderByKey().equalTo(user.getUid());
 
-        userdetailquery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                dialog.dismiss();
+            userdetailquery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    dialog.dismiss();
 
-                if (dataSnapshot.getChildrenCount() != 0) {
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        UserDetail userDetail = child.getValue(UserDetail.class);
-                        tv_username.setText("Welcome : " + userDetail.getUserName());
-                        installDate = userDetail.getCreatedDated();
+                    if (dataSnapshot.getChildrenCount() != 0) {
+                        for (DataSnapshot child : dataSnapshot.getChildren()) {
+                            UserDetail userDetail = child.getValue(UserDetail.class);
+                            tv_username.setText("Welcome : " + userDetail.getUserName());
+                            installDate = userDetail.getCreatedDated();
 
-                        try {
-                            before = formatter.parse(installDate);
-                            now = formatter.parse(currentDate);
-                            diff = now.getTime() - before.getTime();
-                            days = diff / ONE_DAY;
-                            days_left = 7 - days;
+                            try {
+                                before = formatter.parse(installDate);
+                                now = formatter.parse(currentDate);
+                                diff = now.getTime() - before.getTime();
+                                days = diff / ONE_DAY;
+                                days_left = 7 - days;
 
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        if (days >= 7) {
-                            Toast.makeText(getBaseContext(), "Trial Expired", Toast.LENGTH_SHORT).show();
-                            btn_skip.setEnabled(false);
-                            btn_skip.setVisibility(View.INVISIBLE);
-                            timer.schedule(mt, 1000, 1000);
-                            tv_daysleft.setText("Days Left: 0");
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            if (days >= 7) {
+                                Toast.makeText(getBaseContext(), "Trial Expired", Toast.LENGTH_SHORT).show();
+                                btn_skip.setEnabled(false);
+                                btn_skip.setVisibility(View.INVISIBLE);
+                                timer.schedule(mt, 1000, 1000);
+                                tv_daysleft.setText("Days Left: 0");
 
-                        } else {
+                            } else {
                            /* if (days_left == 30 || days_left == 2 || days_left == 1) {
                                 Toast.makeText(getBaseContext(), "Trial Version", Toast.LENGTH_SHORT).show();
                                 btn_skip.setEnabled(true);
@@ -142,23 +139,28 @@ public class TrialActivity extends AppCompatActivity {
                                 finish();
                             }*/
                                 Toast.makeText(getBaseContext(), "Trial Version", Toast.LENGTH_SHORT).show();
-                                 btn_skip.setEnabled(true);
+                                btn_skip.setEnabled(true);
                                 timer.schedule(mt, 1000, 1000);
                                 tv_daysleft.setText("Days Left:" + days_left);
 
+                            }
+
                         }
+                    } else {
 
                     }
-                } else {
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
                 }
-            }
+            });
+        }catch (NullPointerException e){
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            Log.i("Exception33", e.getMessage());
+        }
 
-            }
-        });
 
         btn_skip.setOnClickListener(new View.OnClickListener() {
             @Override

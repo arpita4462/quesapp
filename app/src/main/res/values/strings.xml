@@ -26,4 +26,10 @@
     <string name="bookmark">Send Question</string>
     <string name="new_game">send question</string>
     <string name="sendquestion">sendQuestion</string>
+    <string name="new_quote">Send Question</string>
+    <string name="todo">TODO</string>
+    <string name="send_question">Send Question</string>
+    <string name="feedback">FeedBack</string>
+    <string name="feedbackdetail">Give Your Feedback</string>
+    <string name="sendFeedback">send</string>
 </resources>

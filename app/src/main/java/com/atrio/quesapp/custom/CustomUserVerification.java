@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.atrio.quesapp.LoginActivity;
 import com.atrio.quesapp.R;
 import com.atrio.quesapp.RegistraionActivity;
 import com.atrio.quesapp.SelectLangActivity;
@@ -134,8 +135,9 @@ public class CustomUserVerification extends Dialog {
 
                                 }
 
-                                Intent intent = new Intent(mycontext, SelectLangActivity.class);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                Intent intent = new Intent(mycontext, LoginActivity.class);
+                                auth.signOut();
+                               //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 mycontext.startActivity(intent);
 
 
@@ -146,7 +148,6 @@ public class CustomUserVerification extends Dialog {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
 
                         }
                     });

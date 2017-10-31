@@ -1,5 +1,6 @@
 package com.atrio.quesapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,7 +42,7 @@ import java.util.Comparator;
 
 import dmax.dialog.SpotsDialog;
 
-public class SubjectActivity extends AppCompatActivity {
+public class SubjectActivity extends Activity {
     RecyclerView recyclerView;
 //    File localFile;
     String geturl,currentdeviceid;
@@ -65,6 +66,8 @@ public class SubjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject);
         bt_ques = (Button)findViewById(R.id.bt_ques);
+
+       // setHasOptionsMenu(true);
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mAuth = FirebaseAuth.getInstance();
@@ -212,8 +215,9 @@ public class SubjectActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
        // return super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.option, menu);
-        return true;
+       /* MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option, menu);*/
+        return false;
 
 
     }

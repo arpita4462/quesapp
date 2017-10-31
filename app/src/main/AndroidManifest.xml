@@ -22,15 +22,14 @@
         <activity android:name=".SubjectActivity" />
         <activity android:name=".RegistraionActivity" />
         <activity android:name=".QuestionActivity" />
-        <activity android:name=".TrialActivity" >
-
-            </activity>
+        <activity android:name=".TrialActivity"></activity>
         <activity android:name=".ReasoingActivity" />
         <activity android:name=".SelectLangActivity" />
         <activity android:name=".PaymentActivity" />
         <activity android:name=".SendQuestionActivity" />
         <activity android:name=".QuestionAnswerActivity" />
-        <activity android:name=".MultipleChoiceActivity"></activity>
+        <activity android:name=".MultipleChoiceActivity" />
+        <activity android:name=".FeedBackActivity"></activity>
     </application>
 
 </manifest>
