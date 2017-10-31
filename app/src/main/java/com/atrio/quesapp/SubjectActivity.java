@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -65,6 +66,9 @@ public class SubjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject);
         bt_ques = (Button)findViewById(R.id.bt_ques);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         mAuth = FirebaseAuth.getInstance();
@@ -211,18 +215,30 @@ public class SubjectActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       // return super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.option, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option, menu);
         return true;
-
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-        //getMenuInflater().inflate(R.menu.option,item);
-        //return true;
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.send_ques:
+                Intent isend = new Intent(SubjectActivity.this, SendQuestionActivity.class);
+                isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(isend);
+//                finish();
+                break;
+            // action with ID action_settings was selected
+            case R.id.feedback:
+                break;
+            default:
+                break;
+        }
+
+        return true;
     }
 
     private void checkuser() throws NullPointerException{
