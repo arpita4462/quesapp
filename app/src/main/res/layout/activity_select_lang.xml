@@ -49,4 +49,16 @@
             android:textColor="@color/white"
             android:background="@drawable/ripple_effect"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_site"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_gravity="bottom"
+        android:gravity="bottom|center_vertical"
+        android:textColor="@color/colorAccent"
+        android:text="" />
 </LinearLayout>

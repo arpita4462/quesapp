@@ -3,12 +3,14 @@ package com.atrio.quesapp;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atrio.quesapp.model.UserDetail;
@@ -28,6 +30,7 @@ public class SelectLangActivity extends AppCompatActivity {
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     String currentdeviceid;
+    TextView tv_site;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class SelectLangActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_lang);
         btn_eng = (Button) findViewById(R.id.btn_eng);
         btn_malya = (Button) findViewById(R.id.btn_malya);
+        tv_site = (TextView) findViewById(R.id.tv_site);
 
         mAuth = FirebaseAuth.getInstance();
         db_instance = FirebaseDatabase.getInstance();
@@ -45,6 +49,18 @@ public class SelectLangActivity extends AppCompatActivity {
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         user = mAuth.getCurrentUser();
         Log.i("currentdeviceuser2", "" + user);
+
+        tv_site.setText(R.string.click);
+
+        tv_site.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "https://www.keralapsc.gov.in/";
+                openWebPage(url);
+
+
+            }
+        });
 
         ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -84,6 +100,17 @@ public class SelectLangActivity extends AppCompatActivity {
 
         }
 
+
+    }
+
+    private void openWebPage(String url) {
+        Uri webpage = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }else{
+            //Page not found
+        }
 
     }
 

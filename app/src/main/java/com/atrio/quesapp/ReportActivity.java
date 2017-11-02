@@ -173,6 +173,8 @@ public class ReportActivity extends AppCompatActivity {
 
                     //Toast.makeText(SubjectActivity.this,"change"+dataSnapshot.getChildrenCount(),Toast.LENGTH_SHORT).show();
 
+
+
                 }
 
                 @Override

@@ -138,7 +138,7 @@ public class CustomUserVerification extends Dialog {
                                 Intent intent = new Intent(mycontext, LoginActivity.class);
                                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 mycontext.startActivity(intent);
-                                auth.signOut();
+                                //auth.signOut();
 
 
 
@@ -171,6 +171,7 @@ public class CustomUserVerification extends Dialog {
         super.onStart();
        // auth.addAuthStateListener(mauthListener);
     }
+
 
 
 
