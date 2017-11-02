@@ -6,11 +6,16 @@
     <item
         android:id="@+id/send_ques"
         android:orderInCategory="1"
-        android:title="Send Question"
+        android:title="@string/send"
         app:showAsAction="never" />
     <item
         android:id="@+id/feedback"
         android:orderInCategory="2"
-        android:title="Feedback"
+        android:title="@string/feedback1"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/report"
+        android:orderInCategory="2"
+        android:title="@string/report"
         app:showAsAction="never" />
 </menu>

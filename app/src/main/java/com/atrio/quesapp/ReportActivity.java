@@ -6,14 +6,18 @@ import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.atrio.quesapp.model.Feedback;
 import com.atrio.quesapp.model.UserDetail;
+import com.atrio.quesapp.sendmail.SendMail;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -23,30 +27,33 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class FeedBackActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
-    Button bt_feedback;
-    EditText et_feedback;
-    private String feedback;
-    private DatabaseReference db_ref;
-    private FirebaseDatabase db_instance;
+public class ReportActivity extends AppCompatActivity {
+
+    EditText et_ques,et_ans;
+    Button btn_send;
+    Spinner spinner;
+    String sender_email,subject,currentdeviceid;
     private FirebaseAuth mAuth;
-    private FirebaseUser user;
-    String currentdeviceid;
-
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed_back);
-
-        bt_feedback = (Button) findViewById(R.id.bt_feedback);
-        et_feedback = (EditText) findViewById(R.id.et_feedback);
-
-        db_instance = FirebaseDatabase.getInstance();
-        db_ref = db_instance.getReference("Feedback");
+        setContentView(R.layout.activity_report);
+        et_ques=(EditText)findViewById(R.id.et_ques_report);
+        et_ans=(EditText)findViewById(R.id.et_ans_report);
+        btn_send=(Button) findViewById(R.id.btn_send_report);
+        spinner= (Spinner) findViewById(R.id.spinner_report);
         mAuth = FirebaseAuth.getInstance();
+
+
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        user=FirebaseAuth.getInstance().getCurrentUser();
+
+
+
 
         ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -59,35 +66,51 @@ public class FeedBackActivity extends AppCompatActivity {
 
                 Log.i("Exception33", e.getMessage());
             }
+            mAuth=FirebaseAuth.getInstance();
+            user = mAuth.getCurrentUser();
 
-            bt_feedback.setOnClickListener(new View.OnClickListener() {
+            Bundle b = getIntent().getExtras();
+
+            if(b!=null){
+                ArrayList<String> arr = (ArrayList<String>)b.getStringArrayList("array_list");
+//                Log.i("array77156425",""+arr);
+                ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arr);
+                spinner.setAdapter(adapter);
+
+            }
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onClick(View view) {
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    subject = parent.getItemAtPosition(position).toString();
+                }
 
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-                     user = mAuth.getCurrentUser();
+                }
+            });
 
-                    feedback = et_feedback.getText().toString().trim();
+            btn_send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                    if (!feedback.isEmpty()) {
-                        Feedback feedback1 = new Feedback();
-                        feedback1.setFeedback(feedback);
-                        feedback1.setEmail(user.getEmail());
-                        db_ref.child(user.getUid()).setValue(feedback1);
-                        et_feedback.setText("");
-
-                    } else {
-
-                        Toast.makeText(FeedBackActivity.this, "Give Your FeedBack", Toast.LENGTH_SHORT).show();
+                    if (!TextUtils.isEmpty(et_ques.getText()) && !TextUtils.isEmpty(et_ans.getText())){
+                        sender_email=user.getEmail();
+                        String email ="info@atrio.co.in";
+                        String mail_subject = "Question";
+                        String message = "Question-"+et_ques.getText()+"\n\nAnswer-"+et_ans.getText()+"\n\ncategory-"+subject +"\n\nSend By-"+sender_email;
+                        SendMail sm = new SendMail(v.getContext(), email, mail_subject, message);
+                        sm.execute();
+                    }else {
+                        Toast.makeText(getApplicationContext(), "Write Question and Answer", Toast.LENGTH_LONG).show();
 
                     }
 
 
                 }
             });
+
         }
-
-
     }
 
     private void checkuser() {
@@ -105,15 +128,15 @@ public class FeedBackActivity extends AppCompatActivity {
 
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = userDetail.getDeviceId();
-                    Toast.makeText(FeedBackActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(FeedBackActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReportActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReportActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     if (deviceid.equals(currentdeviceid)) {
-                        Toast.makeText(FeedBackActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ReportActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
 
                     } else {
                         mAuth.signOut();
-                        Toast.makeText(FeedBackActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
-                        Toast.makeText(FeedBackActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ReportActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ReportActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
 
 
                     }
@@ -125,19 +148,19 @@ public class FeedBackActivity extends AppCompatActivity {
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
                     //Toast.makeText(SubjectActivity.this,""+dataSnapshot.getValue(),Toast.LENGTH_SHORT).show();
-                    Toast.makeText(FeedBackActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReportActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
                     deviceid =   userDetail.getDeviceId();
-                    Toast.makeText(FeedBackActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReportActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
                     if (!deviceid.equals("data")){
 
                         if (deviceid.equals(currentdeviceid)) {
-                            Toast.makeText(FeedBackActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ReportActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
-                            Toast.makeText(FeedBackActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
-                            Intent isend = new Intent(FeedBackActivity.this, LoginActivity.class);
+                            Toast.makeText(ReportActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
+                            Intent isend = new Intent(ReportActivity.this, LoginActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
                             finish();
@@ -166,12 +189,12 @@ public class FeedBackActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(FeedBackActivity.this, "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReportActivity.this, "" + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
             });
         }
 
     }
-
 }
+

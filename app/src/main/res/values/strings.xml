@@ -32,4 +32,8 @@
     <string name="feedback">FeedBack</string>
     <string name="feedbackdetail">Give Your Feedback</string>
     <string name="sendFeedback">send</string>
+    <string name="number">Enter Question Number</string>
+    <string name="send">Send Question</string>
+    <string name="feedback1">Feedback</string>
+    <string name="report">Report</string>
 </resources>

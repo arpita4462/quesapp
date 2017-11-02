@@ -65,7 +65,7 @@ public class SubjectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject);
-        bt_ques = (Button)findViewById(R.id.bt_ques);
+       // bt_ques = (Button)findViewById(R.id.bt_ques);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -202,14 +202,14 @@ public class SubjectActivity extends AppCompatActivity {
     });
 
 }
-        bt_ques.setOnClickListener(new View.OnClickListener() {
+     /*   bt_ques.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent move = new Intent(SubjectActivity.this,SendQuestionActivity.class);
                 move.putExtra("array_list", arr);
                 startActivity(move);
             }
-        });
+        });*/
 
     }
 
@@ -227,12 +227,22 @@ public class SubjectActivity extends AppCompatActivity {
             // action with ID action_refresh was selected
             case R.id.send_ques:
                 Intent isend = new Intent(SubjectActivity.this, SendQuestionActivity.class);
-                isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                isend.putExtra("array_list", arr);
+                //isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(isend);
 //                finish();
                 break;
             // action with ID action_settings was selected
             case R.id.feedback:
+                Intent isend1 = new Intent(SubjectActivity.this, FeedBackActivity.class);
+               // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(isend1);
+                break;
+            case R.id.report:
+                Intent report = new Intent(SubjectActivity.this, ReportActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                report.putExtra("array_list", arr);
+                startActivity(report);
                 break;
             default:
                 break;
