@@ -94,13 +94,7 @@ public class SendQuestionActivity extends AppCompatActivity {
                     Intent isend = new Intent(SendQuestionActivity.this,LoginActivity.class);
                     startActivity(isend);
                     finish();
-
-
                 }
-
-
-                //Toast.makeText(SubjectActivity.this,"change"+dataSnapshot.getChildrenCount(),Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
