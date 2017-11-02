@@ -5,6 +5,6 @@ package com.atrio.quesapp.sendmail;
  */
 
 public class Config {
-    public static final String EMAIL ="info@atriodata.com";
-    public static final String PASSWORD ="@infodata2017$";
+    public static final String EMAIL ="";
+    public static final String PASSWORD ="";
 }
