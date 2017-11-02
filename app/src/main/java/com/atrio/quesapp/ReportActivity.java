@@ -31,10 +31,10 @@ import java.util.ArrayList;
 
 public class ReportActivity extends AppCompatActivity {
 
-    EditText et_ques,et_ans;
+    EditText et_ques, et_ans;
     Button btn_send;
     Spinner spinner;
-    String sender_email,subject,currentdeviceid;
+    String sender_email, subject, currentdeviceid;
     private FirebaseAuth mAuth;
     FirebaseUser user;
 
@@ -42,17 +42,15 @@ public class ReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-        et_ques=(EditText)findViewById(R.id.et_ques_report);
-        et_ans=(EditText)findViewById(R.id.et_ans_report);
-        btn_send=(Button) findViewById(R.id.btn_send_report);
-        spinner= (Spinner) findViewById(R.id.spinner_report);
+        et_ques = (EditText) findViewById(R.id.et_ques_report);
+        et_ans = (EditText) findViewById(R.id.et_ans_report);
+        btn_send = (Button) findViewById(R.id.btn_send_report);
+        spinner = (Spinner) findViewById(R.id.spinner_report);
         mAuth = FirebaseAuth.getInstance();
 
 
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        user=FirebaseAuth.getInstance().getCurrentUser();
-
-
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
@@ -66,15 +64,15 @@ public class ReportActivity extends AppCompatActivity {
 
                 Log.i("Exception33", e.getMessage());
             }
-            mAuth=FirebaseAuth.getInstance();
+            mAuth = FirebaseAuth.getInstance();
             user = mAuth.getCurrentUser();
 
             Bundle b = getIntent().getExtras();
 
-            if(b!=null){
-                ArrayList<String> arr = (ArrayList<String>)b.getStringArrayList("array_list");
+            if (b != null) {
+                ArrayList<String> arr = (ArrayList<String>) b.getStringArrayList("array_list");
 //                Log.i("array77156425",""+arr);
-                ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item, arr);
+                ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, arr);
                 spinner.setAdapter(adapter);
 
             }
@@ -94,14 +92,14 @@ public class ReportActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    if (!TextUtils.isEmpty(et_ques.getText()) && !TextUtils.isEmpty(et_ans.getText())){
-                        sender_email=user.getEmail();
-                        String email ="info@atrio.co.in";
+                    if (!TextUtils.isEmpty(et_ques.getText()) && !TextUtils.isEmpty(et_ans.getText())) {
+                        sender_email = user.getEmail();
+                        String email = "info@atrio.co.in";
                         String mail_subject = "Question";
-                        String message = "Question-"+et_ques.getText()+"\n\nAnswer-"+et_ans.getText()+"\n\ncategory-"+subject +"\n\nSend By-"+sender_email;
+                        String message = "Question-" + et_ques.getText() + "\n\nAnswer-" + et_ans.getText() + "\n\ncategory-" + subject + "\n\nSend By-" + sender_email;
                         SendMail sm = new SendMail(v.getContext(), email, mail_subject, message);
                         sm.execute();
-                    }else {
+                    } else {
                         Toast.makeText(getApplicationContext(), "Write Question and Answer", Toast.LENGTH_LONG).show();
 
                     }
@@ -115,10 +113,10 @@ public class ReportActivity extends AppCompatActivity {
 
     private void checkuser() {
 
-        if (user == null){
+        if (user == null) {
 
             throw new NullPointerException("user is null");
-        }else{
+        } else {
             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
             Query query_realtimecheck = rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
             Log.i("Querry66", "" + query_realtimecheck);
@@ -130,12 +128,13 @@ public class ReportActivity extends AppCompatActivity {
                     String deviceid = userDetail.getDeviceId();
 /*                    Toast.makeText(ReportActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
                     Toast.makeText(ReportActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
-                   */ if (deviceid.equals(currentdeviceid)) {
-                     //   Toast.makeText(ReportActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                   */
+                    if (deviceid.equals(currentdeviceid)) {
+                        //   Toast.makeText(ReportActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
 
                     } else {
                         mAuth.signOut();
-                       // Toast.makeText(ReportActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(ReportActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
                         Toast.makeText(ReportActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
 
 
@@ -151,12 +150,12 @@ public class ReportActivity extends AppCompatActivity {
                     //Toast.makeText(ReportActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
-                    deviceid =   userDetail.getDeviceId();
+                    deviceid = userDetail.getDeviceId();
                     //Toast.makeText(ReportActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
-                    if (!deviceid.equals("data")){
+                    if (!deviceid.equals("data")) {
 
                         if (deviceid.equals(currentdeviceid)) {
-                      //      Toast.makeText(ReportActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                            //      Toast.makeText(ReportActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
                             Toast.makeText(ReportActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
@@ -167,10 +166,9 @@ public class ReportActivity extends AppCompatActivity {
 
 
                         }
-                    }else{
+                    } else {
 
                     }
-
 
 
                     //Toast.makeText(SubjectActivity.this,"change"+dataSnapshot.getChildrenCount(),Toast.LENGTH_SHORT).show();

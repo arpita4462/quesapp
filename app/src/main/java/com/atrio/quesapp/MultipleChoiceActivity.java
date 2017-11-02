@@ -30,30 +30,30 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MultipleChoiceActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, Animation.AnimationListener {
 
-    String tittle,lang,qno_list,correct_ans,selectedAns,currentdeviceid;
-    int qno = 001 ,checkedRadioButtonID;
-    TextView tv_tittle,tv_score,tv_quess,tv_correct;
+    String tittle, lang, qno_list, correct_ans, selectedAns, currentdeviceid;
+    int qno = 001, checkedRadioButtonID;
+    TextView tv_tittle, tv_score, tv_quess, tv_correct;
     Button bt_next;
     FirebaseUser user;
     DatabaseReference m_db;
     private FirebaseAuth mAuth;
     RadioGroup rd_grp;
-    RadioButton rb_opA,rb_opB,rb_opC,rb_opD,rbselect,rbcorrect;
-    Animation animFadein,animMove;
+    RadioButton rb_opA, rb_opB, rb_opC, rb_opD, rbselect, rbcorrect;
+    Animation animFadein, animMove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiple_choice);
-        tv_tittle = (TextView)findViewById(R.id.tv_tittle);
+        tv_tittle = (TextView) findViewById(R.id.tv_tittle);
         tv_score = (TextView) findViewById(R.id.tv_quessno);
         tv_quess = (TextView) findViewById(R.id.tv_quess);
 //        tv_correct = (TextView) findViewById(R.id.tv_correct);
         bt_next = (Button) findViewById(R.id.bt_nextquess);
-        rb_opA=(RadioButton) findViewById(R.id.rd_option1);
-        rb_opB=(RadioButton) findViewById(R.id.rd_option2);
-        rb_opC=(RadioButton) findViewById(R.id.rd_option3);
-        rb_opD=(RadioButton) findViewById(R.id.rd_option4);
+        rb_opA = (RadioButton) findViewById(R.id.rd_option1);
+        rb_opB = (RadioButton) findViewById(R.id.rd_option2);
+        rb_opC = (RadioButton) findViewById(R.id.rd_option3);
+        rb_opD = (RadioButton) findViewById(R.id.rd_option4);
         rd_grp = (RadioGroup) findViewById(R.id.radioGroup);
 
         Intent i = getIntent();
@@ -77,9 +77,9 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         bt_next.setEnabled(false);
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         user = mAuth.getCurrentUser();
-        try{
+        try {
             checkuser();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
 
             Log.i("Exception33", e.getMessage());
         }
@@ -92,7 +92,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
                 rd_grp.startAnimation(animMove);
                 bt_next.setBackgroundResource(R.color.centercolor);
                 bt_next.setEnabled(false);
-               // checkedRadioButtonID = rd_grp.getCheckedRadioButtonId();
+                // checkedRadioButtonID = rd_grp.getCheckedRadioButtonId();
                 rd_grp.setOnCheckedChangeListener(MultipleChoiceActivity.this);
                 qno++;
                 qno_list = String.format("%03d", qno);
@@ -102,12 +102,12 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         });
     }
 
-    private void checkuser() throws NullPointerException{
+    private void checkuser() throws NullPointerException {
 
-        if (user == null){
+        if (user == null) {
 
             throw new NullPointerException("user is null");
-        }else{
+        } else {
             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
             Query query_realtimecheck = rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
             Log.i("Querry66", "" + query_realtimecheck);
@@ -140,9 +140,9 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 //                    Toast.makeText(MultipleChoiceActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
-                    deviceid =   userDetail.getDeviceId();
+                    deviceid = userDetail.getDeviceId();
 //                    Toast.makeText(MultipleChoiceActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
-                    if (!deviceid.equals("data")){
+                    if (!deviceid.equals("data")) {
 
                         if (deviceid.equals(currentdeviceid)) {
 //                            Toast.makeText(MultipleChoiceActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
@@ -158,7 +158,6 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 
                         }
                     }
-
 
 
                     //Toast.makeText(SubjectActivity.this,"change"+dataSnapshot.getChildrenCount(),Toast.LENGTH_SHORT).show();
@@ -229,7 +228,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
                             rb_opD.setText(qModel.getOptionD());
                             correct_ans = qModel.getCorrect();
 
-                           // tv_ans.setText("Ans : " +    qModel.getAnswer());
+                            // tv_ans.setText("Ans : " +    qModel.getAnswer());
                         }
 
 
@@ -257,9 +256,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
          */
 
 
-
     }
-
 
 
     @Override
@@ -267,8 +264,8 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 
         bt_next.setEnabled(true);
         bt_next.setBackgroundResource(R.color.colorAccent);
-        rbselect = (RadioButton)radioGroup.findViewById(i);
-        rbcorrect= (RadioButton)radioGroup.findViewById(i);
+        rbselect = (RadioButton) radioGroup.findViewById(i);
+        rbcorrect = (RadioButton) radioGroup.findViewById(i);
 
         switch (i) {
             case R.id.rd_option1:
@@ -285,7 +282,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
                 break;
 
         }
-        if(rbselect != null){
+        if (rbselect != null) {
             if (selectedAns.equals(correct_ans)) {
 
                 rbselect.setTextColor(ContextCompat.getColor(MultipleChoiceActivity.this, R.color.green));

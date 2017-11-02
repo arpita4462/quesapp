@@ -96,9 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         Log.i("currentdeviceuser234",""+user);
 
-
-
-
         DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
         offsetRef.addValueEventListener(new ValueEventListener() {
             @Override

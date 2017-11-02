@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 public class SelectLangActivity extends AppCompatActivity {
-    Button btn_eng,btn_malya;
+    Button btn_eng, btn_malya;
     private FirebaseAuth mAuth;
     FirebaseUser user;
     private DatabaseReference db_ref;
@@ -33,8 +33,8 @@ public class SelectLangActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_lang);
-        btn_eng=(Button)findViewById(R.id.btn_eng);
-         btn_malya=(Button)findViewById(R.id.btn_malya);
+        btn_eng = (Button) findViewById(R.id.btn_eng);
+        btn_malya = (Button) findViewById(R.id.btn_malya);
 
         mAuth = FirebaseAuth.getInstance();
         db_instance = FirebaseDatabase.getInstance();
@@ -44,17 +44,17 @@ public class SelectLangActivity extends AppCompatActivity {
 
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         user = mAuth.getCurrentUser();
-        Log.i("currentdeviceuser2",""+user);
+        Log.i("currentdeviceuser2", "" + user);
 
         ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
 
-            try{
+            try {
                 checkuser();
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
 
                 Log.i("Exception33", e.getMessage());
             }
@@ -62,8 +62,8 @@ public class SelectLangActivity extends AppCompatActivity {
             btn_eng.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(SelectLangActivity.this,SubjectActivity.class);
-                    intent.putExtra("sub","English");
+                    Intent intent = new Intent(SelectLangActivity.this, SubjectActivity.class);
+                    intent.putExtra("sub", "English");
                     startActivity(intent);
 
                     //startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
@@ -73,8 +73,8 @@ public class SelectLangActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(SelectLangActivity.this,SubjectActivity.class);
-                    intent.putExtra("sub","Malayalam");
+                    Intent intent = new Intent(SelectLangActivity.this, SubjectActivity.class);
+                    intent.putExtra("sub", "Malayalam");
                     startActivity(intent);
 
                     // startActivity(new Intent(SelectLangActivity.this,MalayalamActivity.class));
@@ -87,12 +87,12 @@ public class SelectLangActivity extends AppCompatActivity {
 
     }
 
-    private void checkuser() throws NullPointerException{
+    private void checkuser() throws NullPointerException {
 
-        if (user == null){
+        if (user == null) {
 
             throw new NullPointerException("user is null");
-        }else{
+        } else {
             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
             Query query_realtimecheck = rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
             Log.i("Querry66", "" + query_realtimecheck);
@@ -122,15 +122,15 @@ public class SelectLangActivity extends AppCompatActivity {
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
 //                    Toast.makeText(SubjectActivity.this,""+dataSnapshot.getValue(),Toast.LENGTH_SHORT).show();
-                   // Toast.makeText(SelectLangActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(SelectLangActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
-                    deviceid =   userDetail.getDeviceId();
+                    deviceid = userDetail.getDeviceId();
                     //Toast.makeText(SelectLangActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
-                    if (!deviceid.equals("data")){
+                    if (!deviceid.equals("data")) {
 
                         if (deviceid.equals(currentdeviceid)) {
-                           // Toast.makeText(SelectLangActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(SelectLangActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
                             //Toast.makeText(SelectLangActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
@@ -143,7 +143,6 @@ public class SelectLangActivity extends AppCompatActivity {
 
                         }
                     }
-
 
 
                     //Toast.makeText(SubjectActivity.this,"change"+dataSnapshot.getChildrenCount(),Toast.LENGTH_SHORT).show();

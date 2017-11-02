@@ -26,7 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class QuestionAnswerActivity extends AppCompatActivity implements Animation.AnimationListener{
+public class QuestionAnswerActivity extends AppCompatActivity implements Animation.AnimationListener {
 
     String currentdeviceid, tittle, lang, qno_list;
     FirebaseUser user;
@@ -35,7 +35,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
     public TextView tv_tittle, tv_score, tv_quess, tv_ans;
     int qno = 001;
     Button bt_next;
-    Animation animFadein,animMove;
+    Animation animFadein, animMove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
 
             tv_tittle.setText(tittle);
             qno_list = String.format("%03d", qno);
@@ -82,12 +82,11 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                     tv_ans.startAnimation(animMove);
                 }
             });
-            try{
+            try {
                 checkuser();
 
 
-
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
 
                 Log.i("Exception33", e.getMessage());
             }
@@ -109,12 +108,12 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
     }
 
-    private void checkuser() throws NullPointerException{
+    private void checkuser() throws NullPointerException {
 
-        if (user == null){
+        if (user == null) {
 
             throw new NullPointerException("user is null");
-        }else{
+        } else {
             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
             Query query_realtimecheck = rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
             Log.i("Querry66", "" + query_realtimecheck);
@@ -148,9 +147,9 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 //                    Toast.makeText(QuestionAnswerActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
-                    deviceid =   userDetail.getDeviceId();
+                    deviceid = userDetail.getDeviceId();
 //                    Toast.makeText(QuestionAnswerActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
-                    if (!deviceid.equals("data")){
+                    if (!deviceid.equals("data")) {
 
                         if (deviceid.equals(currentdeviceid)) {
 //                            Toast.makeText(QuestionAnswerActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
@@ -166,7 +165,6 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
                         }
                     }
-
 
 
                     //Toast.makeText(SubjectActivity.this,"change"+dataSnapshot.getChildrenCount(),Toast.LENGTH_SHORT).show();
@@ -226,7 +224,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                             // Log.i("datasnapshot76",""+qModel.getAnswer());
                             // Log.i("datasnapshot75",""+qModel.getQuestion());
                             tv_quess.setText(qModel.getQuestion());
-                            tv_ans.setText("Ans : " +    qModel.getAnswer());
+                            tv_ans.setText("Ans : " + qModel.getAnswer());
                         }
 
 

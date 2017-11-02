@@ -37,7 +37,7 @@ public class TrialActivity extends AppCompatActivity {
     TextView tv_username, tv_daysleft;
     Button btn_skip, btn_upgrade;
     ImageView img_trail;
-    String installDate, currentDate,currentdeviceid;
+    String installDate, currentDate, currentdeviceid;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     private FirebaseAuth mAuth;
@@ -92,7 +92,7 @@ public class TrialActivity extends AppCompatActivity {
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         user = mAuth.getCurrentUser();
         dialog.show();
-        try{
+        try {
             checkuser();
 
 
@@ -156,7 +156,7 @@ public class TrialActivity extends AppCompatActivity {
 
                 }
             });
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
 
             Log.i("Exception33", e.getMessage());
         }
@@ -183,12 +183,12 @@ public class TrialActivity extends AppCompatActivity {
 
     }
 
-    private void checkuser() throws NullPointerException{
+    private void checkuser() throws NullPointerException {
 
-        if (user == null){
+        if (user == null) {
 
             throw new NullPointerException("user is null");
-        }else{
+        } else {
             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
             Query query_realtimecheck = rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
             Log.i("Querry66", "" + query_realtimecheck);
@@ -221,9 +221,9 @@ public class TrialActivity extends AppCompatActivity {
 //                    Toast.makeText(TrialActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
-                    deviceid =   userDetail.getDeviceId();
+                    deviceid = userDetail.getDeviceId();
 //                    Toast.makeText(TrialActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
-                    if (!deviceid.equals("data")){
+                    if (!deviceid.equals("data")) {
 
                         if (deviceid.equals(currentdeviceid)) {
 //                            Toast.makeText(TrialActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
@@ -239,7 +239,6 @@ public class TrialActivity extends AppCompatActivity {
 
                         }
                     }
-
 
 
                     //Toast.makeText(SubjectActivity.this,"change"+dataSnapshot.getChildrenCount(),Toast.LENGTH_SHORT).show();
@@ -266,7 +265,6 @@ public class TrialActivity extends AppCompatActivity {
 
 
     }
-
 
 
     class MyTimer extends TimerTask {

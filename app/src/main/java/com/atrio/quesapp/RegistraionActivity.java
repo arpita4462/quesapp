@@ -31,15 +31,15 @@ import java.util.Locale;
 
 public class RegistraionActivity extends AppCompatActivity {
 
-    private EditText mEmailView, mPasswordView,name;
+    private EditText mEmailView, mPasswordView, name;
     private ProgressBar mProgressView;
     private Button registraionButton;
     private FirebaseAuth mAuth;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     SimpleDateFormat formatter;
-    private String email, password, userName, createdDated, emailId, userId, deviceId,user_name;
-    TextInputLayout input_email, input_pwd,input_name;
+    private String email, password, userName, createdDated, emailId, userId, deviceId, user_name;
+    TextInputLayout input_email, input_pwd, input_name;
 
 
     @Override
@@ -64,7 +64,7 @@ public class RegistraionActivity extends AppCompatActivity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
 
             registraionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,7 +84,7 @@ public class RegistraionActivity extends AppCompatActivity {
         email = mEmailView.getText().toString();
         password = mPasswordView.getText().toString();
         user_name = name.getText().toString().trim();
-        if (TextUtils.isEmpty(user_name) ){
+        if (TextUtils.isEmpty(user_name)) {
             input_name.setError(getString(R.string.err_msg_name));
         } else if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
             input_email.setError(getString(R.string.err_msg_email));

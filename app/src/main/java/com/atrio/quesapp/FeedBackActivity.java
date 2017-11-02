@@ -65,7 +65,7 @@ public class FeedBackActivity extends AppCompatActivity {
                 public void onClick(View view) {
 
 
-                     user = mAuth.getCurrentUser();
+                    user = mAuth.getCurrentUser();
 
                     feedback = et_feedback.getText().toString().trim();
 
@@ -92,10 +92,10 @@ public class FeedBackActivity extends AppCompatActivity {
 
     private void checkuser() {
 
-        if (user == null){
+        if (user == null) {
 
             throw new NullPointerException("user is null");
-        }else{
+        } else {
             DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
             Query query_realtimecheck = rootRef.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
             Log.i("Querry66", "" + query_realtimecheck);
@@ -128,15 +128,15 @@ public class FeedBackActivity extends AppCompatActivity {
                     Toast.makeText(FeedBackActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
-                    deviceid =   userDetail.getDeviceId();
-                   // Toast.makeText(FeedBackActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
-                    if (!deviceid.equals("data")){
+                    deviceid = userDetail.getDeviceId();
+                    // Toast.makeText(FeedBackActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
+                    if (!deviceid.equals("data")) {
 
                         if (deviceid.equals(currentdeviceid)) {
-                           // Toast.makeText(FeedBackActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(FeedBackActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
-                          Toast.makeText(FeedBackActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FeedBackActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
                             Intent isend = new Intent(FeedBackActivity.this, LoginActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
@@ -144,10 +144,9 @@ public class FeedBackActivity extends AppCompatActivity {
 
 
                         }
-                    }else{
+                    } else {
 
                     }
-
 
 
                     //Toast.makeText(SubjectActivity.this,"change"+dataSnapshot.getChildrenCount(),Toast.LENGTH_SHORT).show();
@@ -156,7 +155,6 @@ public class FeedBackActivity extends AppCompatActivity {
 
                 @Override
                 public void onChildRemoved(DataSnapshot dataSnapshot) {
-
                 }
 
                 @Override
