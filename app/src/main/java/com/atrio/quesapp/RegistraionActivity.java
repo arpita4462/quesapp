@@ -1,6 +1,8 @@
 package com.atrio.quesapp;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -57,13 +59,24 @@ public class RegistraionActivity extends AppCompatActivity {
         db_instance = FirebaseDatabase.getInstance();
         db_ref = db_instance.getReference("UserDetail");
         formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        registraionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                registerUser();
-            }
-        });
+        ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        }else{
+
+            registraionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    registerUser();
+                }
+            });
+
+        }
+
+
     }
 
     private void registerUser() {

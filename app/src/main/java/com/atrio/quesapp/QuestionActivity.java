@@ -119,7 +119,7 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
 
 
         Query query_realtimecheck = db_ref.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
-        Log.i("Querry66", "" + query_realtimecheck);
+        //Log.i("Querry66", "" + query_realtimecheck);
         query_realtimecheck.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -146,16 +146,18 @@ public class QuestionActivity extends AppCompatActivity implements Animation.Ani
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
                 //Toast.makeText(SubjectActivity.this,""+dataSnapshot.getValue(),Toast.LENGTH_SHORT).show();
-                Toast.makeText(QuestionActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(QuestionActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                 UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                 String deviceid = userDetail.getDeviceId();
+/*
                 Toast.makeText(QuestionActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
+*/
 
                 if (deviceid.equals(currentdeviceid)) {
-                    Toast.makeText(QuestionActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(QuestionActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                 } else {
                     FirebaseAuth.getInstance().signOut();
-                    Toast.makeText(QuestionActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(QuestionActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
                     Intent isend = new Intent(QuestionActivity.this,LoginActivity.class);
                     startActivity(isend);
                     finish();

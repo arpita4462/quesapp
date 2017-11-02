@@ -113,10 +113,8 @@ public class LoginActivity extends AppCompatActivity {
 
         if (user!= null){
             dialog.show();
+
            checktrail();
-         /*   Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
-            startActivity(intent);
-            finish();*/
 
         }else{
             dialog.dismiss();
@@ -187,11 +185,11 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        Log.i("print55","start");
+        //Log.i("print55","start");
         try {
             int autoTime = android.provider.Settings.System.getInt(getContentResolver(), android.provider.Settings.System.AUTO_TIME);
             if (autoTime != 1) {
-                Toast.makeText(getBaseContext(), "Turn on Automatic Date and Time", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getBaseContext(), "Turn on Automatic Date and Time", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
                 finish();
 
@@ -212,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
 
         }*/
 
-        Log.i("print55","stop");
+        //Log.i("print55","stop");
 
        clicked = false;
       // LoginActivity.this.finish();
@@ -222,7 +220,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("print55","Resume");
+        //Log.i("print55","Resume");
 
     }
 
@@ -242,7 +240,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
 
-        Log.i("print55","Pause");
+        //Log.i("print55","Pause");
     }
 
     @Override
@@ -254,7 +252,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i("print55","Restart");
+        //Log.i("print55","Restart");
     }
 
     private void attemptLogin() {
@@ -275,20 +273,20 @@ public class LoginActivity extends AppCompatActivity {
 
                         user = mAuth.getCurrentUser();
                         if (user != null) {
-                            Log.i("currentdevice", ""+user);
+                           // Log.i("currentdevice", ""+user);
 
                             checkIfEmailVerified(password);
 
-                            Log.i("User90", "" + user.getUid());
+                            //Log.i("User90", "" + user.getUid());
                         } else {
                             FirebaseAuth.getInstance().signOut();
                             // User is signed out
 //                    Log.i("signed_out",""+user);
                         }
-                        Log.i("success111", "" + task.isSuccessful());
+                        //Log.i("success111", "" + task.isSuccessful());
 
                     } else {
-                        Log.i("failure", "" + task.getException());
+                       // Log.i("failure", "" + task.getException());
                         dialog.dismiss();
                         Toast.makeText(getApplicationContext(), " Incorrect EmailId or Password.", Toast.LENGTH_SHORT).show();
 //                                    updateUI(null);

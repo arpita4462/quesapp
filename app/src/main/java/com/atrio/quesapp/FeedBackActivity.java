@@ -105,14 +105,14 @@ public class FeedBackActivity extends AppCompatActivity {
 
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = userDetail.getDeviceId();
-                    Toast.makeText(FeedBackActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(FeedBackActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                  /*  Toast.makeText(FeedBackActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FeedBackActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();*/
                     if (deviceid.equals(currentdeviceid)) {
-                        Toast.makeText(FeedBackActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                       /* Toast.makeText(FeedBackActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();*/
 
                     } else {
                         mAuth.signOut();
-                        Toast.makeText(FeedBackActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+                       /* Toast.makeText(FeedBackActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();*/
                         Toast.makeText(FeedBackActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
 
 
@@ -129,14 +129,14 @@ public class FeedBackActivity extends AppCompatActivity {
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
                     deviceid =   userDetail.getDeviceId();
-                    Toast.makeText(FeedBackActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(FeedBackActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
                     if (!deviceid.equals("data")){
 
                         if (deviceid.equals(currentdeviceid)) {
-                            Toast.makeText(FeedBackActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(FeedBackActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
-                            Toast.makeText(FeedBackActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
+                          Toast.makeText(FeedBackActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
                             Intent isend = new Intent(FeedBackActivity.this, LoginActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);

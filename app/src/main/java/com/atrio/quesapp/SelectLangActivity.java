@@ -1,6 +1,8 @@
 package com.atrio.quesapp;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,35 +46,44 @@ public class SelectLangActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         Log.i("currentdeviceuser2",""+user);
 
-        try{
-            checkuser();
-        }catch (NullPointerException e){
+        ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        }else{
 
-            Log.i("Exception33", e.getMessage());
+            try{
+                checkuser();
+            }catch (NullPointerException e){
+
+                Log.i("Exception33", e.getMessage());
+            }
+
+            btn_eng.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(SelectLangActivity.this,SubjectActivity.class);
+                    intent.putExtra("sub","English");
+                    startActivity(intent);
+
+                    //startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
+                }
+            });
+            btn_malya.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(SelectLangActivity.this,SubjectActivity.class);
+                    intent.putExtra("sub","Malayalam");
+                    startActivity(intent);
+
+                    // startActivity(new Intent(SelectLangActivity.this,MalayalamActivity.class));
+
+                }
+            });
+
         }
 
-        btn_eng.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SelectLangActivity.this,SubjectActivity.class);
-                intent.putExtra("sub","English");
-                startActivity(intent);
-
-                //startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
-            }
-        });
-        btn_malya.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(SelectLangActivity.this,SubjectActivity.class);
-                intent.putExtra("sub","Malayalam");
-                startActivity(intent);
-
-             // startActivity(new Intent(SelectLangActivity.this,MalayalamActivity.class));
-
-            }
-        });
 
     }
 
@@ -91,15 +102,15 @@ public class SelectLangActivity extends AppCompatActivity {
 
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = userDetail.getDeviceId();
-                    Toast.makeText(SelectLangActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(SelectLangActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                   /* Toast.makeText(SelectLangActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SelectLangActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();*/
                     if (deviceid.equals(currentdeviceid)) {
-                        Toast.makeText(SelectLangActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SelectLangActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
 
                     } else {
                         FirebaseAuth.getInstance().signOut();
                         Toast.makeText(SelectLangActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(SelectLangActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SelectLangActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
 
 
                     }
@@ -111,18 +122,18 @@ public class SelectLangActivity extends AppCompatActivity {
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
 //                    Toast.makeText(SubjectActivity.this,""+dataSnapshot.getValue(),Toast.LENGTH_SHORT).show();
-                    Toast.makeText(SelectLangActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(SelectLangActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
                     deviceid =   userDetail.getDeviceId();
-                    Toast.makeText(SelectLangActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(SelectLangActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
                     if (!deviceid.equals("data")){
 
                         if (deviceid.equals(currentdeviceid)) {
-                            Toast.makeText(SelectLangActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(SelectLangActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
-                            Toast.makeText(SelectLangActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SelectLangActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
                             Toast.makeText(SelectLangActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
                             Intent isend = new Intent(SelectLangActivity.this, LoginActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

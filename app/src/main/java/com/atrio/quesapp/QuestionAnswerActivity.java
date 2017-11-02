@@ -1,6 +1,8 @@
 package com.atrio.quesapp;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -59,31 +61,46 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         user = mAuth.getCurrentUser();
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         user = mAuth.getCurrentUser();
-        try{
-            checkuser();
-        }catch (NullPointerException e){
 
-            Log.i("Exception33", e.getMessage());
+        ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        }else{
+
+            tv_tittle.setText(tittle);
+            qno_list = String.format("%03d", qno);
+            getQuestion(qno_list);
+
+            bt_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    qno++;
+                    qno_list = String.format("%03d", qno);
+                    getQuestion(qno_list);
+                    tv_quess.startAnimation(animFadein);
+                    tv_ans.startAnimation(animMove);
+                }
+            });
+            try{
+                checkuser();
+
+
+
+            }catch (NullPointerException e){
+
+                Log.i("Exception33", e.getMessage());
+            }
+
         }
-        tv_tittle.setText(tittle);
-        qno_list = String.format("%03d", qno);
-        getQuestion(qno_list);
+
 
 
        /* Log.i("qno_list11",""+qno_list);
         Log.i("tittle11",""+tittle);
         Log.i("lang11",""+lang);*/
 
-        bt_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                qno++;
-                qno_list = String.format("%03d", qno);
-                getQuestion(qno_list);
-                tv_quess.startAnimation(animFadein);
-                tv_ans.startAnimation(animMove);
-            }
-        });
+
 
 
 
@@ -114,6 +131,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
                     } else {
                         FirebaseAuth.getInstance().signOut();
+                        Toast.makeText(QuestionAnswerActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
 //                        Toast.makeText(QuestionAnswerActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
                         Toast.makeText(QuestionAnswerActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
 

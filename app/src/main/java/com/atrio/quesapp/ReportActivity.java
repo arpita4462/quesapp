@@ -128,14 +128,14 @@ public class ReportActivity extends AppCompatActivity {
 
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = userDetail.getDeviceId();
-                    Toast.makeText(ReportActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+/*                    Toast.makeText(ReportActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
                     Toast.makeText(ReportActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
-                    if (deviceid.equals(currentdeviceid)) {
-                        Toast.makeText(ReportActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                   */ if (deviceid.equals(currentdeviceid)) {
+                     //   Toast.makeText(ReportActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
 
                     } else {
                         mAuth.signOut();
-                        Toast.makeText(ReportActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(ReportActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
                         Toast.makeText(ReportActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
 
 
@@ -148,15 +148,15 @@ public class ReportActivity extends AppCompatActivity {
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
                     //Toast.makeText(SubjectActivity.this,""+dataSnapshot.getValue(),Toast.LENGTH_SHORT).show();
-                    Toast.makeText(ReportActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ReportActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
                     deviceid =   userDetail.getDeviceId();
-                    Toast.makeText(ReportActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ReportActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
                     if (!deviceid.equals("data")){
 
                         if (deviceid.equals(currentdeviceid)) {
-                            Toast.makeText(ReportActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                      //      Toast.makeText(ReportActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
                             Toast.makeText(ReportActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
