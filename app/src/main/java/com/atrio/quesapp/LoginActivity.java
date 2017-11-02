@@ -322,7 +322,7 @@ public class LoginActivity extends AppCompatActivity {
                                 now = formatter.parse(currentDate);
                                 diff = now.getTime() - before.getTime();
                                 days = diff / ONE_DAY;
-                                days_left = 4 - days;
+                                days_left = 30 - days;
 
                             } catch (ParseException e) {
                                 e.printStackTrace();
@@ -341,7 +341,7 @@ public class LoginActivity extends AppCompatActivity {
                                     customUserVerification.dismiss();
                                 }
                             } else {
-                                if (days >= 4 || days_left == 2 || days_left == 1) {
+                                if (days >= 30 || days_left == 2 || days_left == 1) {
                                     dialog.dismiss();
                                     Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
                                     startActivity(intent);
@@ -410,12 +410,12 @@ public class LoginActivity extends AppCompatActivity {
                         now = formatter.parse(currentDate);
                         diff = now.getTime() - before.getTime();
                         days = diff / ONE_DAY;
-                        days_left = 3 - days;
+                        days_left = 30 - days;
 
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    if (days >= 3 || days_left == 2 || days_left == 1) {
+                    if (days >= 30 || days_left == 2 || days_left == 1) {
                         dialog.dismiss();
                         Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
                         startActivity(intent);

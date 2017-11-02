@@ -29,15 +29,15 @@ import java.util.Locale;
 
 public class RegistraionActivity extends AppCompatActivity {
 
-    private EditText mEmailView, mPasswordView;
+    private EditText mEmailView, mPasswordView,name;
     private ProgressBar mProgressView;
     private Button registraionButton;
     private FirebaseAuth mAuth;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     SimpleDateFormat formatter;
-    private String email, password, userName, createdDated, emailId, userId, deviceId;
-    TextInputLayout input_email, input_pwd;
+    private String email, password, userName, createdDated, emailId, userId, deviceId,user_name;
+    TextInputLayout input_email, input_pwd,input_name;
 
 
     @Override
@@ -46,10 +46,12 @@ public class RegistraionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registraion);
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
+        name = (EditText) findViewById(R.id.name);
         registraionButton = (Button) findViewById(R.id.registraion_button);
         mProgressView = (ProgressBar) findViewById(R.id.registraion_progress);
         input_email = (TextInputLayout) findViewById(R.id.input_email_id);
         input_pwd = (TextInputLayout) findViewById(R.id.input_password);
+        input_name = (TextInputLayout) findViewById(R.id.input_name);
 
         mAuth = FirebaseAuth.getInstance();
         db_instance = FirebaseDatabase.getInstance();
@@ -68,7 +70,10 @@ public class RegistraionActivity extends AppCompatActivity {
 
         email = mEmailView.getText().toString();
         password = mPasswordView.getText().toString();
-        if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
+        user_name = name.getText().toString().trim();
+        if (TextUtils.isEmpty(user_name) ){
+            input_name.setError(getString(R.string.err_msg_name));
+        } else if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
             input_email.setError(getString(R.string.err_msg_email));
         } else if (TextUtils.isEmpty(password) || password.length() < 6) {
             input_email.setErrorEnabled(false);
@@ -86,12 +91,11 @@ public class RegistraionActivity extends AppCompatActivity {
                                 FirebaseUser user = mAuth.getCurrentUser();
 
                                 Date dt = new Date();
-                                userName = user.getEmail().substring(0, user.getEmail().indexOf("@"));
                                 userId = user.getUid();
                                 emailId = user.getEmail();
                                 createdDated = formatter.format(dt);
                                 deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-                                createUserDetail(userName, createdDated, emailId, userId, deviceId);
+                                createUserDetail(user_name, createdDated, emailId, userId, deviceId);
                                 sendEmailVerify();
                                 FirebaseAuth.getInstance().signOut();
 //                            Toast.makeText(RegistraionActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();

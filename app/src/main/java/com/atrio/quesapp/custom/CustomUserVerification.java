@@ -136,9 +136,9 @@ public class CustomUserVerification extends Dialog {
                                 }
 
                                 Intent intent = new Intent(mycontext, LoginActivity.class);
-                                auth.signOut();
                                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 mycontext.startActivity(intent);
+                                auth.signOut();
 
 
 
@@ -158,6 +158,14 @@ public class CustomUserVerification extends Dialog {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        auth.signOut();
+
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -169,4 +177,5 @@ public class CustomUserVerification extends Dialog {
     private boolean isEmailValid(String email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
 }
