@@ -1,6 +1,5 @@
 package com.atrio.quesapp;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,10 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,15 +51,11 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout input_email, input_pwd;
     private Button mEmailSignInButton;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
     private String email, password, timeSettings, deviceid, currentdeviceid,installDate, currentDate;
     private SpotsDialog dialog;
     private CustomRestpwd customRestpwd;
     public static final String MyPREFERENCES = "MyPrefs";
-    public static final String userinfo = "UserKey";
-    String info_data = "arpita";
-    Context context = LoginActivity.this;
     boolean clicked=false,signinclicked=false;
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private final long ONE_DAY = 24 * 60 * 60 * 1000;
@@ -70,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
     Date now, before;
     CustomUserVerification customUserVerification;
     SharedPreferences sharedpreferences;
-    ProgressBar mprogressBar;
 
 
     @Override
@@ -88,15 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         input_email = (TextInputLayout) findViewById(R.id.input_email_id);
         input_pwd = (TextInputLayout) findViewById(R.id.input_password);
 
-        mprogressBar = (ProgressBar) findViewById(R.id.circular_progress_bar);
-        ObjectAnimator anim = ObjectAnimator.ofInt(mprogressBar, "progress", 0, 100);
-        anim.setDuration(15000);
-        anim.setInterpolator(new DecelerateInterpolator());
-        anim.start();
-
-/*
         dialog = new SpotsDialog(LoginActivity.this, R.style.Custom);
-*/
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -123,12 +107,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         if (user!= null){
-           // dialog.show();
-
-           checktrail();
-
+            dialog.show();
+            Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
+            startActivity(intenttrail);
+            finish();
         }else{
-           // dialog.dismiss();
+            dialog.dismiss();
          mAuth.signOut();
         }
 
@@ -275,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
             input_email.setErrorEnabled(false);
             input_pwd.setError(getString(R.string.error_incorrect_password));
         } else {
-           // dialog.show();
+            dialog.show();
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -298,7 +282,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     } else {
                        // Log.i("failure", "" + task.getException());
-                      //  dialog.dismiss();
+                        dialog.dismiss();
                         Toast.makeText(getApplicationContext(), " Incorrect EmailId or Password.", Toast.LENGTH_SHORT).show();
 //                                    updateUI(null);
                     }
@@ -339,7 +323,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (!deviceid.equals(currentdeviceid)) {
                                 Log.i("Status99", "" + user.isEmailVerified());
                                  //FirebaseAuth.getInstance().signOut();
-                               // dialog.dismiss();
+                                dialog.dismiss();
 
                                  customUserVerification = new CustomUserVerification(LoginActivity.this, password);
                                   customUserVerification.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -351,12 +335,12 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             } else {
                                 if (days >= 30 || days_left == 2 || days_left == 1) {
-                                    //dialog.dismiss();
+                                    dialog.dismiss();
                                     Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
-                                   // dialog.dismiss();
+                                    dialog.dismiss();
                            /*           try{
             checkuser();
         }catch (NullPointerException e){
@@ -381,7 +365,7 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            //dialog.dismiss();
+            dialog.dismiss();
 //            checktrail();
             Log.i("Status98", "" + user);
             if (clicked){
@@ -400,52 +384,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private  void checktrail(){
-
-       // dialog.dismiss();
-
-        final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
-        Query userquery = rootRef2.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
-
-        userquery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
-                    installDate = userDetail.getCreatedDated();
-
-                    try {
-                        before = formatter.parse(installDate);
-                        now = formatter.parse(currentDate);
-                        diff = now.getTime() - before.getTime();
-                        days = diff / ONE_DAY;
-                        days_left = 30 - days;
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    if (days >= 30 || days_left == 2 || days_left == 1) {
-                       // dialog.dismiss();
-                        Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                       // dialog.dismiss();
-                        Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
-                        startActivity(intenttrail);
-                        finish();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
 
     private void sendEmailVerify() {
         if (user != null) {

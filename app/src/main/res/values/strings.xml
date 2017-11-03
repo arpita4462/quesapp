@@ -39,7 +39,6 @@
     <string name="report">Report</string>
     <string name="prompt_name"> Name</string>
     <string name="click"><u>www.keralapsc.gov.in</u></string>
-    <string name="english">English</string>
-    <string name="malayalam">മലയാളം</string>
+    <string name="title_activity_splash">SplashActivity</string>
 
 </resources>
