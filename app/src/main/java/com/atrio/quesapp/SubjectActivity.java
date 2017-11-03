@@ -266,14 +266,14 @@ public class SubjectActivity extends AppCompatActivity {
 
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = userDetail.getDeviceId();
-                    Toast.makeText(SubjectActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(SubjectActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                    /*Toast.makeText(SubjectActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SubjectActivity.this, "addcurrent" + currentdeviceid, Toast.LENGTH_SHORT).show();*/
                     if (deviceid.equals(currentdeviceid)) {
-                        Toast.makeText(SubjectActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SubjectActivity.this, "add" + deviceid, Toast.LENGTH_SHORT).show();
 
                     } else {
                       mAuth.signOut();
-                        Toast.makeText(SubjectActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SubjectActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
                         Toast.makeText(SubjectActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
 
 
@@ -286,11 +286,11 @@ public class SubjectActivity extends AppCompatActivity {
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
                     //Toast.makeText(SubjectActivity.this,""+dataSnapshot.getValue(),Toast.LENGTH_SHORT).show();
-                    Toast.makeText(SubjectActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(SubjectActivity.this, "change" + currentdeviceid, Toast.LENGTH_SHORT).show();
                     UserDetail userDetail = dataSnapshot.getValue(UserDetail.class);
                     String deviceid = "data";
                     deviceid =   userDetail.getDeviceId();
-                    Toast.makeText(SubjectActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(SubjectActivity.this, "changecurrent" + deviceid, Toast.LENGTH_SHORT).show();
                     if (!deviceid.equals("data")){
 
                         if (deviceid.equals(currentdeviceid)) {

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class SelectLangActivity extends AppCompatActivity {
     private FirebaseDatabase db_instance;
     String currentdeviceid;
     TextView tv_site;
+    ImageView img_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,8 @@ public class SelectLangActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_lang);
         btn_eng = (Button) findViewById(R.id.btn_eng);
         btn_malya = (Button) findViewById(R.id.btn_malya);
-        tv_site = (TextView) findViewById(R.id.tv_site);
+       // tv_site = (TextView) findViewById(R.id.tv_site);
+        img_view = (ImageView)findViewById(R.id.bg_img);
 
         mAuth = FirebaseAuth.getInstance();
         db_instance = FirebaseDatabase.getInstance();
@@ -50,9 +53,9 @@ public class SelectLangActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         Log.i("currentdeviceuser2", "" + user);
 
-        tv_site.setText(R.string.click);
+     /*   tv_site.setText(R.string.click);*/
 
-        tv_site.setOnClickListener(new View.OnClickListener() {
+        img_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String url = "https://www.keralapsc.gov.in/";
