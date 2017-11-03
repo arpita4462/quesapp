@@ -51,15 +51,11 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout input_email, input_pwd;
     private Button mEmailSignInButton;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
     private String email, password, timeSettings, deviceid, currentdeviceid,installDate, currentDate;
     private SpotsDialog dialog;
     private CustomRestpwd customRestpwd;
     public static final String MyPREFERENCES = "MyPrefs";
-    public static final String userinfo = "UserKey";
-    String info_data = "arpita";
-    Context context = LoginActivity.this;
     boolean clicked=false,signinclicked=false;
     private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private final long ONE_DAY = 24 * 60 * 60 * 1000;
@@ -112,9 +108,9 @@ public class LoginActivity extends AppCompatActivity {
 
         if (user!= null){
             dialog.show();
-
-           checktrail();
-
+            Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
+            startActivity(intenttrail);
+            finish();
         }else{
             dialog.dismiss();
          mAuth.signOut();
@@ -388,52 +384,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private  void checktrail(){
-
-        dialog.dismiss();
-
-        final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
-        Query userquery = rootRef2.child("UserDetail").orderByChild("emailId").equalTo(user.getEmail());
-
-        userquery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    UserDetail userDetail = dataSnapshot1.getValue(UserDetail.class);
-                    installDate = userDetail.getCreatedDated();
-
-                    try {
-                        before = formatter.parse(installDate);
-                        now = formatter.parse(currentDate);
-                        diff = now.getTime() - before.getTime();
-                        days = diff / ONE_DAY;
-                        days_left = 30 - days;
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    if (days >= 30 || days_left == 2 || days_left == 1) {
-                        dialog.dismiss();
-                        Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        dialog.dismiss();
-                        Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
-                        startActivity(intenttrail);
-                        finish();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
 
     private void sendEmailVerify() {
         if (user != null) {
