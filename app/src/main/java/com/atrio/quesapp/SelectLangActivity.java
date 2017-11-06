@@ -26,7 +26,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class SelectLangActivity extends AppCompatActivity {
-    Button btn_eng, btn_malya;
+    Button btn_eng, btn_malya,img_view;
     private FirebaseAuth mAuth;
     FirebaseUser user;
     private DatabaseReference db_ref;
