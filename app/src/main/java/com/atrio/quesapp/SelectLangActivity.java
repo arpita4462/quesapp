@@ -33,7 +33,7 @@ public class SelectLangActivity extends AppCompatActivity {
     private FirebaseDatabase db_instance;
     String currentdeviceid;
     TextView tv_userName;
-    ImageView img_view;
+    //ImageView img_view;
 
 
     @Override
@@ -43,7 +43,7 @@ public class SelectLangActivity extends AppCompatActivity {
         btn_eng = (Button) findViewById(R.id.btn_eng);
         btn_malya = (Button) findViewById(R.id.btn_malya);
         tv_userName = (TextView) findViewById(R.id.tv_userName);
-        img_view = (ImageView)findViewById(R.id.bg_img);
+        img_view = (Button) findViewById(R.id.bg_img);
 
         mAuth = FirebaseAuth.getInstance();
         db_instance = FirebaseDatabase.getInstance();
