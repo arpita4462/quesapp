@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class SelectLangActivity extends AppCompatActivity {
     Button btn_eng, btn_malya;
@@ -31,8 +32,9 @@ public class SelectLangActivity extends AppCompatActivity {
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     String currentdeviceid;
-    TextView tv_site;
+    TextView tv_userName;
     ImageView img_view;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class SelectLangActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_lang);
         btn_eng = (Button) findViewById(R.id.btn_eng);
         btn_malya = (Button) findViewById(R.id.btn_malya);
-       // tv_site = (TextView) findViewById(R.id.tv_site);
+        tv_userName = (TextView) findViewById(R.id.tv_userName);
         img_view = (ImageView)findViewById(R.id.bg_img);
 
         mAuth = FirebaseAuth.getInstance();
@@ -48,12 +50,33 @@ public class SelectLangActivity extends AppCompatActivity {
         db_ref = db_instance.getReference("UserDetail");
 
         user = mAuth.getCurrentUser();
+        tv_userName.setText(user.getDisplayName());
 
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         user = mAuth.getCurrentUser();
         Log.i("currentdeviceuser2", "" + user);
 
      /*   tv_site.setText(R.string.click);*/
+
+        Query userdetailquery = db_ref.orderByKey().equalTo(user.getUid());
+        userdetailquery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getChildrenCount() != 0) {
+                    for (DataSnapshot child : dataSnapshot.getChildren()) {
+                        UserDetail userDetail = child.getValue(UserDetail.class);
+                        tv_userName.setText("Welcome : " + userDetail.getUserName());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         img_view.setOnClickListener(new View.OnClickListener() {
             @Override
