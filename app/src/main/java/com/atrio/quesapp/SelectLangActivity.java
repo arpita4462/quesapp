@@ -25,14 +25,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 public class SelectLangActivity extends AppCompatActivity {
-    Button btn_eng, btn_malya;
+    Button btn_eng, btn_malya,img_view;
     private FirebaseAuth mAuth;
     FirebaseUser user;
     private DatabaseReference db_ref;
     private FirebaseDatabase db_instance;
     String currentdeviceid;
     TextView tv_site;
-    ImageView img_view;
+//    ImageView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class SelectLangActivity extends AppCompatActivity {
         btn_eng = (Button) findViewById(R.id.btn_eng);
         btn_malya = (Button) findViewById(R.id.btn_malya);
        // tv_site = (TextView) findViewById(R.id.tv_site);
-        img_view = (ImageView)findViewById(R.id.bg_img);
+        img_view = (Button) findViewById(R.id.bg_img);
 
         mAuth = FirebaseAuth.getInstance();
         db_instance = FirebaseDatabase.getInstance();
