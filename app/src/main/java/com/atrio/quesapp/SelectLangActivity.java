@@ -139,7 +139,7 @@ public class SelectLangActivity extends AppCompatActivity {
 
                     } else {
                         FirebaseAuth.getInstance().signOut();
-                        Toast.makeText(SelectLangActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SelectLangActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
                         //Toast.makeText(SelectLangActivity.this, "addelse" + deviceid, Toast.LENGTH_SHORT).show();
 
 
@@ -163,12 +163,13 @@ public class SelectLangActivity extends AppCompatActivity {
                             // Toast.makeText(SelectLangActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
-                            //Toast.makeText(SelectLangActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SelectLangActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
                             Toast.makeText(SelectLangActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
-                            Intent isend = new Intent(SelectLangActivity.this, LoginActivity.class);
-                            isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            Intent isend = new Intent(SelectLangActivity.this, SplashActivity.class);
+                            //isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
                             finish();
+
 
 
                         }

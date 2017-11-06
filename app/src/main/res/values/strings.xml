@@ -40,5 +40,7 @@
     <string name="prompt_name"> Name</string>
     <string name="click"><u>www.keralapsc.gov.in</u></string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="malayalam">മലയാളം</string>
+    <string name="english">English</string>
 
 </resources>

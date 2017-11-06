@@ -157,7 +157,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                             mAuth.signOut();
 //                            Toast.makeText(QuestionAnswerActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
                             Toast.makeText(QuestionAnswerActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
-                            Intent isend = new Intent(QuestionAnswerActivity.this, LoginActivity.class);
+                            Intent isend = new Intent(QuestionAnswerActivity.this, SplashActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
                             finish();

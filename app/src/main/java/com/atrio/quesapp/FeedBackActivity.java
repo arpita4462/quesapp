@@ -137,7 +137,7 @@ public class FeedBackActivity extends AppCompatActivity {
                         } else {
                             mAuth.signOut();
                             Toast.makeText(FeedBackActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
-                            Intent isend = new Intent(FeedBackActivity.this, LoginActivity.class);
+                            Intent isend = new Intent(FeedBackActivity.this, SplashActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
                             finish();

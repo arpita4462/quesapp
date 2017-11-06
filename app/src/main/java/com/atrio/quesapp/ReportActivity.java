@@ -159,7 +159,7 @@ public class ReportActivity extends AppCompatActivity {
                         } else {
                             mAuth.signOut();
                             Toast.makeText(ReportActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
-                            Intent isend = new Intent(ReportActivity.this, LoginActivity.class);
+                            Intent isend = new Intent(ReportActivity.this, SplashActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
                             finish();

@@ -101,7 +101,7 @@ public class TrialActivity extends AppCompatActivity {
             userdetailquery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    dialog.dismiss();
+
 
                     if (dataSnapshot.getChildrenCount() != 0) {
                         for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -120,6 +120,7 @@ public class TrialActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             if (days >= 30) {
+                                dialog.dismiss();
                                 Toast.makeText(getBaseContext(), "Trial Expired", Toast.LENGTH_SHORT).show();
                                 btn_skip.setEnabled(false);
                                 btn_skip.setVisibility(View.INVISIBLE);
@@ -138,6 +139,7 @@ public class TrialActivity extends AppCompatActivity {
                                 startActivity(intenttrail);
                                 finish();
                             }*/
+                                dialog.dismiss();
                                 Toast.makeText(getBaseContext(), "Trial Version", Toast.LENGTH_SHORT).show();
                                 btn_skip.setEnabled(true);
                                 timer.schedule(mt, 1000, 1000);
@@ -231,7 +233,7 @@ public class TrialActivity extends AppCompatActivity {
                             mAuth.signOut();
 //                            Toast.makeText(TrialActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
                             Toast.makeText(TrialActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
-                            Intent isend = new Intent(TrialActivity.this, LoginActivity.class);
+                            Intent isend = new Intent(TrialActivity.this, SplashActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
                             finish();

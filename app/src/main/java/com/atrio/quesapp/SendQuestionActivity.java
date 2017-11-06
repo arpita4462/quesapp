@@ -170,7 +170,7 @@ public class SendQuestionActivity extends AppCompatActivity {
                             mAuth.signOut();
                             //Toast.makeText(SendQuestionActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
                             Toast.makeText(SendQuestionActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
-                            Intent isend = new Intent(SendQuestionActivity.this, LoginActivity.class);
+                            Intent isend = new Intent(SendQuestionActivity.this, SplashActivity.class);
                             isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(isend);
                             finish();

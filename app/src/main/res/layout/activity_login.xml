@@ -125,7 +125,7 @@
             android:textStyle="bold"/>
 
     </LinearLayout>
-    <ProgressBar
+   <!-- <ProgressBar
         android:id="@+id/circular_progress_bar"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -134,5 +134,5 @@
         android:max="48"
         android:progress="1"
         android:layout_centerInParent="true"
-        android:progressDrawable="@drawable/circular_progressbar" />
+        android:progressDrawable="@drawable/circular_progressbar" />-->
 </RelativeLayout>
