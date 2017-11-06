@@ -58,25 +58,6 @@ public class SelectLangActivity extends AppCompatActivity {
 
      /*   tv_site.setText(R.string.click);*/
 
-        Query userdetailquery = db_ref.orderByKey().equalTo(user.getUid());
-        userdetailquery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.getChildrenCount() != 0) {
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        UserDetail userDetail = child.getValue(UserDetail.class);
-                        tv_userName.setText("Welcome : " + userDetail.getUserName());
-                    }
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         img_view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +76,30 @@ public class SelectLangActivity extends AppCompatActivity {
         } else {
 
             try {
+
+                if (user!=null){
+
+                    Query userdetailquery = db_ref.orderByKey().equalTo(user.getUid());
+                    userdetailquery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if (dataSnapshot.getChildrenCount() != 0) {
+                                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                    UserDetail userDetail = child.getValue(UserDetail.class);
+                                    tv_userName.setText("Welcome : " + userDetail.getUserName());
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
                 checkuser();
             } catch (NullPointerException e) {
 
