@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +36,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
     public TextView tv_tittle, tv_score, tv_quess, tv_ans;
     int qno = 001;
     Button bt_next;
+    FloatingActionButton fab;
     Animation animFadein, animMove;
 
     @Override
@@ -62,6 +64,9 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
         user = mAuth.getCurrentUser();
 
+       fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
         ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
@@ -71,6 +76,13 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
             tv_tittle.setText(tittle);
             qno_list = String.format("%03d", qno);
             getQuestion(qno_list);
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
 
             bt_next.setOnClickListener(new View.OnClickListener() {
                 @Override

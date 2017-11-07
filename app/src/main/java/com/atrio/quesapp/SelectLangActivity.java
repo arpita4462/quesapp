@@ -50,11 +50,9 @@ public class SelectLangActivity extends AppCompatActivity {
         db_ref = db_instance.getReference("UserDetail");
 
         user = mAuth.getCurrentUser();
-        tv_userName.setText(user.getDisplayName());
+        //tv_userName.setText(user.getDisplayName());
 
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        user = mAuth.getCurrentUser();
-        Log.i("currentdeviceuser2", "" + user);
 
      /*   tv_site.setText(R.string.click);*/
 
@@ -134,6 +132,20 @@ public class SelectLangActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("Ondestroy1","Ondestroy");
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        moveTaskToBack(true);
+
+        Log.i("onBackPressed1","onBackPressed");
+    }
+
     private void openWebPage(String url) {
         Uri webpage = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
@@ -191,7 +203,7 @@ public class SelectLangActivity extends AppCompatActivity {
                             // Toast.makeText(SelectLangActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
-                            Toast.makeText(SelectLangActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SelectLangActivity.this, "changeelse", Toast.LENGTH_SHORT).show();
                             Toast.makeText(SelectLangActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();
                             Intent isend = new Intent(SelectLangActivity.this, SplashActivity.class);
                             //isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

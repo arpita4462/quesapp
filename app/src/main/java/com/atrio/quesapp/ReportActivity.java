@@ -3,6 +3,7 @@ package com.atrio.quesapp;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -92,17 +93,26 @@ public class ReportActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
+
                     if (!TextUtils.isEmpty(et_ques.getText()) && !TextUtils.isEmpty(et_ans.getText())) {
                         sender_email = user.getEmail();
                         String email = "info@atrio.co.in";
-                        String mail_subject = "Question";
-                        String message = "Question-" + et_ques.getText() + "\n\nAnswer-" + et_ans.getText() + "\n\ncategory-" + subject + "\n\nSend By-" + sender_email;
-                        SendMail sm = new SendMail(v.getContext(), email, mail_subject, message);
-                        sm.execute();
+                        String mail_subject = "Report";
+                        String message = "Category-" + subject + "\n\nQuestion-" + et_ques.getText() + "\n\nAnswer-" + et_ans.getText();
+                       /* SendMail sm = new SendMail(v.getContext(), email, mail_subject, message);
+                        sm.execute();*/
+                        Intent send = new Intent(Intent.ACTION_SENDTO);
+                        String uriText = "mailto:" + Uri.encode("" + email) + "?subject=" + Uri.encode("" + mail_subject) + "&body=" + Uri.encode("" + message);
+                        Uri uri = Uri.parse(uriText);
+                        send.setData(uri);
+                        startActivity(Intent.createChooser(send, "Send Email..."));
+                        et_ques.setText("");
+                        et_ans.setText("");
                     } else {
                         Toast.makeText(getApplicationContext(), "Write Question and Answer", Toast.LENGTH_LONG).show();
 
                     }
+
 
 
                 }
