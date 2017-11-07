@@ -294,7 +294,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkIfEmailVerified(final String password) {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-         Log.i("Status999",""+user.isEmailVerified());
+//         Log.i("Status999",""+user.isEmailVerified());
 
         if (user.isEmailVerified()) {
             try {
@@ -321,7 +321,7 @@ public class LoginActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             if (!deviceid.equals(currentdeviceid)) {
-                                Log.i("Status99", "" + user.isEmailVerified());
+//                                Log.i("Status99", "" + user.isEmailVerified());
                                  //FirebaseAuth.getInstance().signOut();
                                 dialog.dismiss();
 
@@ -367,12 +367,12 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             dialog.dismiss();
 //            checktrail();
-            Log.i("Status98", "" + user);
+//            Log.i("Status98", "" + user);
             if (clicked){
-                Log.i("Status98", "if" + user);
+//                Log.i("Status98", "if" + user);
                 //FirebaseAuth.getInstance().signOut();
             }else{
-                Log.i("Status98", "else" + user);
+//                Log.i("Status98", "else" + user);
 
 
             }

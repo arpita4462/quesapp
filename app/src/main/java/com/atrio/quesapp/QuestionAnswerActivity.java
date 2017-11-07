@@ -9,12 +9,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.atrio.quesapp.custom.CustomFabDialog;
 import com.atrio.quesapp.model.QuessAnsModel;
 import com.atrio.quesapp.model.UserDetail;
 import com.google.firebase.auth.FirebaseAuth;
@@ -81,6 +83,9 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                 @Override
                 public void onClick(View view) {
 
+                    CustomFabDialog customFabDialog = new CustomFabDialog(QuestionAnswerActivity.this);
+                    customFabDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    customFabDialog.show();
                 }
             });
 
