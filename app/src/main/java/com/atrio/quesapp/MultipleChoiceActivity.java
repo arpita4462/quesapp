@@ -40,6 +40,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
     RadioGroup rd_grp;
     RadioButton rb_opA, rb_opB, rb_opC, rb_opD, rbselect, rbcorrect;
     Animation animFadein, animMove;
+    long total_ques;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +89,11 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
             public void onClick(View view) {
 
                 rd_grp.clearCheck();
-                tv_quess.startAnimation(animFadein);
-                rd_grp.startAnimation(animMove);
+                tv_quess.setText(" ");
+                rb_opA.setText("");
+                rb_opB.setText("");
+                rb_opC.setText("");
+                rb_opD.setText("");
                 bt_next.setBackgroundResource(R.color.centercolor);
                 bt_next.setEnabled(false);
                 // checkedRadioButtonID = rd_grp.getCheckedRadioButtonId();
@@ -190,6 +194,8 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         rb_opB.setClickable(true);
         rb_opC.setClickable(true);
         rb_opD.setClickable(true);
+        tv_quess.startAnimation(animFadein);
+        rd_grp.startAnimation(animMove);
 
         rb_opA.setTextColor(ContextCompat.getColor(MultipleChoiceActivity.this, R.color.black));
         rb_opB.setTextColor(ContextCompat.getColor(MultipleChoiceActivity.this, R.color.black));
@@ -205,10 +211,14 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String total = String.valueOf(dataSnapshot.getChildrenCount());
+                total_ques = dataSnapshot.getChildrenCount();
                 String quess_no = String.valueOf(qno);
                 if (qno <= dataSnapshot.getChildrenCount()) {
                     tv_score.setText(quess_no + "/" + total);
                 }
+
+
+
                 if (dataSnapshot.getChildrenCount() != 0) {
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
                         // Log.i("datasnapshot77",""+data.getKey());
@@ -262,10 +272,19 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
 
-        bt_next.setEnabled(true);
-        bt_next.setBackgroundResource(R.color.colorAccent);
+        if (total_ques == qno){
+                bt_next.setEnabled(false);
+                bt_next.setBackgroundResource(R.color.centercolor);
+        }else{
+            bt_next.setEnabled(true);
+            bt_next.setBackgroundResource(R.color.colorAccent);
+        }
+
+
         rbselect = (RadioButton) radioGroup.findViewById(i);
         rbcorrect = (RadioButton) radioGroup.findViewById(i);
+
+
 
         switch (i) {
             case R.id.rd_option1:

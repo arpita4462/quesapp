@@ -2,6 +2,7 @@ package com.atrio.quesapp.custom;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -28,6 +29,7 @@ public class CustomFabDialog extends Dialog{
     EditText et_quesno;
     TextInputLayout inputLayoutName;
     private ProgressBar progressBar;
+    String  ques_no;
 
     public CustomFabDialog(Context context) {
         super(context);
@@ -44,7 +46,7 @@ public class CustomFabDialog extends Dialog{
         et_quesno = (EditText) findViewById(R.id.et_quesno);
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
         btn_go = (Button) findViewById(R.id.btn_go);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+       // progressBar = (ProgressBar) findViewById(R.id.progressBar);
         inputLayoutName = (TextInputLayout)findViewById(R.id.input_layout_frg_id);
 
         btn_go.setOnClickListener(new View.OnClickListener() {
@@ -55,19 +57,26 @@ public class CustomFabDialog extends Dialog{
                 if (TextUtils.isEmpty(quesno)) {
                     inputLayoutName.setError(getContext().getString(R.string.enterquesnofield));
                     return;
+                }else{
+                    ques_no = et_quesno.getText().toString();
+                    Intent intent = new Intent(mycontext,QuestionAnswerActivity.class);
+                    intent.putExtra("ques_no",ques_no);
+                    mycontext.startActivity(intent);
                 }
 
-                progressBar.setVisibility(View.VISIBLE);
+
 
             }
         });
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dismiss();
 
             }
         });
 
 
     }
+
 }

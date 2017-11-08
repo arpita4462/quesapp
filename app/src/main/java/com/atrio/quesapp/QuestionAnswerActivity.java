@@ -37,6 +37,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
     private FirebaseAuth mAuth;
     public TextView tv_tittle, tv_score, tv_quess, tv_ans;
     int qno = 001;
+    String qus_no;
     Button bt_next;
     FloatingActionButton fab;
     Animation animFadein, animMove;
@@ -56,6 +57,8 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         Intent i = getIntent();
         tittle = i.getStringExtra("Sub");
         lang = i.getStringExtra("lang");
+        qus_no =  i.getStringExtra("ques_no");
+        Log.i("qus_no22",""+qus_no);
 
         animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         animMove = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
@@ -74,6 +77,12 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         if (networkInfo == null) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         } else {
+
+            if (qus_no != null){
+                int qdata = Integer.parseInt(qus_no);
+                qno_list = String.format("%03d", qdata);
+                getQuestion(qno_list);
+            }
 
             tv_tittle.setText(tittle);
             qno_list = String.format("%03d", qno);
@@ -95,8 +104,9 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                     qno++;
                     qno_list = String.format("%03d", qno);
                     getQuestion(qno_list);
-                    tv_quess.startAnimation(animFadein);
-                    tv_ans.startAnimation(animMove);
+                    tv_quess.setText("");
+                    tv_ans.setText("");
+
                 }
             });
             try {
@@ -216,7 +226,12 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
     private void getQuestion(final String qno_list) {
 
-        Query querry_totalquess = m_db.child(lang).child("subjectList").child(tittle).orderByKey();
+        Log.i("tittle11",""+tittle);
+        Log.i("tittle12",""+tv_tittle.getText().toString());
+        Log.i("tittle11",""+lang);
+        Log.i("qno_list11",""+qno_list);
+
+        Query querry_totalquess = m_db.child("English").child("subjectList").child(tv_tittle.getText().toString()).orderByKey();
         // Log.i("datasnapshot79",""+querry_totalquess.getRef());
 
         querry_totalquess.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -228,7 +243,13 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                 if (qno <= dataSnapshot.getChildrenCount()) {
                     tv_score.setText(quess_no + "/" + total);
                 }
-                if (dataSnapshot.getChildrenCount() != 0) {
+                if (qno == dataSnapshot.getChildrenCount()){
+                    bt_next.setEnabled(false);
+                    bt_next.setBackgroundResource(R.color.centercolor);
+                    tv_quess.setText(" No Question available right now");
+
+                }
+                    if (dataSnapshot.getChildrenCount() != 0) {
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
                         // Log.i("datasnapshot77",""+data.getKey());
                         //Log.i("datasnapshot78",""+data.getValue());
@@ -240,8 +261,13 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
                             // Log.i("datasnapshot76",""+qModel.getAnswer());
                             // Log.i("datasnapshot75",""+qModel.getQuestion());
+                            tv_quess.startAnimation(animFadein);
+                            tv_ans.startAnimation(animMove);
                             tv_quess.setText(qModel.getQuestion());
                             tv_ans.setText("Ans : " + qModel.getAnswer());
+                        }else{
+
+
                         }
 
 
@@ -250,6 +276,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
                 } else {
                     Toast.makeText(QuestionAnswerActivity.this, "There is no Questions", Toast.LENGTH_SHORT).show();
+
 
 
                 }

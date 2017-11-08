@@ -19,7 +19,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:text="hii"
+            android:text=""
             android:padding="5dp"
             android:textSize="17sp"
             android:gravity="center"
@@ -70,7 +70,7 @@
             android:layout_marginTop="25dp"
             android:textSize="17sp"
             android:textColor="@color/black"
-            android:text="TextView" />
+            android:text="" />
 
         <Button
             android:id="@+id/bt_next"
@@ -94,7 +94,7 @@
         android:layout_gravity="right|bottom"
         android:layout_margin="@dimen/fab_margin"
         android:layout_below="@+id/bt_next"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:src="@drawable/findpage" />
 
 
 </android.support.design.widget.CoordinatorLayout>

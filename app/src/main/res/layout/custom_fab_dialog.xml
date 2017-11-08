@@ -25,8 +25,8 @@
             android:id="@+id/et_quesno"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="30"
-            android:inputType="textEmailAddress"
+            android:maxLength="5"
+            android:inputType="number"
             android:hint="@string/enterquesnofield" />
     </android.support.design.widget.TextInputLayout>
     <LinearLayout

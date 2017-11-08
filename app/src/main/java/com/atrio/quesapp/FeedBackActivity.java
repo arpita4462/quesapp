@@ -75,6 +75,8 @@ public class FeedBackActivity extends AppCompatActivity {
                         feedback1.setEmail(user.getEmail());
                         db_ref.child(user.getUid()).setValue(feedback1);
                         et_feedback.setText("");
+                        Toast.makeText(FeedBackActivity.this, "Sent your FeedBack", Toast.LENGTH_SHORT).show();
+
 
                     } else {
 
