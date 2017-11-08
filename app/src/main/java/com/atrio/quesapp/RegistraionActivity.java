@@ -40,6 +40,7 @@ public class RegistraionActivity extends AppCompatActivity {
     SimpleDateFormat formatter;
     private String email, password, userName, createdDated, emailId, userId, deviceId, user_name;
     TextInputLayout input_email, input_pwd, input_name;
+    NetworkInfo networkInfo;
 
 
     @Override
@@ -61,20 +62,21 @@ public class RegistraionActivity extends AppCompatActivity {
         formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo == null) {
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
-        } else {
+        networkInfo = connMgr.getActiveNetworkInfo();
 
-            registraionButton.setOnClickListener(new View.OnClickListener() {
+
+        registraionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    registerUser();
+                    if (networkInfo == null) {
+                        Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                    } else {
+                        registerUser();
+                    }
                 }
             });
 
-        }
+
 
 
     }

@@ -3,6 +3,8 @@ package com.atrio.quesapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -105,17 +107,21 @@ public class LoginActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
             }
         });
-
-        if (user!= null){
-            dialog.show();
-            Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
-            startActivity(intenttrail);
-            finish();
-        }else{
-            dialog.dismiss();
-         mAuth.signOut();
+        ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        }else {
+            if (user != null) {
+                dialog.show();
+                Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
+                startActivity(intenttrail);
+                finish();
+            } else {
+                dialog.dismiss();
+                mAuth.signOut();
+            }
         }
-
        /* mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

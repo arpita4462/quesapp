@@ -33,6 +33,8 @@ public class SelectLangActivity extends AppCompatActivity {
     private FirebaseDatabase db_instance;
     String currentdeviceid;
     TextView tv_userName;
+    NetworkInfo networkInfo;
+
     //ImageView img_view;
 
 
@@ -60,15 +62,18 @@ public class SelectLangActivity extends AppCompatActivity {
         img_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "https://www.keralapsc.gov.in/";
-                openWebPage(url);
-
+                if (networkInfo == null) {
+                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                } else {
+                    String url = "https://www.keralapsc.gov.in/";
+                    openWebPage(url);
+                }
 
             }
         });
 
         ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         } else {
@@ -104,30 +109,35 @@ public class SelectLangActivity extends AppCompatActivity {
                 Log.i("Exception33", e.getMessage());
             }
 
-            btn_eng.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+
+        }
+        btn_eng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (networkInfo == null) {
+                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                } else {
                     Intent intent = new Intent(SelectLangActivity.this, SubjectActivity.class);
                     intent.putExtra("sub", "English");
                     startActivity(intent);
-
-                    //startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
                 }
-            });
-            btn_malya.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
+                //startActivity(new Intent(SelectLangActivity.this,SubjectActivity.class));
+            }
+        });
+        btn_malya.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (networkInfo == null) {
+                    Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+                } else {
                     Intent intent = new Intent(SelectLangActivity.this, SubjectActivity.class);
                     intent.putExtra("sub", "Malayalam");
                     startActivity(intent);
-
-                    // startActivity(new Intent(SelectLangActivity.this,MalayalamActivity.class));
-
                 }
-            });
+                // startActivity(new Intent(SelectLangActivity.this,MalayalamActivity.class));
 
-        }
+            }
+        });
 
 
     }

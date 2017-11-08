@@ -3,6 +3,8 @@ package com.atrio.quesapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -123,25 +125,30 @@ public class SubjectActivity extends AppCompatActivity {
         Log.i("currentdeviceuser",""+user);
 
         dialog.show();
-        try{
-            checkuser();
-        }catch (NullPointerException e){
+        ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        }else {
+            try {
+                checkuser();
+            } catch (NullPointerException e) {
 
-            Log.i("Exception33", e.getMessage());
-        }
+                Log.i("Exception33", e.getMessage());
+            }
 
-    if (sub != null && sub.equals("English")) {
-    storageRef = storage.getReference("Subject");
-    Query query_catlist = rootRef.child("English").child("subjectList").orderByKey();
-    query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
+            if (sub != null && sub.equals("English")) {
+                storageRef = storage.getReference("Subject");
+                Query query_catlist = rootRef.child("English").child("subjectList").orderByKey();
+                query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
 
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            arr = new ArrayList<String>();
-            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                String subkey = dataSnapshot1.getKey();
-                showimg(subkey,sub);
-                arr.add(subkey);
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        arr = new ArrayList<String>();
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            String subkey = dataSnapshot1.getKey();
+                            showimg(subkey, sub);
+                            arr.add(subkey);
             /*    Log.i("array771255558",""+subkey);
 
                 Collections.sort(arr, new Comparator<String>() {
@@ -152,31 +159,31 @@ public class SubjectActivity extends AppCompatActivity {
                 });
 
                 Log.i("array7712555",""+subkey);*/
-            }
-            if (!SubjectActivity.this.isFinishing()) {
-                dialog.dismiss();
-            }
+                        }
+                        if (!SubjectActivity.this.isFinishing()) {
+                            dialog.dismiss();
+                        }
 
-        }
+                    }
 
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-        }
+                    }
 
-    });
-}else{
-    storageRef = storage.getReference("Malayalam");
-    Query query_catlist = rootRef.child("Malayalam").child("subjectList").orderByKey();
-    query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
+                });
+            } else {
+                storageRef = storage.getReference("Malayalam");
+                Query query_catlist = rootRef.child("Malayalam").child("subjectList").orderByKey();
+                query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
 
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            arr = new ArrayList<String>();
-            for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                String subkey = dataSnapshot1.getKey();
-                showimg(subkey, sub);
-                arr.add(subkey);
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        arr = new ArrayList<String>();
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            String subkey = dataSnapshot1.getKey();
+                            showimg(subkey, sub);
+                            arr.add(subkey);
                /* Log.i("array771255558",""+subkey);
 
                 Collections.sort(arr, new Comparator<String>() {
@@ -187,21 +194,22 @@ public class SubjectActivity extends AppCompatActivity {
                 });
 
                     Log.i("array7712555",""+subkey);*/
+                        }
+                        if (!SubjectActivity.this.isFinishing()) {
+                            dialog.dismiss();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+
+                });
+
             }
-            if (!SubjectActivity.this.isFinishing()) {
-                dialog.dismiss();
-            }
-
         }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-
-    });
-
-}
      /*   bt_ques.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
