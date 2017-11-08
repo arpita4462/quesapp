@@ -1,6 +1,8 @@
 package com.atrio.quesapp;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -59,20 +61,22 @@ public class SplashActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
             }
         });
-
-        if (user!= null) {
-            checktrail();
+        ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        }else {
+            if (user != null) {
+                checktrail();
 
 //            startActivity(new Intent(SplashActivity.this, SelectLangActivity.class));
 //            finish();
-        }
-        else
-        {
-            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-            finish();
-        }
+            } else {
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                finish();
+            }
 
-
+        }
 }
     private  void checktrail(){
 
