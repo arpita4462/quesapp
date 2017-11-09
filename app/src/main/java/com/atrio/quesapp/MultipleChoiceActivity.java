@@ -93,6 +93,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
             if (qus_no != null){
                 int qdata = Integer.parseInt(qus_no);
                 qno_list = String.format("%03d", qdata);
+                qno = qdata;
                 getQuestion(qno_list,qdata);
                 bt_next.setBackgroundResource(R.color.centercolor);
                 bt_next.setEnabled(false);
@@ -133,7 +134,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
                         rd_grp.setOnCheckedChangeListener(MultipleChoiceActivity.this);
                         int qdata = Integer.parseInt(qus_no);
                         qno=qdata;
-                        qno++;
+                            qno++;
                         Log.i("qno44if",""+qno);
                         qno_list = String.format("%03d", qno);
                         getQuestion(qno_list, qno);
@@ -173,6 +174,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 
                     CustomFabDialog customFabDialog = new CustomFabDialog(MultipleChoiceActivity.this,tittle,lang,total_ques);
                     customFabDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    customFabDialog.setCanceledOnTouchOutside(false);
                     customFabDialog.show();
                 }
             });
@@ -295,6 +297,12 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
                     tv_score.setText(qno_data + "/" + total);
                 }
 
+              /*  if (finalNo == dataSnapshot.getChildrenCount()){
+
+                        bt_next.setEnabled(false);
+                        bt_next.setBackgroundResource(R.color.centercolor);
+                }*/
+
 
 
                 if (dataSnapshot.getChildrenCount() != 0) {
@@ -349,6 +357,8 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+
+        Log.i("qno99",""+qno);
 
         if (total_ques == qno){
                 bt_next.setEnabled(false);

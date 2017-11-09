@@ -29,14 +29,14 @@
                 android:id="@+id/tv_tittle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="മൾട്ടിപ്പിൾ ചോയ്സ് ചോദ്യോത്തരങ്ങൾ "
+                android:text="മൾട്ടിപ്പിൾ ചോയ്സ് ചോദ്യോത്തരങ്ങ "
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
                 android:textSize="19sp"
+                android:textStyle="bold"
                 android:padding="10dp"
-                android:alpha="0.7"
-                android:textColor="@color/white"
-                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
                 android:layout_marginTop="8dp" />
 
             <TextView
