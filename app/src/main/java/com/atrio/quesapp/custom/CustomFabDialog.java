@@ -67,7 +67,10 @@ public class CustomFabDialog extends Dialog{
                     inputLayoutName.setError(getContext().getString(R.string.errormsginput)+""+total_ques);
                 }
                 else{
-                    if (tittle.equals("MultipleChoiceQuestion")){
+
+                    if ( tittle.equals("മൾട്ടിപ്പിൾ ചോയ്സ് ചോദ്യോത്തരങ്ങൾ") || tittle.equals("MultipleChoiceQuestion")){
+
+                       // Log.i("print99",""+"if");
 
                         ques_no = et_quesno.getText().toString();
                         Intent intent = new Intent(mycontext,MultipleChoiceActivity.class);
@@ -79,6 +82,7 @@ public class CustomFabDialog extends Dialog{
                         dismiss();
 
                     }else{
+                        Log.i("print99",""+"else");
                         ques_no = et_quesno.getText().toString();
                         Intent intent = new Intent(mycontext,QuestionAnswerActivity.class);
                         intent.putExtra("ques_no",ques_no);

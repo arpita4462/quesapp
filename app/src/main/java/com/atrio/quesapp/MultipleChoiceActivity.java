@@ -69,6 +69,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         tittle = i.getStringExtra("Sub");
         lang = i.getStringExtra("lang");
         qus_no =  i.getStringExtra("ques_no");
+        //Log.i("tittle33",""+tittle);
 
         rd_grp.setOnCheckedChangeListener(this);
         mAuth = FirebaseAuth.getInstance();

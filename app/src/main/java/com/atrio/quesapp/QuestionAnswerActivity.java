@@ -98,6 +98,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                 public void onClick(View view) {
                     CustomFabDialog customFabDialog = new CustomFabDialog(QuestionAnswerActivity.this,tittle,lang,total);
                     customFabDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    customFabDialog.setCanceledOnTouchOutside(false);
                     customFabDialog.show();
                 }
             });
