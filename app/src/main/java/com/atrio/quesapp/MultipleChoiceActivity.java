@@ -1,13 +1,17 @@
 package com.atrio.quesapp;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.IdRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.atrio.quesapp.custom.CustomFabDialog;
 import com.atrio.quesapp.model.QuestionModel;
 import com.atrio.quesapp.model.UserDetail;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,8 +35,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MultipleChoiceActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, Animation.AnimationListener {
 
-    String tittle, lang, qno_list, correct_ans, selectedAns, currentdeviceid;
-    int qno = 001, checkedRadioButtonID;
+    String tittle, lang, qno_list, correct_ans, selectedAns, currentdeviceid,qus_no;
+    int qno = 1, checkedRadioButtonID;
     TextView tv_tittle, tv_score, tv_quess, tv_correct;
     Button bt_next;
     FirebaseUser user;
@@ -41,6 +46,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
     RadioButton rb_opA, rb_opB, rb_opC, rb_opD, rbselect, rbcorrect;
     Animation animFadein, animMove;
     long total_ques;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +63,12 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         rb_opD = (RadioButton) findViewById(R.id.rd_option4);
         rd_grp = (RadioGroup) findViewById(R.id.radioGroup);
 
+        fab = (FloatingActionButton) findViewById(R.id.fab_multi);
+
         Intent i = getIntent();
         tittle = i.getStringExtra("Sub");
         lang = i.getStringExtra("lang");
+        qus_no =  i.getStringExtra("ques_no");
 
         rd_grp.setOnCheckedChangeListener(this);
         mAuth = FirebaseAuth.getInstance();
@@ -71,39 +80,106 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         animFadein.setAnimationListener(this);
         animMove.setAnimationListener(this);
 
-        tv_tittle.setText(tittle);
-        qno_list = String.format("%03d", qno);
-        getQuestion(qno_list);
-        bt_next.setBackgroundResource(R.color.centercolor);
-        bt_next.setEnabled(false);
-        currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        user = mAuth.getCurrentUser();
-        try {
-            checkuser();
-        } catch (NullPointerException e) {
 
-            Log.i("Exception33", e.getMessage());
-        }
-        bt_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
+        } else {
 
-                rd_grp.clearCheck();
-                tv_quess.setText(" ");
-                rb_opA.setText("");
-                rb_opB.setText("");
-                rb_opC.setText("");
-                rb_opD.setText("");
+
+
+            tv_tittle.setText(tittle);
+            if (qus_no != null){
+                int qdata = Integer.parseInt(qus_no);
+                qno_list = String.format("%03d", qdata);
+                getQuestion(qno_list,qdata);
                 bt_next.setBackgroundResource(R.color.centercolor);
                 bt_next.setEnabled(false);
-                // checkedRadioButtonID = rd_grp.getCheckedRadioButtonId();
-                rd_grp.setOnCheckedChangeListener(MultipleChoiceActivity.this);
-                qno++;
+            }else{
                 qno_list = String.format("%03d", qno);
-                getQuestion(qno_list);
+                getQuestion(qno_list,qno);
+                bt_next.setBackgroundResource(R.color.centercolor);
+                bt_next.setEnabled(false);
 
             }
-        });
+
+
+            currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+            user = mAuth.getCurrentUser();
+
+            try {
+                checkuser();
+            } catch (NullPointerException e) {
+
+                Log.i("Exception33", e.getMessage());
+            }
+            bt_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+
+                    if (qus_no!=null){
+
+                        rd_grp.clearCheck();
+                        tv_quess.setText(" ");
+                        rb_opA.setText("");
+                        rb_opB.setText("");
+                        rb_opC.setText("");
+                        rb_opD.setText("");
+                        bt_next.setBackgroundResource(R.color.centercolor);
+                        bt_next.setEnabled(false);
+                        // checkedRadioButtonID = rd_grp.getCheckedRadioButtonId();
+                        rd_grp.setOnCheckedChangeListener(MultipleChoiceActivity.this);
+                        int qdata = Integer.parseInt(qus_no);
+                        qno=qdata;
+                        qno++;
+                        Log.i("qno44if",""+qno);
+                        qno_list = String.format("%03d", qno);
+                        getQuestion(qno_list, qno);
+                        tv_quess.setText("");
+                        qus_no = null;
+
+                    }else{
+                        rd_grp.clearCheck();
+                        tv_quess.setText(" ");
+                        rb_opA.setText("");
+                        rb_opB.setText("");
+                        rb_opC.setText("");
+                        rb_opD.setText("");
+                        bt_next.setBackgroundResource(R.color.centercolor);
+                        bt_next.setEnabled(false);
+                        // checkedRadioButtonID = rd_grp.getCheckedRadioButtonId();
+                        rd_grp.setOnCheckedChangeListener(MultipleChoiceActivity.this);
+                        qno++;
+                        qno_list = String.format("%03d", qno);
+                        getQuestion(qno_list, qno);
+                    }
+
+
+
+
+
+
+                }
+            });
+
+
+
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    CustomFabDialog customFabDialog = new CustomFabDialog(MultipleChoiceActivity.this,tittle,lang);
+                    customFabDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    customFabDialog.show();
+                }
+            });
+
+        }
+
+
     }
 
     private void checkuser() throws NullPointerException {
@@ -189,7 +265,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 
     }
 
-    private void getQuestion(final String qno_list) {
+    private void getQuestion(final String qno_list, final int qno_data) {
         rb_opA.setClickable(true);
         rb_opB.setClickable(true);
         rb_opC.setClickable(true);
@@ -212,9 +288,11 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 
                 String total = String.valueOf(dataSnapshot.getChildrenCount());
                 total_ques = dataSnapshot.getChildrenCount();
-                String quess_no = String.valueOf(qno);
-                if (qno <= dataSnapshot.getChildrenCount()) {
-                    tv_score.setText(quess_no + "/" + total);
+                String quess_no =  String.format("%03d", qno_data);
+                int finalNo = Integer.parseInt(quess_no);
+                //String quess_no = String.valueOf(MultipleChoiceActivity.this.qno);
+                if (finalNo <= dataSnapshot.getChildrenCount()) {
+                    tv_score.setText(qno_data + "/" + total);
                 }
 
 

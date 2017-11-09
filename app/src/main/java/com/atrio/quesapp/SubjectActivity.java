@@ -302,7 +302,7 @@ public class SubjectActivity extends AppCompatActivity {
                     if (!deviceid.equals("data")){
 
                         if (deviceid.equals(currentdeviceid)) {
-                            Toast.makeText(SubjectActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(SubjectActivity.this, "chabgeif", Toast.LENGTH_SHORT).show();
                         } else {
                             mAuth.signOut();
                             Toast.makeText(SubjectActivity.this, "You are logged in other device", Toast.LENGTH_SHORT).show();

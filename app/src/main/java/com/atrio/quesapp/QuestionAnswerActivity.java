@@ -36,7 +36,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
     DatabaseReference m_db;
     private FirebaseAuth mAuth;
     public TextView tv_tittle, tv_score, tv_quess, tv_ans;
-    int qno = 001;
+    int qno = 1;
     String qus_no;
     Button bt_next;
     FloatingActionButton fab;
@@ -58,7 +58,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         tittle = i.getStringExtra("Sub");
         lang = i.getStringExtra("lang");
         qus_no =  i.getStringExtra("ques_no");
-        Log.i("qus_no22",""+qus_no);
+        //Log.i("qus_no22",""+qus_no);
 
         animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         animMove = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
@@ -78,21 +78,24 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         } else {
 
+            tv_tittle.setText(tittle);
             if (qus_no != null){
                 int qdata = Integer.parseInt(qus_no);
                 qno_list = String.format("%03d", qdata);
-                getQuestion(qno_list);
+                getQuestion(qno_list,qdata);
+            }else{
+                qno_list = String.format("%03d", qno);
+                getQuestion(qno_list,qno);
+
             }
 
-            tv_tittle.setText(tittle);
-            qno_list = String.format("%03d", qno);
-            getQuestion(qno_list);
+
+
 
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    CustomFabDialog customFabDialog = new CustomFabDialog(QuestionAnswerActivity.this);
+                    CustomFabDialog customFabDialog = new CustomFabDialog(QuestionAnswerActivity.this,tittle,lang);
                     customFabDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     customFabDialog.show();
                 }
@@ -101,11 +104,30 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
             bt_next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    qno++;
-                    qno_list = String.format("%03d", qno);
-                    getQuestion(qno_list);
-                    tv_quess.setText("");
-                    tv_ans.setText("");
+
+                    if (qus_no!=null){
+                        int qdata = Integer.parseInt(qus_no);
+                        qno=qdata;
+                        qno++;
+                        Log.i("qno44if",""+qno);
+                        qno_list = String.format("%03d", qno);
+                        getQuestion(qno_list, qno);
+                        tv_quess.setText("");
+                        tv_ans.setText("");
+                        qus_no = null;
+
+                    }else{
+                        qno++;
+                        Log.i("qno44else",""+qno);
+                        qno_list = String.format("%03d", qno);
+                        getQuestion(qno_list, qno);
+                        tv_quess.setText("");
+                        tv_ans.setText("");
+                    }
+
+                   /*     qno++;
+                    Log.i("qno44",""+qno);*/
+
 
                 }
             });
@@ -224,14 +246,10 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
          */
 
 
-    private void getQuestion(final String qno_list) {
+    private void getQuestion(final String qno_list, final int qdata) {
 
-        Log.i("tittle11",""+tittle);
-        Log.i("tittle12",""+tv_tittle.getText().toString());
-        Log.i("tittle11",""+lang);
-        Log.i("qno_list11",""+qno_list);
 
-        Query querry_totalquess = m_db.child("English").child("subjectList").child(tv_tittle.getText().toString()).orderByKey();
+        Query querry_totalquess = m_db.child(lang).child("subjectList").child(tittle).orderByKey();
         // Log.i("datasnapshot79",""+querry_totalquess.getRef());
 
         querry_totalquess.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -239,11 +257,12 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 String total = String.valueOf(dataSnapshot.getChildrenCount());
-                String quess_no = String.valueOf(qno);
-                if (qno <= dataSnapshot.getChildrenCount()) {
-                    tv_score.setText(quess_no + "/" + total);
+                String quess_no =  String.format("%03d", qdata);
+                int finalNo = Integer.parseInt(quess_no);
+                if (finalNo <= dataSnapshot.getChildrenCount()) {
+                    tv_score.setText(qdata + "/" + total);
                 }
-                if (qno == dataSnapshot.getChildrenCount()){
+                if (finalNo == dataSnapshot.getChildrenCount()){
                     bt_next.setEnabled(false);
                     bt_next.setBackgroundResource(R.color.centercolor);
                     tv_quess.setText(" No Question available right now");

@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.atrio.quesapp.MultipleChoiceActivity;
 import com.atrio.quesapp.QuestionAnswerActivity;
 import com.atrio.quesapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,11 +30,13 @@ public class CustomFabDialog extends Dialog{
     EditText et_quesno;
     TextInputLayout inputLayoutName;
     private ProgressBar progressBar;
-    String  ques_no;
+    String  ques_no,tittle,lang;
 
-    public CustomFabDialog(Context context) {
+    public CustomFabDialog(Context context, String tittle, String lang) {
         super(context);
         mycontext=context;
+        this.tittle =tittle;
+        this.lang = lang;
 
     }
 
@@ -58,10 +61,28 @@ public class CustomFabDialog extends Dialog{
                     inputLayoutName.setError(getContext().getString(R.string.enterquesnofield));
                     return;
                 }else{
-                    ques_no = et_quesno.getText().toString();
-                    Intent intent = new Intent(mycontext,QuestionAnswerActivity.class);
-                    intent.putExtra("ques_no",ques_no);
-                    mycontext.startActivity(intent);
+                    if (tittle.equals("MultipleChoiceQuestion")){
+
+                        ques_no = et_quesno.getText().toString();
+                        Intent intent = new Intent(mycontext,MultipleChoiceActivity.class);
+                        intent.putExtra("ques_no",ques_no);
+                        intent.putExtra("Sub",tittle);
+                        intent.putExtra("lang",lang);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mycontext.startActivity(intent);
+                        dismiss();
+
+                    }else{
+                        ques_no = et_quesno.getText().toString();
+                        Intent intent = new Intent(mycontext,QuestionAnswerActivity.class);
+                        intent.putExtra("ques_no",ques_no);
+                        intent.putExtra("Sub",tittle);
+                        intent.putExtra("lang",lang);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mycontext.startActivity(intent);
+                        dismiss();
+                    }
+
                 }
 
 
