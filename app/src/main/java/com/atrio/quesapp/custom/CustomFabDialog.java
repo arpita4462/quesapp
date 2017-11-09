@@ -4,21 +4,17 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.atrio.quesapp.MultipleChoiceActivity;
 import com.atrio.quesapp.QuestionAnswerActivity;
 import com.atrio.quesapp.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Created by Admin on 07-11-2017.
@@ -31,12 +27,14 @@ public class CustomFabDialog extends Dialog{
     TextInputLayout inputLayoutName;
     private ProgressBar progressBar;
     String  ques_no,tittle,lang;
+    long total_ques;
 
-    public CustomFabDialog(Context context, String tittle, String lang) {
+    public CustomFabDialog(Context context, String tittle, String lang, long total_ques) {
         super(context);
         mycontext=context;
         this.tittle =tittle;
         this.lang = lang;
+        this.total_ques=total_ques;
 
     }
 
@@ -50,17 +48,25 @@ public class CustomFabDialog extends Dialog{
         btn_cancel = (Button) findViewById(R.id.btn_cancel);
         btn_go = (Button) findViewById(R.id.btn_go);
        // progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        inputLayoutName = (TextInputLayout)findViewById(R.id.input_layout_frg_id);
+        inputLayoutName = (TextInputLayout)findViewById(R.id.input_error);
 
         btn_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String quesno = et_quesno.getText().toString().trim();
 
-                if (TextUtils.isEmpty(quesno)) {
+                int ques_int;
+//                ques_int = Integer.parseInt(quesno);
+                if (TextUtils.isEmpty(quesno) || quesno==null) {
                     inputLayoutName.setError(getContext().getString(R.string.enterquesnofield));
                     return;
-                }else{
+                }else if ( Integer.parseInt(quesno)>total_ques){
+                    Log.i("totaloques34",""+total_ques);
+                    Log.i("totaloques324",""+ Integer.parseInt(quesno));
+
+                    inputLayoutName.setError(getContext().getString(R.string.errormsginput)+""+total_ques);
+                }
+                else{
                     if (tittle.equals("MultipleChoiceQuestion")){
 
                         ques_no = et_quesno.getText().toString();

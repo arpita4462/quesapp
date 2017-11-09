@@ -38,6 +38,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
     public TextView tv_tittle, tv_score, tv_quess, tv_ans;
     int qno = 1;
     String qus_no;
+            long total;
     Button bt_next;
     FloatingActionButton fab;
     Animation animFadein, animMove;
@@ -95,7 +96,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    CustomFabDialog customFabDialog = new CustomFabDialog(QuestionAnswerActivity.this,tittle,lang);
+                    CustomFabDialog customFabDialog = new CustomFabDialog(QuestionAnswerActivity.this,tittle,lang,total);
                     customFabDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     customFabDialog.show();
                 }
@@ -256,7 +257,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String total = String.valueOf(dataSnapshot.getChildrenCount());
+                total =dataSnapshot.getChildrenCount();
                 String quess_no =  String.format("%03d", qdata);
                 int finalNo = Integer.parseInt(quess_no);
                 if (finalNo <= dataSnapshot.getChildrenCount()) {
@@ -275,11 +276,11 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                         String keydata = "Q-" + qno_list;
                         if (data.getKey().equals(keydata)) {
                             // Log.i("datasnapshot77",""+data.getKey());
-                            // Log.i("datasnapshot78",""+data.getValue());
+//                             Log.i("datasnapshot78",""+data.getValue());
                             QuessAnsModel qModel = data.getValue(QuessAnsModel.class);
 
-                            // Log.i("datasnapshot76",""+qModel.getAnswer());
-                            // Log.i("datasnapshot75",""+qModel.getQuestion());
+//                             Log.i("datasnapshot76",""+qModel.getAnswer());
+//                             Log.i("datasnapshot75",""+qModel.getQuestion());
                             tv_quess.startAnimation(animFadein);
                             tv_ans.startAnimation(animMove);
                             tv_quess.setText(qModel.getQuestion());

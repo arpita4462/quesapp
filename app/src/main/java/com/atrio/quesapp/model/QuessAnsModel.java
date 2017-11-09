@@ -5,17 +5,27 @@ package com.atrio.quesapp.model;
  */
 
 public class QuessAnsModel {
-    String question;
-    String Answer;
+
+   public String question;
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String answer;
 
 
 
     public QuessAnsModel(){
 
     }
-    public QuessAnsModel(String question,String Answer){
+    public QuessAnsModel(String question,String answer){
         this.question = question;
-        this.Answer = Answer;
+        this.answer = answer;
 
     }
     public String getQuestion() {
@@ -24,14 +34,6 @@ public class QuessAnsModel {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public String getAnswer() {
-        return Answer;
-    }
-
-    public void setAnswer(String answer) {
-        Answer = answer;
     }
 
 

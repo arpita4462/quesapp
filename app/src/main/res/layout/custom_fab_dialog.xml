@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:id="@+id/visible">
+        android:id="@+id/input_error">
 
         <EditText
             android:id="@+id/et_quesno"

@@ -171,7 +171,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
                 @Override
                 public void onClick(View view) {
 
-                    CustomFabDialog customFabDialog = new CustomFabDialog(MultipleChoiceActivity.this,tittle,lang);
+                    CustomFabDialog customFabDialog = new CustomFabDialog(MultipleChoiceActivity.this,tittle,lang,total_ques);
                     customFabDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     customFabDialog.show();
                 }
