@@ -63,7 +63,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         //Log.i("qus_no22",""+qus_no);
 
         animFadein = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-        animMove = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.move);
+        animMove = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slidedown);
         animFadein.setAnimationListener(this);
         animMove.setAnimationListener(this);
         mAuth = FirebaseAuth.getInstance();
