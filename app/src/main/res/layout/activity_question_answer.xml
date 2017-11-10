@@ -59,7 +59,7 @@
             android:textColor="@color/black"/>
 
         <TextView
-            android:id="@+id/tv_answer"
+            android:id="@+id/tv_showans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/tv_tittle"
@@ -68,6 +68,20 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="25dp"
+            android:textSize="17sp"
+            android:textColor="@color/colorAccent"
+            android:text="Show Answer" />
+
+        <TextView
+            android:id="@+id/tv_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_tittle"
+            android:layout_alignStart="@+id/tv_tittle"
+            android:layout_below="@+id/tv_showans"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
             android:textSize="17sp"
             android:textColor="@color/black"
             android:text="" />

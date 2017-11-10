@@ -333,6 +333,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 
 
                 } else {
+
                     Toast.makeText(MultipleChoiceActivity.this, "There is no Questions", Toast.LENGTH_SHORT).show();
 
 

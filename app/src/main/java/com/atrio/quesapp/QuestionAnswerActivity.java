@@ -35,7 +35,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
     FirebaseUser user;
     DatabaseReference m_db;
     private FirebaseAuth mAuth;
-    public TextView tv_tittle, tv_score, tv_quess, tv_ans;
+    public TextView tv_tittle, tv_score, tv_quess, tv_ans,tv_showtext;
     int qno = 1;
     String qus_no;
             long total;
@@ -51,6 +51,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         tv_score = (TextView) findViewById(R.id.tv_score);
         tv_quess = (TextView) findViewById(R.id.tv_quesstion);
         tv_ans = (TextView) findViewById(R.id.tv_answer);
+        tv_showtext = (TextView) findViewById(R.id.tv_showans);
         bt_next = (Button) findViewById(R.id.bt_next);
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 //        user = FirebaseAuth.getInstance().getCurrentUser();
@@ -107,7 +108,10 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                 @Override
                 public void onClick(View view) {
 
+                    tv_ans.clearAnimation();
+
                     if (qus_no!=null){
+//                        tv_ans.setVisibility(View.INVISIBLE);
                         int qdata = Integer.parseInt(qus_no);
                         qno=qdata;
                         qno++;
@@ -119,12 +123,15 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                         qus_no = null;
 
                     }else{
+//                        tv_ans.setVisibility(View.INVISIBLE);
                         qno++;
                         Log.i("qno44else",""+qno);
                         qno_list = String.format("%03d", qno);
                         getQuestion(qno_list, qno);
                         tv_quess.setText("");
                         tv_ans.setText("");
+//                        tv_ans.setVisibility(View.INVISIBLE);
+
                     }
 
                    /*     qno++;
@@ -133,6 +140,17 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
                 }
             });
+
+            tv_showtext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tv_ans.setVisibility(View.VISIBLE);
+
+                    tv_ans.startAnimation(animMove);
+
+                }
+            });
+
             try {
                 checkuser();
 
@@ -250,6 +268,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
     private void getQuestion(final String qno_list, final int qdata) {
 
+//        tv_ans.setVisibility(View.INVISIBLE);
 
         Query querry_totalquess = m_db.child(lang).child("subjectList").child(tittle).orderByKey();
         // Log.i("datasnapshot79",""+querry_totalquess.getRef());
@@ -271,7 +290,9 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 
                 }
                     if (dataSnapshot.getChildrenCount() != 0) {
-                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+                        tv_ans.setVisibility(View.INVISIBLE);
+
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
                         // Log.i("datasnapshot77",""+data.getKey());
                         //Log.i("datasnapshot78",""+data.getValue());
                         String keydata = "Q-" + qno_list;
@@ -283,7 +304,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
 //                             Log.i("datasnapshot76",""+qModel.getAnswer());
 //                             Log.i("datasnapshot75",""+qModel.getQuestion());
                             tv_quess.startAnimation(animFadein);
-                            tv_ans.startAnimation(animMove);
+//                            tv_ans.startAnimation(animMove);
                             tv_quess.setText(qModel.getQuestion());
                             tv_ans.setText("Ans : " + qModel.getAnswer());
                         }else{
