@@ -264,6 +264,14 @@ public class SubjectActivity extends AppCompatActivity {
 //                aboutus.putExtra("array_list", arr);
                 startActivity(policy);
                 break;
+
+            case R.id.tandc:
+                Intent term = new Intent(SubjectActivity.this, TermsActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                aboutus.putExtra("array_list", arr);
+                startActivity(term);
+                break;
+
             default:
                 break;
         }

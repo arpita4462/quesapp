@@ -41,7 +41,7 @@
                 android:id="@+id/note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Note :"
+                android:text="Cancellations and Refunds"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:gravity="start"
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="@string/policy_content1"
+                android:text="@string/term_content1"
                 android:gravity="start"
                 android:textSize="12sp"
                 android:textColor="@color/text_color"
@@ -59,18 +59,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/policy_content2"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 android:gravity="start"
-                android:textSize="12sp"
-                android:textColor="@color/text_color"
-                android:textAlignment="textStart"/>
+                android:text="Terms Of Use"
+                android:textColor="@color/black"
+                android:padding="3dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="@string/policy_content3"
+                android:text="@string/term_content3"
                 android:gravity="start"
                 android:textSize="12sp"
                 android:textColor="@color/text_color"
