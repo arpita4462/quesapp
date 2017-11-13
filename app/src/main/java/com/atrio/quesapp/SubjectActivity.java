@@ -258,6 +258,12 @@ public class SubjectActivity extends AppCompatActivity {
 //                aboutus.putExtra("array_list", arr);
                 startActivity(aboutus);
                 break;
+            case R.id.privacypolicy:
+                Intent policy = new Intent(SubjectActivity.this, PrivacyPolicyActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                aboutus.putExtra("array_list", arr);
+                startActivity(policy);
+                break;
             default:
                 break;
         }
