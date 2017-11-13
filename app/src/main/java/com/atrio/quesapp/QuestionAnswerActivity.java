@@ -39,7 +39,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
     int qno = 1;
     String qus_no;
             long total;
-    Button bt_next;
+    Button bt_next,bt_back;
     FloatingActionButton fab;
     Animation animFadein, animMove;
 
@@ -53,6 +53,7 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
         tv_ans = (TextView) findViewById(R.id.tv_answer);
         tv_showtext = (TextView) findViewById(R.id.tv_showans);
         bt_next = (Button) findViewById(R.id.bt_next);
+        bt_back= (Button) findViewById(R.id.bt_back);
         currentdeviceid = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 //        user = FirebaseAuth.getInstance().getCurrentUser();
         m_db = FirebaseDatabase.getInstance().getReference();
@@ -137,6 +138,39 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                    /*     qno++;
                     Log.i("qno44",""+qno);*/
 
+
+                }
+            });
+
+            bt_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    tv_ans.clearAnimation();
+
+                    if (qus_no!=null){
+//                        tv_ans.setVisibility(View.INVISIBLE);
+                        int qdata = Integer.parseInt(qus_no);
+                        qno=qdata;
+                        qno--;
+                        Log.i("qno44if",""+qno);
+                        qno_list = String.format("%03d", qno);
+                        getQuestion(qno_list, qno);
+                        tv_quess.setText("");
+                        tv_ans.setText("");
+                        qus_no = null;
+
+                    }else{
+//                        tv_ans.setVisibility(View.INVISIBLE);
+                        qno--;
+                        Log.i("qno44else",""+qno);
+                        qno_list = String.format("%03d", qno);
+                        getQuestion(qno_list, qno);
+                        tv_quess.setText("");
+                        tv_ans.setText("");
+//                        tv_ans.setVisibility(View.INVISIBLE);
+
+                    }
 
                 }
             });
@@ -283,11 +317,24 @@ public class QuestionAnswerActivity extends AppCompatActivity implements Animati
                 if (finalNo <= dataSnapshot.getChildrenCount()) {
                     tv_score.setText(qdata + "/" + total);
                 }
+               // Log.i("final44",""+finalNo);
                 if (finalNo == dataSnapshot.getChildrenCount()){
                     bt_next.setEnabled(false);
                     bt_next.setBackgroundResource(R.color.centercolor);
                     tv_quess.setText(" No Question available right now");
 
+                }else{
+                    bt_next.setEnabled(true);
+                    bt_next.setBackgroundResource(R.color.colorAccent);
+
+                }
+
+                if (finalNo == 1){
+                    bt_back.setEnabled(false);
+                    bt_back.setBackgroundResource(R.color.centercolor);
+                }else{
+                    bt_back.setEnabled(true);
+                    bt_back.setBackgroundResource(R.color.colorAccent);
                 }
                     if (dataSnapshot.getChildrenCount() != 0) {
                         tv_ans.setVisibility(View.INVISIBLE);

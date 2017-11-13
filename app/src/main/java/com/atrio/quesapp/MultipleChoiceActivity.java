@@ -38,7 +38,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
     String tittle, lang, qno_list, correct_ans, selectedAns, currentdeviceid,qus_no;
     int qno = 1, checkedRadioButtonID;
     TextView tv_tittle, tv_score, tv_quess, tv_correct;
-    Button bt_next;
+    Button bt_next,bt_back;
     FirebaseUser user;
     DatabaseReference m_db;
     private FirebaseAuth mAuth;
@@ -57,6 +57,7 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         tv_quess = (TextView) findViewById(R.id.tv_quess);
 //        tv_correct = (TextView) findViewById(R.id.tv_correct);
         bt_next = (Button) findViewById(R.id.bt_nextquess);
+        bt_back = (Button) findViewById(R.id.bt_backquess);
         rb_opA = (RadioButton) findViewById(R.id.rd_option1);
         rb_opB = (RadioButton) findViewById(R.id.rd_option2);
         rb_opC = (RadioButton) findViewById(R.id.rd_option3);
@@ -167,7 +168,54 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
             });
 
 
+  bt_back.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
 
+        if (qus_no!=null){
+
+            rd_grp.clearCheck();
+            tv_quess.setText(" ");
+            rb_opA.setText("");
+            rb_opB.setText("");
+            rb_opC.setText("");
+            rb_opD.setText("");
+            bt_next.setBackgroundResource(R.color.centercolor);
+            bt_next.setEnabled(false);
+            // checkedRadioButtonID = rd_grp.getCheckedRadioButtonId();
+            rd_grp.setOnCheckedChangeListener(MultipleChoiceActivity.this);
+            int qdata = Integer.parseInt(qus_no);
+            qno=qdata;
+            qno--;
+            Log.i("qno44if",""+qno);
+            qno_list = String.format("%03d", qno);
+            getQuestion(qno_list, qno);
+            tv_quess.setText("");
+            qus_no = null;
+
+        }else{
+            rd_grp.clearCheck();
+            tv_quess.setText(" ");
+            rb_opA.setText("");
+            rb_opB.setText("");
+            rb_opC.setText("");
+            rb_opD.setText("");
+            bt_next.setBackgroundResource(R.color.centercolor);
+            bt_next.setEnabled(false);
+            // checkedRadioButtonID = rd_grp.getCheckedRadioButtonId();
+            rd_grp.setOnCheckedChangeListener(MultipleChoiceActivity.this);
+            qno--;
+            qno_list = String.format("%03d", qno);
+            getQuestion(qno_list, qno);
+        }
+
+
+
+
+
+
+    }
+});
 
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -298,6 +346,14 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
                     tv_score.setText(qno_data + "/" + total);
                 }
 
+                if (finalNo == 1){
+                    bt_back.setEnabled(false);
+                    bt_back.setBackgroundResource(R.color.centercolor);
+                }else{
+                    bt_back.setEnabled(true);
+                    bt_back.setBackgroundResource(R.color.colorAccent);
+                }
+
               /*  if (finalNo == dataSnapshot.getChildrenCount()){
 
                         bt_next.setEnabled(false);
@@ -362,13 +418,15 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
 
         Log.i("qno99",""+qno);
 
-        if (total_ques == qno){
+        if ( qno == total_ques){
                 bt_next.setEnabled(false);
                 bt_next.setBackgroundResource(R.color.centercolor);
         }else{
             bt_next.setEnabled(true);
             bt_next.setBackgroundResource(R.color.colorAccent);
         }
+
+
 
 
         rbselect = (RadioButton) radioGroup.findViewById(i);

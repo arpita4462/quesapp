@@ -121,16 +121,39 @@
                     android:text="" />
             </RadioGroup>
 
-            <Button
-                android:id="@+id/bt_nextquess"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Next"
-                android:textColor="@color/white"
-                android:background="@color/colorAccent"
-                android:layout_marginRight="29dp"
-                android:layout_marginTop="20dp"
-                android:layout_gravity="right"/>
+                android:orientation="horizontal"
+                android:layout_gravity="right"
+                android:layout_marginTop="20dp">
+
+
+                <Button
+                    android:id="@+id/bt_backquess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Back"
+                    android:textColor="@color/white"
+                    android:background="@color/colorAccent"
+                    android:layout_marginRight="29dp"
+
+                    android:layout_gravity="right"/>
+
+                <Button
+                    android:id="@+id/bt_nextquess"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Next"
+                    android:textColor="@color/white"
+                    android:background="@color/colorAccent"
+                    android:layout_marginRight="29dp"
+                    android:layout_gravity="right"/>
+
+
+            </LinearLayout>
+
 
 
         </LinearLayout>
