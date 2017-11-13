@@ -252,6 +252,12 @@ public class SubjectActivity extends AppCompatActivity {
                 report.putExtra("array_list", arr);
                 startActivity(report);
                 break;
+            case R.id.aboutus:
+                Intent aboutus = new Intent(SubjectActivity.this, AboutUsActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                aboutus.putExtra("array_list", arr);
+                startActivity(aboutus);
+                break;
             default:
                 break;
         }

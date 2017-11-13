@@ -88,6 +88,16 @@
             android:textColor="@color/white"
             android:background="@drawable/ripple_effect"/>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tandc"
+        android:id="@+id/tv_tandc"
+        android:textAlignment="center"
+        android:layout_marginTop="5dp"/>
+
+
     <ProgressBar
         android:id="@+id/registraion_progress"
         android:layout_width="wrap_content"

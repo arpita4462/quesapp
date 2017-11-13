@@ -18,4 +18,19 @@
         android:orderInCategory="3"
         android:title="@string/report"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/tandc"
+        android:orderInCategory="4"
+        android:title="@string/termandcond"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/privacypolicy"
+        android:orderInCategory="5"
+        android:title="@string/privacypolicy"
+        app:showAsAction="never" />
+    <item
+       android:id="@+id/aboutus"
+    android:orderInCategory="6"
+    android:title="@string/aboutus"
+    app:showAsAction="never" />
 </menu>

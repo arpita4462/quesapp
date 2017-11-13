@@ -13,26 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity">
-           <!-- <intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
-
             android:name=".SplashActivity"
-
             android:theme="@style/SplashTheme">
-
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
-
         </activity>
         <activity android:name=".SubjectActivity" />
         <activity android:name=".RegistraionActivity" />
@@ -46,6 +43,7 @@
         <activity android:name=".MultipleChoiceActivity" />
         <activity android:name=".FeedBackActivity" />
         <activity android:name=".ReportActivity" />
+        <activity android:name=".AboutUsActivity" />
     </application>
 
 </manifest>
