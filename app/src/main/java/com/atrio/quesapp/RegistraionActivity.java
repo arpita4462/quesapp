@@ -9,10 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atrio.quesapp.model.UserDetail;
@@ -40,6 +42,7 @@ public class RegistraionActivity extends AppCompatActivity {
     SimpleDateFormat formatter;
     private String email, password, userName, createdDated, emailId, userId, deviceId, user_name;
     TextInputLayout input_email, input_pwd, input_name;
+    TextView tv_tandc;
     NetworkInfo networkInfo;
 
 
@@ -50,6 +53,7 @@ public class RegistraionActivity extends AppCompatActivity {
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         name = (EditText) findViewById(R.id.name);
+        tv_tandc=(TextView)findViewById(R.id.tv_tandcr);
         registraionButton = (Button) findViewById(R.id.registraion_button);
         mProgressView = (ProgressBar) findViewById(R.id.registraion_progress);
         input_email = (TextInputLayout) findViewById(R.id.input_email_id);
@@ -77,6 +81,15 @@ public class RegistraionActivity extends AppCompatActivity {
             });
 
 
+        tv_tandc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("hello90","clicked");
+                Intent tandcintent = new Intent(RegistraionActivity.this, TermsActivity.class);
+                startActivity(tandcintent);
+//                finish();
+            }
+        });
 
 
     }
