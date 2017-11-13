@@ -46,6 +46,16 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="malayalam">മലയാളം</string>
     <string name="english">English</string>
+    <string name="aboutus">About Us</string>
+    <string name="aboutus_content1">A-TRIO is an innovative start-up, recognized by Government of India, in the world of mobile app development, Educational
+Services and Placement services. We create intuitive mobile apps and websites for the success of your business. Our sophisticated
+technology solutions together with user-friendly design makes us peerless amongst the mobile app development companies. We are
+dedicated to augment your business growth by providing nothing but the best mobile application solutions.\n\n
+Mobile-phone usage have risen of late leading smartphone apps to become a key marketing tool for companies of all sizes. It has
+become an important component of a business to reach out to the potential customers in the market. It is thus vital for a business, big or small, to have its own mobile application.</string>
+    <string name="aboutus_content2">A-TRIO DATA MANAGEMENT\nAND EDUCATION SERVICES PVT. LTD.\n20/51, Alchancode,\nCollege (po) Chittur,\n
+Palakkad, 678104\n\ninfo@atrio.co.in\n\n9544899416, 9686076406</string>
+
     <string name="errormsginput">No question found. Please enter question no between 1-</string>
     <string name="policy"><u>Privacy policy</u></string>
     <string name="policy_content">We value the trust you place in us. That\'s why we insist upon the highest standards for secure transactions and customer information privacy. Please read the following statement to learn about our information gathering and dissemination practices.</string>
@@ -155,5 +165,20 @@ Please contact us regarding any questions regarding this statement.
 
     </string>
     <string name="policy_content3"></string>
+    <string name="tandc"> * By register, I accept the <u>Terms and Condition.</u></string>
+    <string name="termandcond">Terms and Condition</string>
+    <string name="privacypolicy">Privacy Policy</string>
+    <string name="contactus">Contact Us</string>
+    <string name="contactus_content1">Please contact us for any questions or comments (including all inquiries unrelated to
+copyright infringement) regarding this Platform.\n\n
+        <u>Grievance officer</u>\nIn accordance with Information Technology Act, 2000 and rules made there under, the
+name and contact details of the Grievance Officer are provided below:\n\n
+Mr. Prasoon Mani\n
+20/51 Alchancode\n
+college pop chittur\n
+palakkad\n
+Phone: +91 9544899416\n
+Email: info@atrio.co.in</string>
+
 
 </resources>
