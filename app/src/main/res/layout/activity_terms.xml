@@ -23,7 +23,7 @@
                 android:textStyle="bold"
                 android:padding="5dp"
                 android:textColor="@color/black"
-                android:text="@string/termandcond"
+                android:text="@string/gen"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
             <TextView
