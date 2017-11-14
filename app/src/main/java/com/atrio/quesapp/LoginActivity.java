@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         }else {
             if (user != null) {
                 dialog.show();
-                Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
+                Intent intenttrail = new Intent(LoginActivity.this, TrialActivity.class);
                 startActivity(intenttrail);
                 finish();
             } else {
@@ -316,7 +316,7 @@ public class LoginActivity extends AppCompatActivity {
                             deviceid = userDetail.getDeviceId();
                             installDate = userDetail.getCreatedDated();
 
-                            try {
+                           /* try {
                                 before = formatter.parse(installDate);
                                 now = formatter.parse(currentDate);
                                 diff = now.getTime() - before.getTime();
@@ -325,7 +325,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             } catch (ParseException e) {
                                 e.printStackTrace();
-                            }
+                            }*/
                             if (!deviceid.equals(currentdeviceid)) {
 //                                Log.i("Status99", "" + user.isEmailVerified());
                                  //FirebaseAuth.getInstance().signOut();
@@ -340,12 +340,13 @@ public class LoginActivity extends AppCompatActivity {
                                     customUserVerification.dismiss();
                                 }
                             } else {
-                                if (days >= 30 || days_left == 2 || days_left == 1) {
+                               /* Log.i("print56",""+days);
+                                if (days_left <=30) {
                                     dialog.dismiss();
                                     Intent intent = new Intent(LoginActivity.this, TrialActivity.class);
                                     startActivity(intent);
                                     finish();
-                                } else {
+                                } else {*/
                                     dialog.dismiss();
                            /*           try{
             checkuser();
@@ -353,10 +354,10 @@ public class LoginActivity extends AppCompatActivity {
 
             Log.i("Exception33", e.getMessage());
         }*/
-                                    Intent intenttrail = new Intent(LoginActivity.this, SelectLangActivity.class);
+                                    Intent intenttrail = new Intent(LoginActivity.this, TrialActivity.class);
                                     startActivity(intenttrail);
                                     finish();
-                                }
+//                                }
 
                             }
                         }

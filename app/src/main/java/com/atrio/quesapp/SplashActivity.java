@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
         user = mAuth.getCurrentUser();
 
 
-       // Log.i("checkuser",""+user);
+        Log.i("checkuser",""+user);
         //Toast.makeText(this, "hii", Toast.LENGTH_SHORT).show();
 
         DatabaseReference offsetRef = FirebaseDatabase.getInstance().getReference(".info/serverTimeOffset");
@@ -67,8 +67,10 @@ public class SplashActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG).show();
         }else {
             if (user != null) {
-                checktrail();
-
+//                checktrail();
+                Intent intent = new Intent(SplashActivity.this, TrialActivity.class);
+                startActivity(intent);
+                finish();
 //            startActivity(new Intent(SplashActivity.this, SelectLangActivity.class));
 //            finish();
             } else {
@@ -78,6 +80,7 @@ public class SplashActivity extends AppCompatActivity {
 
         }
 }
+/*
     private  void checktrail(){
 
         final DatabaseReference rootRef2 = FirebaseDatabase.getInstance().getReference();
@@ -100,7 +103,9 @@ public class SplashActivity extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    if (days >= 30 || days_left == 2 || days_left == 1) {
+                    Log.i("print565",""+days_left);
+
+                    if (days>=30) {
                         Intent intent = new Intent(SplashActivity.this, TrialActivity.class);
                         startActivity(intent);
                         finish();
@@ -120,5 +125,6 @@ public class SplashActivity extends AppCompatActivity {
         });
 
     }
+*/
 
 }
