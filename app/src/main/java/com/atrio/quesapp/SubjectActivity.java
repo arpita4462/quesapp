@@ -272,6 +272,13 @@ public class SubjectActivity extends AppCompatActivity {
                 startActivity(term);
                 break;
 
+            case R.id.home:
+                Intent home = new Intent(SubjectActivity.this, SelectLangActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                aboutus.putExtra("array_list", arr);
+                startActivity(home);
+                break;
+
             default:
                 break;
         }

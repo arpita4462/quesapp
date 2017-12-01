@@ -47,8 +47,12 @@
         <activity android:name=".FeedBackActivity" />
         <activity android:name=".ReportActivity" />
         <activity android:name=".AboutUsActivity" />
-        <activity android:name=".PrivacyPolicyActivity"></activity>
-        <activity android:name=".TermsActivity"></activity>
+        <activity android:name=".PrivacyPolicyActivity">
+
+        </activity>
+        <activity android:name=".TermsActivity">
+
+        </activity>
     </application>
 
 </manifest>

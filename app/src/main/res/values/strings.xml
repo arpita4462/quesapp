@@ -279,6 +279,8 @@ or deceptive.
     <string name="term_content3"><![CDATA[I. These terms of use (the “Terms of Use”) govern your use of our website www.atriodata.com (the “Website”) and our “Atrio ” application for mobile and handheld devices (the “App”). The website and the App are jointly referred to as the “Platform”. Please read these Terms of Use carefully before you use the services. If you do not agree to these Terms of Use, you may not use the services on the platform, and we request you to uninstall the App. By installing, downloading or even merely using the platform, you shall be contracting with Atrio and you signify your acceptance to the Terms of Use and other Atrio policies (including but not limited to the Cancellation & Refund Policy, Privacy Policy and Take Down Policy) as posted on the platform from time to time, which takes effect on the date on which you download,
     install or use the services, and create a legally binding arrangement to abide by the same.\n\n
     The platform is operated and owned by ATRIO Data Management and Educational Services Private Limited, a company incorporated under the Companies Act, 1956 and having its registered office at 20/51, Alchancode, college po chittur palakkad 678104. For the purpose of these Terms of Use, wherever the context so requires, ”you” shall mean any natural or legal person who has agreed to become a buyer or customer on the platform by providing Registration Data while registering on the platform as a registered user using any computer systems. The terms “ATRIO”, “we”, “us” or “our” shall mean ATRIO Data Management and Educational Services Private Limited.\n\n]]></string>
+    <string name="gen">General terms of use</string>
+    <string name="home">Home</string>
 
 
 </resources>

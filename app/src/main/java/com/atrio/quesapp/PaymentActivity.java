@@ -56,9 +56,8 @@ public class PaymentActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-    /*    ChecksumGeneration callgen= new ChecksumGeneration();
-
-        callgen.checksumgenmethod();*/
+       ChecksumGeneration callgen= new ChecksumGeneration();
+        callgen.checksumgenmethod();
 
         ChecksumVerification  callverify=new ChecksumVerification();
         callverify.chcksumverrifymethod();
@@ -218,7 +217,7 @@ public class PaymentActivity extends AppCompatActivity {
         paramMap.put("EMAIL","");
         paramMap.put("MOBILE_NO","");*/
 
-      PaytmOrder Order = new PaytmOrder(paramMap);
+        PaytmOrder Order = new PaytmOrder(paramMap);
 
         PaytmMerchant Merchant = new PaytmMerchant(
                 "https://pguat.paytm.com/paytmchecksum/paytmCheckSumGenerator.jsp",

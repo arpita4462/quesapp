@@ -9,12 +9,17 @@ import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -32,6 +37,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.ArrayList;
 
 public class MultipleChoiceActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, Animation.AnimationListener {
 
@@ -47,7 +56,10 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
     Animation animFadein, animMove;
     long total_ques;
     FloatingActionButton fab;
-
+    ImageView img_back,img_home;
+    private FirebaseStorage storage;
+    ArrayList<String> arr;
+    private StorageReference storageRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +75,13 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         rb_opC = (RadioButton) findViewById(R.id.rd_option3);
         rb_opD = (RadioButton) findViewById(R.id.rd_option4);
         rd_grp = (RadioGroup) findViewById(R.id.radioGroup);
+        img_back = (ImageView)findViewById(R.id.img_back1);
+        img_home = (ImageView)findViewById(R.id.home1);
+
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         fab = (FloatingActionButton) findViewById(R.id.fab_multi);
 
@@ -83,6 +102,31 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         animMove.setAnimationListener(this);
 
 
+        img_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+           onBackPressed();
+
+            }
+        });
+
+        img_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent isend = new Intent(MultipleChoiceActivity.this, SelectLangActivity.class);
+                isend.putExtra("array_list", arr);
+                //isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(isend);
+                finish();
+
+            }
+        });
+
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        storage=FirebaseStorage.getInstance();
+
         ConnectivityManager connMgr = (ConnectivityManager) getApplicationContext().getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
@@ -90,7 +134,72 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         } else {
 
 
+            if (lang != null && lang.equals("English")) {
+                storageRef = storage.getReference("Subject");
+                Query query_catlist = rootRef.child("English").child("subjectList").orderByKey();
+                query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
 
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        arr = new ArrayList<String>();
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            String subkey = dataSnapshot1.getKey();
+                            //showimg(subkey, sub);
+                            arr.add(subkey);
+            /*    Log.i("array771255558",""+subkey);
+
+                Collections.sort(arr, new Comparator<String>() {
+                    @Override
+                    public int compare(String s1, String s2) {
+                        return s1.compareToIgnoreCase(s2);
+                    }
+                });
+
+                Log.i("array7712555",""+subkey);*/
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+
+                });
+            } else {
+                storageRef = storage.getReference("Malayalam");
+                Query query_catlist = rootRef.child("Malayalam").child("subjectList").orderByKey();
+                query_catlist.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        arr = new ArrayList<String>();
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            String subkey = dataSnapshot1.getKey();
+                            //showimg(subkey, sub);
+                            arr.add(subkey);
+               /* Log.i("array771255558",""+subkey);
+
+                Collections.sort(arr, new Comparator<String>() {
+                    @Override
+                    public int compare(String s1, String s2) {
+                        return s1.compareToIgnoreCase(s2);
+                    }
+                });
+
+                    Log.i("array7712555",""+subkey);*/
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+
+                });
+
+            }
             tv_tittle.setText(tittle);
             if (qus_no != null){
                 int qdata = Integer.parseInt(qus_no);
@@ -231,6 +340,73 @@ public class MultipleChoiceActivity extends AppCompatActivity implements RadioGr
         }
 
 
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.send_ques:
+                Intent isend = new Intent(MultipleChoiceActivity.this, SendQuestionActivity.class);
+                isend.putExtra("array_list", arr);
+                //isend.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(isend);
+//                finish();
+                break;
+            // action with ID action_settings was selected
+            case R.id.feedback:
+                Intent isend1 = new Intent(MultipleChoiceActivity.this, FeedBackActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(isend1);
+                break;
+            case R.id.report:
+                Intent report = new Intent(MultipleChoiceActivity.this, ReportActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                report.putExtra("array_list", arr);
+                startActivity(report);
+                break;
+            case R.id.aboutus:
+                Intent aboutus = new Intent(MultipleChoiceActivity.this, AboutUsActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                aboutus.putExtra("array_list", arr);
+                startActivity(aboutus);
+                break;
+            case R.id.privacypolicy:
+                Intent policy = new Intent(MultipleChoiceActivity.this, PrivacyPolicyActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                aboutus.putExtra("array_list", arr);
+                startActivity(policy);
+                break;
+
+            case R.id.tandc:
+                Intent term = new Intent(MultipleChoiceActivity.this, TermsActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                aboutus.putExtra("array_list", arr);
+                startActivity(term);
+                break;
+
+            case R.id.home:
+                Intent home = new Intent(MultipleChoiceActivity.this, SelectLangActivity.class);
+                // isend1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                aboutus.putExtra("array_list", arr);
+                startActivity(home);
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
     }
 
     private void checkuser() throws NullPointerException {
